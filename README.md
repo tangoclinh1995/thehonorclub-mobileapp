@@ -1,8 +1,15 @@
 # COMP 3111H Mobile App Project
 *The Honors Club*
 
-***NOTE:*** *Review the repository* ***tangoclinh1995/sample-ionic-project*** *to understand about the
-code structure* 
+
+
+***NOTE:***
+
+-   *Review the repository* ***tangoclinh1995/sample-ionic-project*** *to understand about the
+    code structure*
+
+-   *There are some files named* ***dummy** in some directories. They were created to help
+    showcase the code structure. Just ignore it when doing development
 
 
 
