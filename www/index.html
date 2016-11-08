@@ -26,6 +26,24 @@
     <!-- Cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+    <!--
+      Firebase Initialization script
+      Please create a file called firebase_init.js in www directory 
+      in the following format:
+
+        firebase.initializeApp({
+          apiKey: <YOUR_API_KEY>,
+          authDomain: <YOUR_AUTH_DOMAIN>,
+          databaseURL: <YOUR_DATABASE_URL>,
+          storageBucket: <YOUR_STORAGE_BUCKET>,
+          messagingSenderId: <YOUR_MESSAGE_SENDER_ID>
+        });
+
+      This file is IGNORED by Git, so you need to add it by yourself
+      For more information, visit the team's Slack Channel
+    -->
+    <script src="firebase_init.js"></script>
+
     <!-- Your app's js -->
     <script src="app.js"></script>
     <script src="bundle/routing.bundle.js"></script>

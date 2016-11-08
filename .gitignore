@@ -6,3 +6,4 @@ platforms/
 plugins/
 www/bundle/
 coverage/
+www/firebase_init.js

@@ -1,4 +1,4 @@
-angular.module("thehonorclub", ["ionic"])
+angular.module("thehonorclub", ["ionic", "firebase"])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
