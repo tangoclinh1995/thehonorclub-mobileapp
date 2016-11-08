@@ -1,9 +1,15 @@
 {
-  "name": "HelloIonic",
-  "private": "true",
+  "name": "thehonorclub-mobileapp",
+  "private": true,
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.3.2",
     "angularfire": "^2.1.0",
-    "angular-mocks": "^1.5.8"
+    "angular-mocks": "1.5.3"
+  },
+  "dependencies": {
+    "angular-ui-router": "0.2.13",
+    "angular-animate": "1.5.3",
+    "angular-sanitize": "1.5.3",
+    "ionic-ion-tinder-cards": "ionic-contrib-tinder-cards#*"
   }
 }
