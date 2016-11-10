@@ -1,0 +1,30 @@
+<ion-view view-title="Event Request Form">
+  <ion-content ng-controller="EventRequestCtrl">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Event Name" required/>
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="Start Date" ng-focus="callStartDatePicker()" ng-model="startDate" />
+      </label>
+      <label class="item item-input" ng-show="startDate!=''">
+        <input type="text" placeholder="End Date" ng-focus="callEndDatePicker()" ng-model="endDate"/>
+      </label>
+      <label class="item item-input" ng-show="startDate!=''">
+        <input type="text" placeholder="Start Time" ng-focus="callStartTimer()" ng-model="startTime" />
+      </label>
+      <label class="item item-input" ng-show="startTime!=''">
+        <input type="text" placeholder="End Time" ng-focus="callEndTimer()" ng-model="endTime"/>
+      </label>
+      <label class="item item-input">
+        <textarea placeholder="Event Details" required></textarea>
+      </label>
+      <label class="item item-input">
+        <input type="email" placeholder="Email" required/>
+      </label>
+      <label class="item item-input">
+        <input type="submit" class="button button-block button-positive" value="Submit">
+      </label>
+    </div>
+  </ion-content>
+</ion-view>
