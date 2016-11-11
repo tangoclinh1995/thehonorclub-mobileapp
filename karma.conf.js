@@ -12,9 +12,12 @@ module.exports = function(config) {
       "www/lib/firebase/firebase.js",
       "www/lib/angularfire/dist/angularfire.min.js",
 
+      "www/lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js",
+
       "www/app.js",
       "app/js_controllers/*.js",
       "app/js_services/*.js",
+      "app/js_routing/*.js",
 
       "unit_testing/test_controllers/*.js",
       "unit_testing/test_services/*.js",
@@ -25,8 +28,8 @@ module.exports = function(config) {
     ],
 
     preprocessors: {
-      "unit_testing/test_controllers/*.js": ["coverage"],
-      "unit_testing/test_services/*.js": ["coverage"],
+      "app/js_controllers/*.js": ["coverage"],
+      "app/js_services/*.js": ["coverage"],
     },
 
     reporters: ["progress", "coverage"],
