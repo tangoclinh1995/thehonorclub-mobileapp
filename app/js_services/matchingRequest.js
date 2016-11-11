@@ -7,22 +7,6 @@ angular.module("thehonorclub")
   var dbRefTeam = db.child("team");
 
 
-  function getCurrentTeamSize(teamUid) {
-    var defer = $q.defer();
-
-    dbRefTeam.child(teamUid).child("current_size")
-    .once("value")
-    .then(function(dataSnapshot) {
-      defer.resolve(dataSnapshot.val())
-    })
-    .catch(function() {
-      defer.reject();
-    });
-
-    return defer.promise;
-  }
-
-
 
   function joinTeamRequest(fromUserUid, toTeamUid, eventUid, maxMemberPerTeam) {
     var defer = $q.defer();
@@ -152,7 +136,7 @@ angular.module("thehonorclub")
   function acceptMatch(teamUid, userUid, eventUid, maxMemberPerTeam) {
     var defer = $q.defer();
 
-    var jobRemaining = 4;
+    var jobRemaining = 7;
     function done() {
       --jobRemaining;
       
@@ -167,6 +151,7 @@ angular.module("thehonorclub")
         child.ref.remove();
       });
 
+      done();
     }
 
     // Delete all Team-Joining request of the user in the event
@@ -193,51 +178,47 @@ angular.module("thehonorclub")
     .then(deleteObjectInSnapshotAndNotify)
     .catch(defer.reject);
 
-    // If team is already full, delete all relating Team-Joining & Member-Inviting
-    // request relating to the team
-    getCurrentTeamSize(teamUid)
-    .then(function(size) {
-      
-      // If team size is still smaller than maximum number allowed, then no need 
-      // to delete other relating requests
-      if (size + 1 < maxMemberPerTeam) {
-        done();
-        done();
-        return;
-      }
-
-      return dbRefInviteMember
-        .equalTo(teamUid, "from_team_uid")
-        .equalTo(eventUid, "event_uid")
-        .once("value")
-
-    })
-    .then(function() {
-
-      deleteObjectInSnapshotAndNotify();
-
-      return dbRefJoinTeam
-        .equalTo(teamUid, "to_team_uid")
-        .equalTo(eventUid, "event_uid")
-        .once("value")
-
-    })
-    .then(deleteObjectInSnapshotAndNotify)
-    .catch(defer.reject);
-
     // Add user to team
-    firebase.database().ref()
-    .child("team").child(teamUid).child("members_uid")
+    db.child("team").child(teamUid).child("members_uid")
     .push(userUid)
     .then(done)
     .catch(defer.reject);
 
     // Add team to user
-    firebase.database().ref()
-    .child("user_info").child(userUid).child("member_of")
+    db.child("user_info").child(userUid).child("member_of")
     .push(teamUid)
     .then(done)
-    .catch(defer.reject);    
+    .catch(defer.reject);
+
+    // Increase team size to 1
+    db.child("team").child("current_size").transaction(function(currentSize) {
+      currentSize += 1;
+
+      // If team is now full, delete all relating Team-Joining & Member-Inviting
+      // request relating to the team
+      if (currentSize >= maxMemberPerTeam) {
+
+        dbRefInviteMember
+        .equalTo(teamUid, "from_team_uid")
+        .equalTo(eventUid, "event_uid")
+        .once("value")
+        .then(deleteObjectInSnapshotAndNotify)
+        .catch(defer.reject);
+
+        dbRefJoinTeam
+        .equalTo(teamUid, "to_team_uid")
+        .equalTo(eventUid, "event_uid")
+        .once("value")
+        .then(deleteObjectInSnapshotAndNotify)
+        .catch(defer.reject);                
+        
+      } else {
+        done();
+        done();
+      }
+
+      return currentSize;
+    });
 
     return defer.promise();
   };
