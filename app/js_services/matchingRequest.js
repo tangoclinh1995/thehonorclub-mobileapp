@@ -1,11 +1,30 @@
 angular.module("thehonorclub")
 .factory("$matchingRequest", function($q) {
-  var dbRefJoinTeam = firebase.database().ref().child("jointeam_request");
-  var dbRefInviteMember = firebase.database().ref().child("invitemember_request");
+  var db = firebase.database().ref();
+
+  var dbRefJoinTeam = db.child("jointeam_request");
+  var dbRefInviteMember = db.child("invitemember_request");
+  var dbRefTeam = db.child("team");
+
+
+  function getCurrentTeamSize(teamUid) {
+    var defer = $q.defer();
+
+    dbRefTeam.child(teamUid).child("current_size")
+    .once("value")
+    .then(function(dataSnapshot) {
+      defer.resolve(dataSnapshot.val())
+    })
+    .catch(function() {
+      defer.reject();
+    });
+
+    return defer.promise;
+  }
 
 
 
-  function joinTeamRequest(fromUserUid, toTeamUid) {
+  function joinTeamRequest(fromUserUid, toTeamUid, eventUid, maxMemberPerTeam) {
     var defer = $q.defer();
     
     // This is used to check if a similar Team-Joining Request has already been issued
@@ -22,8 +41,9 @@ angular.module("thehonorclub")
       dbRefInviteMember
       .equalTo(toTeamUid, "from_team_uid")
       .equalTo(fromUserUid, "to_member_uid")
-      .limitToFirst(1);
+      .limitToFirst(1);   
 
+    // Check whether reverse request exists
     reverseQueryExist.once("value")
     .then(function(dataSnapshot) {
 
@@ -34,6 +54,7 @@ angular.module("thehonorclub")
       }
 
       // Otherwise, check whether similar Team-Joing Request has already been issued
+      // Chain this to NEXT THEN
       return queryExist.once("value");
 
     })
@@ -49,7 +70,8 @@ angular.module("thehonorclub")
       // Chain this to NEXT THEN
       return dbRefJoinTeam.push({
         from_user_uid: fromUserUid,
-        to_team_uid: toTeamUid
+        to_team_uid: toTeamUid,
+        event_uid: eventUid
       });
 
     })
@@ -69,8 +91,8 @@ angular.module("thehonorclub")
 
 
 
-  // This function is just a reverse of joinTeamRequest function
-  function inviteMember(fromTeamUid, toMemberUid) {
+  // This function is just an opposite of joinTeamRequest function
+  function inviteMember(fromTeamUid, toMemberUid, eventUid, maxMemberPerTeam) {
     var defer = $q.defer();
     
     var queryExist =
@@ -108,7 +130,8 @@ angular.module("thehonorclub")
       // Chain this to NEXT THEN
       return dbRefInviteMember.push({
         from_team_uid: fromTeamUid,
-        to_member_uid: toMemberUid
+        to_member_uid: toMemberUid,
+        event_uid: eventUid
       });
 
     })
@@ -126,7 +149,7 @@ angular.module("thehonorclub")
 
 
   // Process the success matching between team & member
-  function acceptMatch(teamUid, userUid) {
+  function acceptMatch(teamUid, userUid, eventUid, maxMemberPerTeam) {
     var defer = $q.defer();
 
     var jobRemaining = 4;
@@ -137,68 +160,84 @@ angular.module("thehonorclub")
         defer.resolve();
       };
 
-    };  
+    };
 
-    // Delete Team-Joing Request
-    dbRefJoinTeam
-    .equalTo(userUid, "from_user_uid")
-    .equalTo(teamUid, "to_team_uid")
-    .once("value")
-    .then(function(dataSnapshot) {
-
-      dataSnapshot.forEach(function(child) {
+    function deleteObjectInSnapshotAndNotify(snapshot) {
+      snapshot.forEach(function(child) {
         child.ref.remove();
       });
 
-      done();
+    }
 
-    })
-    .catch(function() {
-      defer.reject();
-    });
+    // Delete all Team-Joining request of the user in the event
+    dbRefJoinTeam
+    .equalTo(userUid, "from_user_uid")
+    .equalTo(eventUid, "event_uid")
+    .once("value")
+    .then(deleteObjectInSnapshotAndNotify)
+    .catch(defer.reject);
 
-    // Delete Member-Inviting Request
+    // Delete all Member-Inviting request relating to the user in the event
+    dbRefInviteMember
+    .equalTo(userUid, "to_member_uid")
+    .equalTo(eventUid, "event_uid")
+    .once("value")
+    .then(deleteObjectInSnapshotAndNotify)
+    .catch(defer.reject);
+
+    // Delete Member-Inviting Request of the team to the user
     dbRefInviteMember
     .equalTo(teamUid, "from_team_uid")
     .equalTo(memberUid, "to_member_uid")
     .once("value")    
-    .then(function(dataSnapshot) {
+    .then(deleteObjectInSnapshotAndNotify)
+    .catch(defer.reject);
+
+    // If team is already full, delete all relating Team-Joining & Member-Inviting
+    // request relating to the team
+    getCurrentTeamSize(teamUid)
+    .then(function(size) {
       
-      dataSnapshot.forEach(function(child) {
-        child.ref.remove();
-      });
+      // If team size is still smaller than maximum number allowed, then no need 
+      // to delete other relating requests
+      if (size + 1 < maxMemberPerTeam) {
+        done();
+        done();
+        return;
+      }
 
-      done();
+      return dbRefInviteMember
+        .equalTo(teamUid, "from_team_uid")
+        .equalTo(eventUid, "event_uid")
+        .once("value")
 
     })
-    .catch(function() {
-      defer.reject();
+    .then(function() {
+
+      deleteObjectInSnapshotAndNotify();
+
+      return dbRefJoinTeam
+        .equalTo(teamUid, "to_team_uid")
+        .equalTo(eventUid, "event_uid")
+        .once("value")
+
     })
+    .then(deleteObjectInSnapshotAndNotify)
+    .catch(defer.reject);
 
     // Add user to team
     firebase.database().ref()
     .child("team").child(teamUid).child("members_uid")
     .push(userUid)
-    .then(function() {
-      done();
-
-    })
-    .catch(function() {
-      defer.reject();
-    });
+    .then(done)
+    .catch(defer.reject);
 
     // Add team to user
     firebase.database().ref()
     .child("user_info").child(userUid).child("member_of")
     .push(teamUid)
-    .then(function() {
-      done();
-
-    })
-    .catch(function() {
-      defer.reject();
-    });
-    
+    .then(done)
+    .catch(defer.reject);    
 
     return defer.promise();
   };
