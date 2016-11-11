@@ -8,7 +8,7 @@ angular.module("thehonorclub")
   function joinTeamRequest(fromUserUid, toTeamUid) {
     var defer = $q.defer();
     
-    // This is used to check if a similar Team-Joining Request has already been issue
+    // This is used to check if a similar Team-Joining Request has already been issued
     var queryExist =
       dbRefJoinTeam
       .equalTo(fromUserUid, "from_user_uid")
@@ -24,25 +24,24 @@ angular.module("thehonorclub")
       .equalTo(fromUserUid, "to_member_uid")
       .limitToFirst(1);
 
-    queryExist.once("value")
+    reverseQueryExist.once("value")
     .then(function(dataSnapshot) {
-      // A similar request has already been issue, no need to send more request
-      // Also, this request has not been matched yet, so resolve the promise with False
+
+      // A reverse request exists, meaning that IT'S A MATCH
       if (dataSnapshot.numChildren() != 0) {
-        defer.resolve(false);
+        defer.resolve(true);
         return;
       }
 
-      // Now check whether a reverse request has already exist
-      // (find if THERE IS A MATCH)
-      // Chain this to NEXT THEN
-      return reverseQueryExist.once("value");
+      // Otherwise, check whether similar Team-Joing Request has already been issued
+      return queryExist.once("value");
 
     })
     .then(function(dataSnapshot) {
-      // IT'S A MATCH
+
+      // The similar request exists, no need to add a new request
       if (dataSnapshot.numChildren() != 0) {
-        defer.resolve(true);
+        defer.resolve(false);
         return;
       };
 
@@ -55,11 +54,14 @@ angular.module("thehonorclub")
 
     })
     .then(function() {
+
       defer.resolve(false);
       
     })
     .catch(function() {
+
       defer.reject();
+
     });
 
     return defer.promise;
@@ -83,20 +85,22 @@ angular.module("thehonorclub")
       .equalTo(fromTeamUid, "to_team_uid")
       .limitToFirst(1);
 
-    queryExist.once("value")
+    reverseQueryExist.once("value")
     .then(function(dataSnapshot) {
-      if (dataSnapshot.numChildren() != 0) {
-        defer.resolve(false);
-        return;
-      }
 
-      return reverseQueryExist.once("value");
-
-    })
-    .then(function(dataSnapshot) {
       // IT'S A MATCH
       if (dataSnapshot.numChildren() != 0) {
         defer.resolve(true);
+        return;
+      }
+
+      return queryExist.once("value");
+
+    })
+    .then(function(dataSnapshot) {
+
+      if (dataSnapshot.numChildren() != 0) {
+        defer.resolve(false);
         return;
       };
 
@@ -118,6 +122,7 @@ angular.module("thehonorclub")
 
     return defer.promise;
   };
+
 
 
   // Process the success matching between team & member
