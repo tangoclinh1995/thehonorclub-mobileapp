@@ -20,7 +20,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase"])
   firebase.auth().onAuthStateChanged(function(user) {
     // Null user object means "Signed Out"
     if (user == null) {
-      $state.go("signin");
+      $state.go("login");
     }
 
   });
@@ -30,7 +30,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase"])
   // Signin page
   $rootScope.$on("$stateChangeStart", function(even, toState) {
     // Don't care if upcoming state is Signin
-    if (toState.name == "signin") {
+    if (toState.name == "login") {
       return;
     }
 
@@ -39,7 +39,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase"])
       // TRICK: Wait a litte bit before redirection to make sure
       // redirection successfully occurs
       setTimeout(function() {
-        $state.go("signin");
+        $state.go("login");
       }, 100);
 
     }
@@ -50,6 +50,6 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase"])
 
 .config(function($stateProvider, $urlRouterProvider) {
   // Default state
-  $urlRouterProvider.otherwise('/signin');
+  $urlRouterProvider.otherwise('/login');
 
 });
