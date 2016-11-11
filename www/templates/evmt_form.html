@@ -1,8 +1,9 @@
 <ion-view view-title="Event Request Form">
   <ion-content ng-controller="EventRequestCtrl">
+    <form ng-submit="addEvent()">
     <div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Event Name" required/>
+        <input type="text" placeholder="Event Name" ng-model="name" required/>
       </label>
       <label class="item item-input">
         <input type="text" placeholder="Start Date" ng-focus="callStartDatePicker()" ng-model="startDate" />
@@ -17,7 +18,14 @@
         <input type="text" placeholder="End Time" ng-focus="callEndTimer()" ng-model="endTime"/>
       </label>
       <label class="item item-input">
-        <textarea placeholder="Event Details" required></textarea>
+        <textarea placeholder="Event Details" ng-model="description" required></textarea>
+      </label>
+      <label class="item item-input">
+        <input placeholder="Min. Team Size" type="number" ng-model="minSize" min="1"></label>
+      </label>
+      <label class="item item-input">
+        <!-- To-do: Valdiate min teamsize < max team size -->
+        <input placeholder="Max. Team Size" type="number" ng-model="maxSize" min="{{minSize}}" ></label>
       </label>
       <label class="item item-input">
         <input type="email" placeholder="Email" required/>
@@ -26,5 +34,6 @@
         <input type="submit" class="button button-block button-positive" value="Submit">
       </label>
     </div>
+    </form>
   </ion-content>
 </ion-view>

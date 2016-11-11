@@ -12,6 +12,7 @@
     "angular-sanitize": "1.5.3",
     "ionic-ion-tinder-cards": "ionic-contrib-tinder-cards#*",
     "ionic-datepicker": "^1.2.1",
-    "ionic-timepicker": "^0.6.0"
+    "ionic-timepicker": "^0.6.0",
+    "moment": "^2.16.0"
   }
 }

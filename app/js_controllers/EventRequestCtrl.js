@@ -1,5 +1,8 @@
 angular.module("thehonorclub") 
-.controller('EventRequestCtrl', function($scope, ionicTimePicker, ionicDatePicker) {
+.controller('EventRequestCtrl', function($scope, $firebaseArray, ionicTimePicker, ionicDatePicker) {
+
+  var ref = firebase.database().ref().child("event");
+  $scope.events = $firebaseArray(ref);
 
   var startTimeObj = {
     callback: function (val) {      //Mandatory
@@ -7,7 +10,8 @@ angular.module("thehonorclub")
         console.log('Time not selected');
       } else {
         var selectedTime = new Date(val * 1000);
-        $scope.startTime = ("0" + selectedTime.getUTCHours()).slice(-2) + ":" + ("0" + selectedTime.getUTCMinutes()).slice(-2);
+        console.log(selectedTime);
+        $scope.startTime = moment.utc(selectedTime).format("HH:mm");
       }
     },
     inputTime: 50400,   //Optional
@@ -21,19 +25,21 @@ angular.module("thehonorclub")
         console.log('Time not selected');
       } else {
         var selectedTime = new Date(val * 1000);
-        $scope.endTime = ("0" + selectedTime.getUTCHours()).slice(-2) + ":" + ("0" + selectedTime.getUTCMinutes()).slice(-2);
+        console.log(selectedTime);
+        $scope.endTime = moment.utc(selectedTime).format("HH:mm");
       }
     },
+
     inputTime: 50400,   //Optional
     format: 12,         //Optional
-    step: 15,           //Optional
+    step: 15          //Optional
   };
 
   var startDateObj = {
     callback: function (val) {  //Mandatory
       var selectedStartDate = new Date(val);
       console.log(selectedStartDate);
-      $scope.startDate = selectedStartDate.getFullYear() + "/" + ("0" + (selectedStartDate.getMonth() + 1)).slice(-2) + "/" + ("0" + selectedStartDate.getDate()).slice(-2);
+      $scope.startDate = moment.utc(selectedStartDate).format("YYYY-MM-DD");
     },
     from: new Date(2016, 1, 1), //Optional
     to: new Date(2020, 10, 30), //Optional
@@ -48,7 +54,7 @@ angular.module("thehonorclub")
   var endDateObj = {
     callback: function (val) {  //Mandatory
       var selectedEndDate = new Date(val);
-      $scope.endDate = selectedEndDate.getFullYear() + "/" + ("0" + (selectedEndDate.getMonth() + 1)).slice(-2) + "/" + ("0" + selectedEndDate.getDate()).slice(-2);
+      $scope.endDate = moment.utc(selectedEndDate).format("YYYY-MM-DD");
     },
     from: new Date(2016, 1, 1), //Optional
     to: new Date(2020, 10, 30), //Optional
@@ -69,6 +75,7 @@ angular.module("thehonorclub")
   };
 
   $scope.callEndTimer = function() {
+    endTimeObj.from = new Date($scope.startTime);
     ionicTimePicker.openTimePicker(endTimeObj);
   };
 
@@ -81,4 +88,21 @@ angular.module("thehonorclub")
     ionicDatePicker.openDatePicker(endDateObj);
   };
 
+
+  $scope.addEvent = function() {
+    console.log('Called');
+    var startTimeStamp = moment($scope.startDate, "YYYY-MM-DD").unix() + moment($scope.startTime, "HH:mm").unix();
+    var endTimeStamp = moment($scope.endDate, "YYYY-MM-DD").unix() + moment($scope.endTime, "HH:mm").unix();
+
+    console.log(startTimeStamp);
+    console.log(endTimeStamp);
+    $scope.events.$add({
+      name: $scope.name,
+      description: $scope.description,
+      timestamp_begin: startTimeStamp,
+      timestamp_end: endTimeStamp,
+      min_member_per_team: $scope.minSize,
+      max_member_per_team: $scope.maxSize
+    });
+  };
 });
