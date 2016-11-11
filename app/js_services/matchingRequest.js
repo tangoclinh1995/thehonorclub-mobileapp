@@ -8,7 +8,7 @@ angular.module("thehonorclub")
 
 
 
-  function joinTeamRequest(fromUserUid, toTeamUid, eventUid, maxMemberPerTeam) {
+  function joinTeamRequest(fromUserUid, toTeamUid, eventUid) {
     var defer = $q.defer();
     
     // This is used to check if a similar Team-Joining Request has already been issued
@@ -76,7 +76,7 @@ angular.module("thehonorclub")
 
 
   // This function is just an opposite of joinTeamRequest function
-  function inviteMember(fromTeamUid, toMemberUid, eventUid, maxMemberPerTeam) {
+  function inviteMember(fromTeamUid, toMemberUid, eventUid) {
     var defer = $q.defer();
     
     var queryExist =
