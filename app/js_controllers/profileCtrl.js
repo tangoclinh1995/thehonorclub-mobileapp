@@ -1,12 +1,13 @@
 angular.module("thehonorclub")
-.controller("ProfileCtrl", function($scope, $firebaseObject, $ionicLoading) {
-  var databaseRef = firebase.database.ref();
+.controller("ProfileCtrl", function($scope, $firebaseObject, $firebaseAuthInstance, $ionicLoading) {
+  var databaseRef = firebase.database().ref();
 
-  var currentUser = firebase.auth().currentUser;
+  var currentUser = $firebaseAuthInstance.$getAuth();
   var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
 
   $scope.name = userInfo.name;
   $scope.photoURL = userInfo.photoURL;
+  $scope.bio = userInfo.bio;
 
   $scope.skills = [];
   $scope.desiredPositions = [];
@@ -15,12 +16,12 @@ angular.module("thehonorclub")
 
   userInfo.$loaded()
   .then(function() {
-    for (i in userInfo.skills) {
+    for (i in userInfo.skills) {   
       $scope.skills.push(userInfo.skills[i]);
     }
 
     for (i in userInfo.desired_positions) {
-      $scope.desiredPositions.push(i);
+      $scope.desiredPositions.push(userInfo.desired_positions[i]);
     }
 
   });
@@ -42,22 +43,25 @@ angular.module("thehonorclub")
   };
 
   $scope.addPosition = function(newPosition) {
-    if ($scope.positions.indexOf(newPosition) == -1) {
-      $scope.positions.push(newPosition);
+    if ($scope.desiredPositions.indexOf(newPosition) == -1) {
+      $scope.desiredPositions.push(newPosition);
     }
 
   };
 
   $scope.removePosition = function(oldPosition) {
-    var arrayPos = $scope.positions.indexOf(oldPosition);
+    var arrayPos = $scope.desiredPositions.indexOf(oldPosition);
 
     if (arrayPos != -1) {
-      $scope.positions.splice(arrayPos, 1);
+      $scope.desiredPositions.splice(arrayPos, 1);
     }
 
   };  
 
   $scope.saveProfile = function() {
+    userInfo.name = $scope.name;
+    userInfo.bio = $scope.bio;
+
     // NOTE:
     //    Because arrays are stored in Firebase as Object with key 0, 1, 2, ...
     //    Therefore, when we save array back to Firebase, we need to replace
