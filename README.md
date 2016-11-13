@@ -86,7 +86,6 @@
 
 
 
-
 # Start the developing process
 
 -   Navigate into the directory of the repository (using **cd** command)
