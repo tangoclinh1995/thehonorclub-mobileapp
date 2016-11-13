@@ -65,14 +65,25 @@
 
 -   The newly-installed library will be put in ***www/lib** directory.    
 
--   After this step, add the suitable ```<script>``` tag to ***www\index.html*** file to enable your newly-installed Javascript
-    libraries. This ```<script>``` tag should be in the ```<head>``` part.
+-   After this step:
+    -   Add the suitable ```<script>``` tag to ***www\index.html*** file to enable your newly-installed Javascript
+        libraries. This ```<script>``` tag should be in the ```<head>``` part of the file. Example of a correct tag:
 
--   Example of a correct **script** tag:
+        ```
+        <script src="lib/collide/collide.js"></script> 
+        ```
 
-    ```
-    <script src="lib/collide/collide.js"></script> 
-    ```
+    -   In the **files** part of **karma.conf.js**, add paths of the Javascript files which are just added by you
+        using the ```<script>``` tag above. For example:
+
+        ```
+        files: [
+            ...
+            "www/lib/collide/collide.js",
+            ...
+        ]
+        ```
+
 
 
 
