@@ -17,12 +17,10 @@ module.exports = function(config) {
       // Angular Fire
       "www/lib/angularfire/dist/angularfire.min.js",
 
-<<<<<<< HEAD
+      // Ionic Datepicker
       "www/lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js",
 
-=======
       // Our app's JS files
->>>>>>> master
       "www/app.js",
       "app/js_controllers/*.js",
       "app/js_services/*.js",
