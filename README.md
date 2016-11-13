@@ -44,15 +44,35 @@
     For more information about what parameters should be used here, please visit
     team's **Slack** channel.
 
-    ***NOTE**: This file is **ignored** by Git, so you need to create it by yourself. The purpose of*
+    ***NOTE***: *This file is **ignored** by Git, so you need to create it by yourself. The purpose of*
     *this is to protect Firebase authentication information and speed up development time (as each*
     *developer can experiment their code differently on their OWN database)*
 
 
 
-# Install extra Bower libraries
+# Install extra Javascript libraries
 
--   During the development 
+-   During the development process, sometimes you want to use extra Javascript libraries. In an Ionic
+    project, you do this using **Bower**:
+
+    ```
+    bower install <JS_LIBRARY_NAME>
+    ```
+
+    ***NOTE***: *During Bower installation process, if you are prompted to ask what version of **AngularJS** (or version of any
+    library which **depends on AngularJS**) to use, please **ALWAYS REMEMBER** to choose **Angular 1.5.3** (or the version of
+    the other library which **depends on Angular 1.5.3**)*
+
+-   The newly-installed library will be put in ***www/lib** directory.    
+
+-   After this step, add the suitable ```<script>``` tag to ***www\index.html*** file to enable your newly-installed Javascript
+    libraries. This ```<script>``` tag should be in the ```<head>``` part.
+
+-   Example of a correct **script** tag:
+
+    ```
+    <script src="lib/collide/collide.js"></script> 
+    ```
 
 
 
