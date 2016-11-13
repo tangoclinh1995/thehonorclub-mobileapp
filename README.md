@@ -22,7 +22,12 @@
     ```
     npm install             # Install necessary NPM packages
     ionic state reset       # Install necessary ionic plugins, add Android & IOS platform
+    bower install           # Install necessary bower libraries
     ```
+
+    ***NOTE***: *During Bower installation process, if you are prompted to ask what version of **AngularJS** (or version of any
+    library which **depends on AngularJS**) to use, please **ALWAYS REMEMBER** to choose **Angular 1.5.3** (or the version of
+    the other library which **depends on Angular 1.5.3**)*
 
 -   Create a file named **firebase_init.js** in the **www** directory with the following content:
 
@@ -41,7 +46,13 @@
 
     ***NOTE**: This file is **ignored** by Git, so you need to create it by yourself. The purpose of*
     *this is to protect Firebase authentication information and speed up development time (as each*
-    *developer can experiment their code differently on their OWN database)*  
+    *developer can experiment their code differently on their OWN database)*
+
+
+
+# Install extra Bower libraries
+
+-   During the development 
 
 
 
