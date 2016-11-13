@@ -1,21 +1,30 @@
 angular.module("thehonorclub")
-.controller("userProfileController", function($scope, $firebaseObject, $firebaseAuthInstance, $ionicLoading) {
+.controller(
+  "userProfileController",
+  function($scope, $firebaseObject, $firebaseAuthInstance, $tagStandardizeHelper, $ionicLoading)
+{
   var databaseRef = firebase.database().ref();
 
   var currentUser = $firebaseAuthInstance.$getAuth();
   var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
 
-  $scope.name = userInfo.name;
-  $scope.photoURL = userInfo.photoURL;
-  $scope.bio = userInfo.bio;
+  $scope.name = "";
+  $scope.photoURL = "";
+  $scope.bio = "";
 
   $scope.skills = [];
   $scope.desiredPositions = [];
 
+  $scope.newSkill = "";
+  $scope.newPosition = "";
   $scope.isSavingProfile = false;
 
   userInfo.$loaded()
   .then(function() {
+    $scope.name = userInfo.name;
+    $scope.photoURL = userInfo.photoURL;
+    $scope.bio = userInfo.bio;
+
     for (i in userInfo.skills) {   
       $scope.skills.push(userInfo.skills[i]);
     }
@@ -26,15 +35,18 @@ angular.module("thehonorclub")
 
   });
 
-  $scope.addSkill = function(newSkill) {
-    if ($scope.skills.indexOf(newSkill) == -1) {
-      $scope.skills.push(newSkill);
+  $scope.addSkill = function(skill) {
+    skill = $tagStandardizeHelper(skill);
+
+    if (skill != "" && $scope.skills.indexOf(skill) == -1) {
+      $scope.skills.push(skill);
     }
 
+    $scope.newSkill = "";
   };
 
-  $scope.removeSkill = function(oldSkill) {
-    var arrayPos = $scope.skills.indexOf(oldSkill);
+  $scope.removeSkill = function(skill) {
+    var arrayPos = $scope.skills.indexOf(skill);
 
     if (arrayPos != -1) {
       $scope.skills.splice(arrayPos, 1);
@@ -42,11 +54,14 @@ angular.module("thehonorclub")
 
   };
 
-  $scope.addPosition = function(newPosition) {
-    if ($scope.desiredPositions.indexOf(newPosition) == -1) {
-      $scope.desiredPositions.push(newPosition);
+  $scope.addPosition = function(position) {
+    position = $tagStandardizeHelper(position);
+
+    if (position != "" && $scope.desiredPositions.indexOf(position) == -1) {
+      $scope.desiredPositions.push(position);
     }
 
+    $scope.newPosition = "";
   };
 
   $scope.removePosition = function(oldPosition) {
@@ -59,6 +74,8 @@ angular.module("thehonorclub")
   };  
 
   $scope.saveProfile = function() {
+    $scope.name = $scope.name.trim();
+
     userInfo.name = $scope.name;
     userInfo.bio = $scope.bio;
 
@@ -77,8 +94,8 @@ angular.module("thehonorclub")
 
       $ionicLoading.show({
         template: "Profile saved!",
-        duration: 1500
-      });
+        duration: 1000
+      })
 
     })
     .catch(function() {
@@ -86,7 +103,7 @@ angular.module("thehonorclub")
 
       $ionicLoading.show({
         template: "Error saving profile!",
-        duration: 1500
+        duration: 1000
       });
 
     });
