@@ -5,29 +5,29 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="../manifest.json">
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="bundle/style.bundle.css" rel="stylesheet">
+    <link href="../lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="../bundle/style.bundle.css" rel="stylesheet">
 
     <!-- Ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="../lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- Firebase & AngularFire -->
-    <script src="lib/firebase/firebase.js"></script>
-    <script src="lib/angularfire/dist/angularfire.min.js"></script>
+    <script src="../lib/firebase/firebase.js"></script>
+    <script src="../lib/angularfire/dist/angularfire.min.js"></script>
 
     <!-- Ionic Tinder card library -->
-    <script src="lib/collide/collide.js"></script>
-    <script src="lib/ionic-ion-tinder-cards/ionic.tdcards.js"></script>
+    <script src="../lib/collide/collide.js"></script>
+    <script src="../lib/ionic-ion-tinder-cards/ionic.tdcards.js"></script>
     
-    <link href="lib/ionic-ion-tinder-cards/ionic.tdcards.css" rel="stylesheet">
+    <link href="../lib/ionic-ion-tinder-cards/ionic.tdcards.css" rel="stylesheet">
 
     <!-- Cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+    <script src="../cordova.js"></script>
 
     <!-- Ionic Datepicker -->
-    <script src="lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
+    <script src="../lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
 
     <!--
       Firebase Initialization script
@@ -48,10 +48,13 @@
     <script src="firebase_init.js"></script>
 
     <!-- Your app's js -->
-    <script src="app.js"></script>
-    <script src="bundle/routing.bundle.js"></script>
-    <script src="bundle/controllers.bundle.js"></script>
-    <script src="bundle/services.bundle.js"></script>
+    <script src="../app.js"></script>
+    <script src="../bundle/routing.bundle.js"></script>
+    <script src="../bundle/controllers.bundle.js"></script>
+    <script src="../bundle/services.bundle.js"></script>
+
+	<!-- profilepage js -->
+	<script src="../../app/js_controllers/profileCtrl.js"></script>
   </head>
   
   <body ng-app="thehonorclub">
@@ -114,15 +117,6 @@
 					</ion-item>
 				</ion-list>
 			</ion-content>
-					
-			<!-- 
-			<h1>Skills:</h1>
-			<div class="panel panel-success" ng-repeat="skill in userInfo.skills" >
-				<div class="panel-heading">{{skill}}
-					<span class="glyphicon glyphicon-remove pull-right" ng-click="removeSkill(skill)"></span>
-				</div>		
-			</div>				
-			-->
 			
 			<!-- add position -->
 			
@@ -135,16 +129,6 @@
 			<button class="button button-stable" ng-click="addPosition(position)">
 				Add Position
 			</button>
-			
-		
-			<!-- 
-			<div class="row">
-				<label>Positions: </label>
-				<input class="form-control" type="text" name="position" ng-model="position" placeholder="Add positions you are capable of assuming (e.g. project manager, designer, developer,...)">
-				<br>
-				<input class="btn btn-primary" type="button" value="Add Position" ng-click="addPosition()" ng-disabled="!name">
-			</div>
-			-->
 			
 			<!-- position list -->
 			
