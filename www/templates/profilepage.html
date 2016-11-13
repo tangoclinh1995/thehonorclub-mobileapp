@@ -1,85 +1,76 @@
-<ion-view view-title="Profile-Page">
- +		<div class="page-header">
- +  			<h1>Profile</h1>
- +		</div>
- +		
- +		<div class="list">
- +
- +			<!-- input name -->
- +			<label class="item item-input item-stacked-label">
- +				<span class="input-label">First Name</span>
- +				<input type="text" name="name" ng-model="name" placeholder="John Smith">
- +			</label>
- +			
- +			<!-- input bio -->
- +			
- +			<label class="item item-input item-stacked-label">
- +				<span class="input-label">Type a brief bio</span>
- +				<textarea name="bio" ng-model="bio" placeholder="Bio"></textarea>
- +			</label>
- +			
- +			<!-- profile picture -->
- +			<div class="item item-image">
- +				<img ng-src={{photoURL}}>
- +			</div>
- +		
- +			<!-- add skills -->
- +			<label class="item item-input item-stacked-label">
- +				<span class="input-label">Skills</span>
- +				<input type="text" name="skills" ng-model="skill" placeholder="Add your skills (e.g. Ionic, AngularJS, React,...)">
- +			</label>
- +			
- +			<!-- <button class="button button-stable" ng-click="addSkill(skill)" ng-disabled="!name"> -->
- +			<button class="button button-stable" ng-click="addSkill(skill)">
- +				Add Skill
- +			</button>
- +			
- +			<!-- skill list -->
- +			<ion-content>
- +				<ion-list>
- +					<ion-item ng-repeat="sk in skills" item="skill" class="item-remove-animate">
- +						{{sk}}
- +						<ion-delete-button class="ion-minus-circled" ng-click="removeSkill(skill)">
- +						</ion-delete-button>
- +					</ion-item>
- +				</ion-list>
- +			</ion-content>
- +			
- +			<!-- add position -->
- +			
- +			<label class="item item-input item-stacked-label">
- +				<span class="input-label">Positions</span>
- +				<input type="text" name="position" ng-model="position" placeholder="e.g. project manager, designer, developer,...">
- +			</label>
- +			
- +			<!-- <button class="button button-stable" ng-click="addPosition(position)" ng-disabled="!name"> -->
- +			<button class="button button-stable" ng-click="addPosition(position)">
- +				Add Position
- +			</button>
- +			
- +			<!-- position list -->
- +			
- +			<ion-content>
- +				<ion-list>
- +					<ion-item ng-repeat="pos in desiredPositions" item="position" class="item-remove-animate">
- +						{{pos}}
- +						<ion-delete-button class="ion-minus-circled" ng-click="removePosition(position)">
- +						</ion-delete-button>
- +					</ion-item>
- +				</ion-list>
- +			</ion-content>
- +			
- +			
- +			<br>
- +			<br>
- +			<br>
- +			<!-- Save -->
- +			<button class="button button-stable" ng-click="saveProfile()" ng-disabled="isSavingProfile">
- +				Save Profile
- +			</button>
- +			
- +
- +		</div>
- +
- +		
+<ion-view view-title="Profile Page">
+  <div class="page-header">
+    <h1>Profile</h1>
+  </div>
+
+  <div class="list">
+    <!-- Input name -->
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">First Name</span>
+      <input type="text" name="name" ng-model="name" placeholder="John Smith">
+    </label>
+
+    <!-- Input bio -->
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Type a brief bio</span>
+      <textarea name="bio" ng-model="bio" placeholder="Bio"></textarea>
+    </label>
+
+    <!-- Profile picture -->
+    <div class="item item-image">
+      <img ng-src={{photoURL}}>
+    </div>
+
+    <!-- Add skills -->
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Skills</span>
+      <input type="text" name="skills" ng-model="skill" placeholder="Add your skills (e.g. Ionic, AngularJS, React,...)">
+    </label>
+
+    <button class="button button-stable" ng-click="addSkill(skill)">
+      Add Skill
+    </button>
+
+    <!-- Skill list -->
+    <ion-content>
+      <ion-list>
+        <ion-item ng-repeat="sk in skills" item="skill" class="item-remove-animate">
+          {{sk}}
+          <ion-delete-button class="ion-minus-circled" ng-click="removeSkill(skill)">
+          </ion-delete-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+    <!-- Add position -->
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Positions</span>
+      <input type="text" name="position" ng-model="position" placeholder="e.g. project manager, designer, developer,...">
+    </label>
+
+    <button class="button button-stable" ng-click="addPosition(position)">
+      Add Position
+    </button>
+
+    <!-- Position list -->
+    <ion-content>
+      <ion-list>
+        <ion-item ng-repeat="pos in desiredPositions" item="position" class="item-remove-animate">
+          {{pos}}
+          <ion-delete-button class="ion-minus-circled" ng-click="removePosition(position)">
+          </ion-delete-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+    <br>
+    <br>
+    <br>
+
+    <!-- Save -->
+    <button class="button button-stable" ng-click="saveProfile()" ng-disabled="isSavingProfile">
+      Save Profile
+    </button>
+
+  </div>		
 </ion-view>  
