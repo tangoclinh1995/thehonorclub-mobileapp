@@ -8,13 +8,13 @@
       <label class="item item-input">
         <input type="text" placeholder="Start Date" ng-focus="callStartDatePicker()" ng-model="startDate" />
       </label>
-      <label class="item item-input" ng-show="startDate!=''">
+      <label class="item item-input" ng-show="startDate!=''" id="endDate">
         <input type="text" placeholder="End Date" ng-focus="callEndDatePicker()" ng-model="endDate"/>
       </label>
-      <label class="item item-input" ng-show="startDate!=''">
+      <label class="item item-input" ng-show="startDate!=''" id="startTime">
         <input type="text" placeholder="Start Time" ng-focus="callStartTimer()" ng-model="startTime" />
       </label>
-      <label class="item item-input" ng-show="startTime!=''">
+      <label class="item item-input" ng-show="startTime!=''" id="endTime">
         <input type="text" placeholder="End Time" ng-focus="callEndTimer()" ng-model="endTime"/>
       </label>
       <label class="item item-input">

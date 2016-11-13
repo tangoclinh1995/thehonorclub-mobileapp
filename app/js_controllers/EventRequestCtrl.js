@@ -89,12 +89,13 @@ angular.module("thehonorclub")
 
 
   $scope.addEvent = function() {
-    var startTimeStamp = moment($scope.startDate, "YYYY-MM-DD").unix() + moment($scope.startTime, "HH:mm").unix();
-    var endTimeStamp = moment($scope.endDate, "YYYY-MM-DD").unix() + moment($scope.endTime, "HH:mm").unix();
-    console.log(startTimestamp);
-    console.log(endTimestamp);
+    var startTimeStamp = moment.utc($scope.startDate, "YYYY-MM-DD Z").add(moment.duration($scope.startTime)).unix();
+    //var startTimeStamp = moment($scope.startDate, "YYYY-MM-DD Z").unix();
+    var endTimeStamp = moment.utc($scope.endDate, "YYYY-MM-DD Z").add(moment.duration($scope.endTime)).unix();
+    console.log(startTimeStamp);
+    console.log(endTimeStamp);
 
-    var newEventRef = firebase.database.ref().child("event").push();
+    var newEventRef = firebase.database().ref().child("event").push();
     newEventRef.set({
       name: $scope.name,
       description: $scope.description,
