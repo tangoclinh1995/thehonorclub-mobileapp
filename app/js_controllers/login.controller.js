@@ -1,4 +1,4 @@
-angular.module('thehonorclub', [])
+angular.module('thehonorclub')
 .controller('loginController', ['$scope', '$stateParams', function ($scope, $stateParams) {
 
 
