@@ -1,8 +1,7 @@
 angular.module("thehonorclub") 
-.controller('EventRequestCtrl', function($scope, $firebaseArray, ionicTimePicker, ionicDatePicker) {
+.controller('EventRequestCtrl', function($scope, ionicTimePicker, ionicDatePicker) {
 
   var ref = firebase.database().ref().child("event");
-  $scope.events = $firebaseArray(ref);
 
   var startTimeObj = {
     callback: function (val) {      //Mandatory
@@ -90,13 +89,13 @@ angular.module("thehonorclub")
 
 
   $scope.addEvent = function() {
-    console.log('Called');
     var startTimeStamp = moment($scope.startDate, "YYYY-MM-DD").unix() + moment($scope.startTime, "HH:mm").unix();
     var endTimeStamp = moment($scope.endDate, "YYYY-MM-DD").unix() + moment($scope.endTime, "HH:mm").unix();
+    console.log(startTimestamp);
+    console.log(endTimestamp);
 
-    console.log(startTimeStamp);
-    console.log(endTimeStamp);
-    $scope.events.$add({
+    var newEventRef = firebase.database.ref().child("event").push();
+    newEventRef.set({
       name: $scope.name,
       description: $scope.description,
       timestamp_begin: startTimeStamp,
@@ -104,5 +103,6 @@ angular.module("thehonorclub")
       min_member_per_team: $scope.minSize,
       max_member_per_team: $scope.maxSize
     });
+
   };
 });
