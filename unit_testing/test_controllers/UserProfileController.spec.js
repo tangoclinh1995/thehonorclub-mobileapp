@@ -1,4 +1,4 @@
-describe("ProfileCtrl", function() {
+describe("userProfileController", function() {
   var TESTUSER_UID = "584938239";
 
   var TESTUSER_INFO = {
@@ -89,7 +89,7 @@ describe("ProfileCtrl", function() {
       return userInfo;
     });
 
-    _$controller_("ProfileCtrl", {
+    _$controller_("userProfileController", {
       $scope: $scope,
       $firebaseObject: $firebaseObject,
       $firebaseAuthInstance: $firebaseAuthInstance

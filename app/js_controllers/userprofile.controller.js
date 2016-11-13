@@ -1,5 +1,5 @@
 angular.module("thehonorclub")
-.controller("ProfileCtrl", function($scope, $firebaseObject, $firebaseAuthInstance, $ionicLoading) {
+.controller("userProfileController", function($scope, $firebaseObject, $firebaseAuthInstance, $ionicLoading) {
   var databaseRef = firebase.database().ref();
 
   var currentUser = $firebaseAuthInstance.$getAuth();
