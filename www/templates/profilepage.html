@@ -1,162 +1,86 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
-
-    <link rel="manifest" href="../manifest.json">
-
-    <link href="../lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="../bundle/style.bundle.css" rel="stylesheet">
-
-    <!-- Ionic/angularjs js -->
-    <script src="../lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- Firebase & AngularFire -->
-    <script src="../lib/firebase/firebase.js"></script>
-    <script src="../lib/angularfire/dist/angularfire.min.js"></script>
-
-    <!-- Ionic Tinder card library -->
-    <script src="../lib/collide/collide.js"></script>
-    <script src="../lib/ionic-ion-tinder-cards/ionic.tdcards.js"></script>
-    
-    <link href="../lib/ionic-ion-tinder-cards/ionic.tdcards.css" rel="stylesheet">
-
-    <!-- Cordova script (this will be a 404 during development) -->
-    <script src="../cordova.js"></script>
-
-    <!-- Ionic Datepicker -->
-    <script src="../lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
-
-    <!--
-      Firebase Initialization script
-      Please create a file called firebase_init.js in www directory 
-      in the following format:
-
-        firebase.initializeApp({
-          apiKey: <YOUR_API_KEY>,
-          authDomain: <YOUR_AUTH_DOMAIN>,
-          databaseURL: <YOUR_DATABASE_URL>,
-          storageBucket: <YOUR_STORAGE_BUCKET>,
-          messagingSenderId: <YOUR_MESSAGE_SENDER_ID>
-        });
-
-      This file is IGNORED by Git, so you need to add it by yourself
-      For more information, visit the team's Slack Channel
-    -->
-    <script src="firebase_init.js"></script>
-
-    <!-- Your app's js -->
-    <script src="../app.js"></script>
-    <script src="../bundle/routing.bundle.js"></script>
-    <script src="../bundle/controllers.bundle.js"></script>
-    <script src="../bundle/services.bundle.js"></script>
-
-	<!-- profilepage js -->
-	<script src="../../app/js_controllers/profileCtrl.js"></script>
-  </head>
-  
-  <body ng-app="thehonorclub">
-    <!--
-      The nav bar that will be updated as we navigate between views.
-    -->
-    <ion-nav-bar class="bar-stable">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
-    </ion-nav-bar>
-    <!--
-      The views will be rendered in the <ion-nav-view> directive below
-      Templates are in the /templates folder (but you could also
-      have templates inline in this html file if you'd like).
-    -->
-    <ion-nav-view>
-    <div ng-controller="profileCtrl" class="container">
-		<div class="page-header">
-  			<h1>Profile</h1>
-		</div>
-		
-		<div class="list">
-
-			<!-- input name -->
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">First Name</span>
-				<input type="text" name="name" ng-model="name" placeholder="John Smith">
-			</label>
-			
-			<!-- input bio -->
-			
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Type a brief bio</span>
-				<textarea name="bio" ng-model="bio" placeholder="Bio"></textarea>
-			</label>
-			
-			<!-- profile picture -->
-			<div class="item item-image">
-				<img ng-src={{photoURL}}>
-			</div>
-		
-			<!-- add skills -->
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Skills</span>
-				<input type="text" name="skills" ng-model="skill" placeholder="Add your skills (e.g. Ionic, AngularJS, React,...)">
-			</label>
-			
-			<!-- <button class="button button-stable" ng-click="addSkill(skill)" ng-disabled="!name"> -->
-			<button class="button button-stable" ng-click="addSkill(skill)">
-				Add Skill
-			</button>
-			
-			<!-- skill list -->
-			<ion-content>
-				<ion-list>
-					<ion-item ng-repeat="sk in skills" item="skill" class="item-remove-animate">
-						{{sk}}
-						<ion-delete-button class="ion-minus-circled" ng-click="removeSkill(skill)">
-						</ion-delete-button>
-					</ion-item>
-				</ion-list>
-			</ion-content>
-			
-			<!-- add position -->
-			
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Positions</span>
-				<input type="text" name="position" ng-model="position" placeholder="e.g. project manager, designer, developer,...">
-			</label>
-			
-			<!-- <button class="button button-stable" ng-click="addPosition(position)" ng-disabled="!name"> -->
-			<button class="button button-stable" ng-click="addPosition(position)">
-				Add Position
-			</button>
-			
-			<!-- position list -->
-			
-			<ion-content>
-				<ion-list>
-					<ion-item ng-repeat="pos in desiredPositions" item="position" class="item-remove-animate">
-						{{pos}}
-						<ion-delete-button class="ion-minus-circled" ng-click="removePosition(position)">
-						</ion-delete-button>
-					</ion-item>
-				</ion-list>
-			</ion-content>
-			
-			
-			<br>
-			<br>
-			<br>
-			<!-- Save -->
-			<button class="button button-stable" ng-click="saveProfile()" ng-disabled="isSavingProfile">
-				Save Profile
-			</button>
-			
-
-		</div>
-
-		
-	</div>
-    
-    </ion-nav-view>
-  </body>
-</html>
+<div ng-controller="profileCtrl" class="container">
+ +		<div class="page-header">
+ +  			<h1>Profile</h1>
+ +		</div>
+ +		
+ +		<div class="list">
+ +
+ +			<!-- input name -->
+ +			<label class="item item-input item-stacked-label">
+ +				<span class="input-label">First Name</span>
+ +				<input type="text" name="name" ng-model="name" placeholder="John Smith">
+ +			</label>
+ +			
+ +			<!-- input bio -->
+ +			
+ +			<label class="item item-input item-stacked-label">
+ +				<span class="input-label">Type a brief bio</span>
+ +				<textarea name="bio" ng-model="bio" placeholder="Bio"></textarea>
+ +			</label>
+ +			
+ +			<!-- profile picture -->
+ +			<div class="item item-image">
+ +				<img ng-src={{photoURL}}>
+ +			</div>
+ +		
+ +			<!-- add skills -->
+ +			<label class="item item-input item-stacked-label">
+ +				<span class="input-label">Skills</span>
+ +				<input type="text" name="skills" ng-model="skill" placeholder="Add your skills (e.g. Ionic, AngularJS, React,...)">
+ +			</label>
+ +			
+ +			<!-- <button class="button button-stable" ng-click="addSkill(skill)" ng-disabled="!name"> -->
+ +			<button class="button button-stable" ng-click="addSkill(skill)">
+ +				Add Skill
+ +			</button>
+ +			
+ +			<!-- skill list -->
+ +			<ion-content>
+ +				<ion-list>
+ +					<ion-item ng-repeat="sk in skills" item="skill" class="item-remove-animate">
+ +						{{sk}}
+ +						<ion-delete-button class="ion-minus-circled" ng-click="removeSkill(skill)">
+ +						</ion-delete-button>
+ +					</ion-item>
+ +				</ion-list>
+ +			</ion-content>
+ +			
+ +			<!-- add position -->
+ +			
+ +			<label class="item item-input item-stacked-label">
+ +				<span class="input-label">Positions</span>
+ +				<input type="text" name="position" ng-model="position" placeholder="e.g. project manager, designer, developer,...">
+ +			</label>
+ +			
+ +			<!-- <button class="button button-stable" ng-click="addPosition(position)" ng-disabled="!name"> -->
+ +			<button class="button button-stable" ng-click="addPosition(position)">
+ +				Add Position
+ +			</button>
+ +			
+ +			<!-- position list -->
+ +			
+ +			<ion-content>
+ +				<ion-list>
+ +					<ion-item ng-repeat="pos in desiredPositions" item="position" class="item-remove-animate">
+ +						{{pos}}
+ +						<ion-delete-button class="ion-minus-circled" ng-click="removePosition(position)">
+ +						</ion-delete-button>
+ +					</ion-item>
+ +				</ion-list>
+ +			</ion-content>
+ +			
+ +			
+ +			<br>
+ +			<br>
+ +			<br>
+ +			<!-- Save -->
+ +			<button class="button button-stable" ng-click="saveProfile()" ng-disabled="isSavingProfile">
+ +				Save Profile
+ +			</button>
+ +			
+ +
+ +		</div>
+ +
+ +		
+ +	</div>
+ +    
