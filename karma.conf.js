@@ -5,20 +5,30 @@ module.exports = function(config) {
 
     // List of files / patterns to load in the browser
     files: [
+      // Ionic libraries
       "www/lib/ionic/js/ionic.bundle.js",
 
+      // Angular Mocks
       "www/lib/angular-mocks/angular-mocks.js",
 
+      // Firebase
       "www/lib/firebase/firebase.js",
+
+      // Angular Fire
       "www/lib/angularfire/dist/angularfire.min.js",
 
+<<<<<<< HEAD
       "www/lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js",
 
+=======
+      // Our app's JS files
+>>>>>>> master
       "www/app.js",
       "app/js_controllers/*.js",
       "app/js_services/*.js",
       "app/js_routing/*.js",
 
+      // Unit testing files
       "unit_testing/test_controllers/*.js",
       "unit_testing/test_services/*.js",
     ],
