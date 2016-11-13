@@ -36,6 +36,14 @@ describe("userProfileController", function() {
 
   beforeEach(module("thehonorclub"));
 
+  // IMPORTANT:
+  //    This helps ensure that Ionic UI Router will not break the test
+  //    It MUST be added after the line: beforeEach(module("thehonorclub"));
+  beforeEach(module(function($provide, $urlRouterProvider) {
+    $provide.value("$ionicTemplateCache", function() {});
+    $urlRouterProvider.deferIntercept();
+  }));  
+
   beforeEach(inject(function(_$rootScope_, _$controller_, _$firebaseAuthInstance_, _$q_) {
     $scope = _$rootScope_.$new();
 
@@ -115,18 +123,20 @@ describe("userProfileController", function() {
   });
 
   it("$scope.addSkill", function() {
-    $scope.addSkill("javascript");
+    $scope.addSkill("   javascript  ");
     expect($scope.skills).toEqual(TESTUSER_INFO.skills);
+    expect($scope.newSkill).toEqual("");
 
     var expectedResultAfterAddition = JSON.parse(JSON.stringify(TESTUSER_INFO.skills));
     expectedResultAfterAddition.push("html5"); 
 
     $scope.addSkill("html5");
     expect($scope.skills).toEqual(expectedResultAfterAddition);
+    expect($scope.newSkill).toEqual("");
   });
 
   it("$scope.removeSkill", function() {
-    $scope.removeSkill("html5");
+    $scope.removeSkill("  html5   ");
     expect($scope.skills).toEqual(TESTUSER_INFO.skills);
 
     var expectedResultAfterRemoval = JSON.parse(JSON.stringify(TESTUSER_INFO.skills));
@@ -143,13 +153,14 @@ describe("userProfileController", function() {
   it("$scope.addPosition", function() {
     $scope.addPosition("developer");
     expect($scope.desiredPositions).toEqual(TESTUSER_INFO.desired_positions);
+    expect($scope.newPosition).toEqual("");
 
     var expectedResultAfterAddition = JSON.parse(JSON.stringify(TESTUSER_INFO.desired_positions));
-    expectedResultAfterAddition.push("entrepreneur"); 
+    expectedResultAfterAddition.push("project manager"); 
 
-    $scope.addPosition("entrepreneur");
-    expect($scope.desiredPositions).toEqual(expectedResultAfterAddition);    
-
+    $scope.addPosition("project       manager");
+    expect($scope.desiredPositions).toEqual(expectedResultAfterAddition);
+    expect($scope.newPosition).toEqual("");
   });
 
   it("$scope.removePosition", function() {
