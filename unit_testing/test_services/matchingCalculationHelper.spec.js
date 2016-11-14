@@ -3,7 +3,7 @@ describe("$matchingCalculationHelper", function() {
     {
       user: {
         skills: ["a", "c"],
-        desired_position: ["d"]
+        desired_positions: ["d"]
       },
       team: {
         skills_needed: {
@@ -23,19 +23,23 @@ describe("$matchingCalculationHelper", function() {
 
     {
       user: {
-        skills: [],
-        desired_position: []
+        skills: ["a", "b", "c", "d"],
+        desired_positions: ["e"]
       },
       team: {
         skills_needed: {
+          "t": 5,
+          "b": 1,
+          "d": 0
         },
         positions_needed: {
-
+          "f": 1,
+          "g": 2
         },
       },
       test_result: {
-        matching_score: 1,
-        most_matched_skills: [],
+        matching_score: 41,
+        most_matched_skills: ["d", "b"],
         most_matched_positions: []
       }
 
@@ -43,38 +47,46 @@ describe("$matchingCalculationHelper", function() {
 
     {
       user: {
-        skills: [],
-        desired_position: []
+        skills: ["a", "b", "c", "d"],
+        desired_positions: ["f"]
       },
       team: {
         skills_needed: {
+          "t": 5,
+          "b": 1,
+          "d": 0
         },
         positions_needed: {
-
+          "f": 1,
+          "g": 2
         },
       },
       test_result: {
-        matching_score: 1,
-        most_matched_skills: [],
-        most_matched_positions: []
+        matching_score: 78,
+        most_matched_skills: ["d", "b"],
+        most_matched_positions: ["f"]
       }
 
     },
 
     {
       user: {
-        skills: [],
-        desired_position: []
+        skills: ["a", "b"],
+        desired_positions: ["t"]
       },
       team: {
         skills_needed: {
+          "d": 1,
+          "e": 2,
+          "f": 5
         },
         positions_needed: {
-
+          "x": 0,
+          "y": 3
         },
       },
       test_result: {
-        matching_score: 1,
+        matching_score: 0,
         most_matched_skills: [],
         most_matched_positions: []
       }
@@ -94,11 +106,9 @@ describe("$matchingCalculationHelper", function() {
   }));
 
   it("Can result correct result", function() {
-    for (var i = 0, len = TESTING_DATA.length; i < 1; ++i) {
+    for (var i = 0, len = TESTING_DATA.length; i < len; ++i) {
       var result = $matchingCalculationHelper(TESTING_DATA[i].user, TESTING_DATA[i].team);
-
-      console.log(result);
-
+      
       expect(result).toEqual(TESTING_DATA[i].test_result);
     }
 
