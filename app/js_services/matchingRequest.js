@@ -354,10 +354,12 @@ angular.module("thehonorclub")
     return defer.promise();
   };
 
-
-
   // This is the service
   return {
+    REQUEST_MATCH: REQUEST_MATCH,
+    REQUEST_NOMATCH: REQUEST_NOMATCH,
+    REQUEST_INVALID: REQUEST_INVALID,
+
     joinTeam: joinTeamRequest,
     inviteMember: inviteMemberRequest,
     acceptMatch: acceptMatch
