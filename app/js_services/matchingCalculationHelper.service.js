@@ -1,8 +1,8 @@
 angular.module("thehonorclub")
   .factory("$matchingCalculationHelper", function () {
     var CEIL = 1000,
-        WEIGHT_SKILLS = 0.4,
-        WEIGHT_POSITIONS = 0.6;
+        WEIGHT_SKILLS = 0.45,
+        WEIGHT_POSITIONS = 0.55;
 
 
 
@@ -92,7 +92,7 @@ angular.module("thehonorclub")
       }
 
       return {
-        matching_score: WEIGHT_SKILLS * matchSkillScore + WEIGHT_POSITIONS * matchPositionScore,
+        matching_score: Math.round((WEIGHT_SKILLS * matchSkillScore + WEIGHT_POSITIONS * matchPositionScore) * 100),
         most_matched_skills: mostMatchedSkills,
         most_matched_positions: mostMatchedPositions
       }
