@@ -31,9 +31,9 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase", "ionic.
   }
 }).controller('CardsCtrl', function($scope, TDCardDelegate) {
   var cardTypes = [
-    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/max.jpg', name: 'person1', skill: 'AngularJS' },
-    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/ben.png', name: 'person2', skill: 'NodeJS' },
-    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/perry.jpg', name: 'person3', skill: 'Ionic' },
+    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/max.jpg', name: 'Andy', skill: 'AngularJS' },
+    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/ben.png', name: 'Bob', skill: 'NodeJS' },
+    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/perry.jpg', name: 'Charlie', skill: 'Ionic' },
   ];
 
   $scope.cardDestroyed = function(index) {
