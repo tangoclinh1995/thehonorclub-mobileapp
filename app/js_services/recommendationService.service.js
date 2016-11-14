@@ -10,6 +10,11 @@ angular.module("thehonorclub")
   var dbRefInviteMember = db.child("invitemember_request");
 
 
+  function sortBasedOnMatchingScore(matchX, matchY) {
+    return matchY.matching_score - matchX.matching_score;
+  }
+
+
 
   // Return map of team_uid => team_object which are not full yet.
   // eventUid is an optional parameter
@@ -89,10 +94,55 @@ angular.module("thehonorclub")
   }
 
 
-  function getPendingJoinTeamRequest(userUid) {
-    var result = {};
 
-    dbRefJoinTeam
+  // Return map of team_uid => 1 which an user has sent joining request to
+  function getTeamWithRequestSent(userUid) {
+    var defer = $q.defer();
+
+    dbRefJoinTeam.
+    equalTo(userUid, "from_user_uid")
+    .once("value")
+    .then(function(snapshot) {
+
+      var result = {};
+
+      snapsnot.forEach(function(request) {
+        result[request.child("to_team_uid").val()] = 1;
+      });
+
+
+      defer.resolve(result);
+
+    })
+    .catch(defer.reject);
+
+    return defer.promise;
+  }
+
+
+
+  // Return map of user_uid => 1 which a team has sent invitiation request to
+  function getUserWithRequestSent(teamUid) {
+    var defer = $q.defer();
+
+    dbRefInviteMember
+    .equalTo(teamUid, "from_team_uid")
+    .once("value")
+    .then(function(snapshot) {
+
+      var result = {};
+
+      snapsnot.forEach(function(request) {
+        result[request.child("to_member_uid").val()] = 1;
+      });
+
+
+      defer.resolve(result);
+
+    })
+    .catch(defer.reject);
+
+    return defer.promise;
   }
 
 
@@ -110,9 +160,10 @@ angular.module("thehonorclub")
     };
 
     var userInfo;
-    var availTeams;
+    var availTeams, teamsWithRequestSent;
 
-    dbRefUserInfo.once("value")
+    dbRefUserInfo.child(userUid)
+    once("value")
     .then(function(snapshot) {
       userInfo = snapshot.val();
       next();
@@ -126,16 +177,93 @@ angular.module("thehonorclub")
     })
     .catch(defer.reject);
 
-    function getRecommendList() {
+    getTeamWithRequestSent(userUid)
+    .then(function(teams) {
+      teamsWithRequestSent = teams;
+      next();
+    })
+    .catch(defer.reject);
 
+    function getRecommendList() {
+      var result = [];
+
+      for (teamUid in availTeams) {
+        // Ignore team which user has sent joining request
+        if (teamsWithRequestSent[teamUid]) {
+          continue;
+        }
+
+        var team = availTeams[teamUid];
+
+        result.push($matchingCalculationHelper(userInfo, team));
+      }
+
+      result.sort(sortBasedOnMatchingScore);
+
+      defer.resolve(result);
     };
 
     return defer.promise;
   }
 
 
-  function recommendMember(team_uid) {
+  function recommendMember(teamUid) {
+    var defer = $q.defer();
 
+    var nextCount = 3;
+    function next() {
+      --nextCount;
+      if (nextCount == 0) {
+        getRecommendList();
+      };
+
+    };
+
+    var team;
+    var availUsers, userWithRequestSent;
+
+    dbRefTeam.child(teamUid)
+    once("value")
+    .then(function(snapshot) {
+      team = snapshot.val();
+      next();
+    })
+    .catch(defer.reject);
+
+    getAvailUser(eventUid)
+    .then(function(users) {
+      availUsers = users;
+      next();
+    })
+    .catch(defer.reject);
+
+    getUserWithRequestSent(teamUid)
+    .then(function(users) {
+      userWithRequestSent = users;
+      next();
+    })
+    .catch(defer.reject);
+
+    function getRecommendList() {
+      var result = [];
+
+      for (userUid in availUsers) {
+        // Ignore team which user has sent joining request
+        if (userWithRequestSent[userUid]) {
+          continue;
+        }
+
+        var user = availUsers[userUid];
+
+        result.push($matchingCalculationHelper(user, team));
+      }
+
+      result.sort(sortBasedOnMatchingScore);
+
+      defer.resolve(result);
+    };
+
+    return defer.promise;    
   }
 
 
