@@ -4,8 +4,8 @@
 node_modules/
 platforms/
 plugins/
-www/bundle/
 coverage/
+www/bundle/
 www/firebase_init.js
 www/lib
 .DS_STORE
