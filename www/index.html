@@ -9,6 +9,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="bundle/style.bundle.css" rel="stylesheet">
+    <link href="css/cards.css" rel="stylesheet">
 
     <!-- Ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -54,7 +55,7 @@
     <script src="bundle/services.bundle.js"></script>
   </head>
   
-  <body ng-app="thehonorclub">
+  <body ng-app="thehonorclub"  no-scroll>
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
@@ -67,6 +68,24 @@
       Templates are in the /templates folder (but you could also
       have templates inline in this html file if you'd like).
     -->
+
+     <ion-pane ng-controller="CardsCtrl">
+      <ion-header-bar class="bar-default">
+        <h1 class="title">TD Cards</h1>
+      </ion-header-bar>
+
+      <td-cards>
+        <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
+          <div class="image" ng-controller="CardCtrl">
+            <div class="no-text">NOPE</div>
+            <img ng-src="{{card.image}}">
+            <div class="yes-text">LIKE</div>
+            <div {{card.name}}>
+          </div>
+        </td-card>
+      </td-cards>
+    </ion-pane>
+
     <ion-nav-view></ion-nav-view>
   </body>
 </html>
