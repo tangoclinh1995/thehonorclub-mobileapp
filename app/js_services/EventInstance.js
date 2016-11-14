@@ -1,6 +1,6 @@
 // Simple service that share current event instance
 
-angular.module("thehonorclub", [])
+/*angular.module("thehonorclub", [])
   .service("eventInstance", function() {
     var eventUid;
 
@@ -13,4 +13,4 @@ angular.module("thehonorclub", [])
         eventUid = uid;
       }
     }
-  }
+  });*/

@@ -36,6 +36,14 @@ gulp.task("default", function() {
 
 });*/
 
+gulp.task("css_bundle", function() {
+  gulp.src('scss/**/*.scss')
+      .pipe(sass().on("error", sass.logError))
+      .pipe(concat("style.bundle.css"))
+      .pipe(cleanCss())
+      .pipe(gulp.dest(BUNDLE_DESTINATION));
+});
+
 gulp.task("js_controllers", function(done) {
   return gulp.src(paths.controller)
     .pipe(concat("controllers.bundle.js"))
@@ -55,14 +63,6 @@ gulp.task("js_routing", function(done) {
     .pipe(concat("routing.bundle.js"))
     .pipe(gulp.dest(BUNDLE_DESTINATION))
 
-});
-
-gulp.task("css_bundle", function() {
-  gulp.src('scss/**/*.scss')
-      .pipe(sass().on("error", sass.logError))
-      .pipe(concat("style.bundle.css"))
-      .pipe(cleanCss())
-      .pipe(gulp.dest(BUNDLE_DESTINATION));
 });
 
 gulp.task("watch", function() {
