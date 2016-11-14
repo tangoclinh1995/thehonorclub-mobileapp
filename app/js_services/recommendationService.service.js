@@ -1,5 +1,5 @@
 angular.module("thehonorclub")
-.factory("$recommendationService", function($q) {
+.factory("$recommendationService", function($q, $matchingCalculationHelper) {
   var db = firebase.database().ref();
   
   var dbRefTeam = db.child("team");
@@ -89,9 +89,48 @@ angular.module("thehonorclub")
   }
 
 
+  function getPendingJoinTeamRequest(userUid) {
+    var result = {};
+
+    dbRefJoinTeam
+  }
+
+
 
   function recommendTeam(userUid, eventUid) {
+    var defer = $q.defer();
 
+    var nextCount = 3;
+    function next() {
+      --nextCount;
+      if (nextCount == 0) {
+        getRecommendList();
+      };
+
+    };
+
+    var userInfo;
+    var availTeams;
+
+    dbRefUserInfo.once("value")
+    .then(function(snapshot) {
+      userInfo = snapshot.val();
+      next();
+    })
+    .catch(defer.reject);
+
+    getAvailTeam(eventUid)
+    .then(function(teams) {
+      availTeams = teams;
+      next();
+    })
+    .catch(defer.reject);
+
+    function getRecommendList() {
+
+    };
+
+    return defer.promise;
   }
 
 
