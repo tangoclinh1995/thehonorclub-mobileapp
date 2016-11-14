@@ -1,10 +1,59 @@
 angular.module("thehonorclub")
 .factory("$matchingRequest", function($q) {
+  var REQUEST_MATCH = 1;
+  var REQUEST_NOMATCH = 2;
+  var REQUEST_INVALID = 3;
+
+
+
   var db = firebase.database().ref();
 
   var dbRefJoinTeam = db.child("jointeam_request");
-  var dbRefInviteMember = db.child("invitemember_request");
+  var dbRefInviteMember = db.child("invitemember_request");  
   var dbRefTeam = db.child("team");
+  var dbRefUserHaveTeam = db.child("user_have_team");  
+
+
+
+  function userInTeam(userUid, eventUid) {
+    var defer = $q.defer();
+
+    dbRefUserHaveTeam.child(eventUid).child(userUid)
+    .once("value")
+    .then(function(snapshot) {
+
+      if (snapshot == null) {
+        defer.resolve(false);
+      } else {
+        defer.resolve(true);
+      }
+
+    })
+    .catch(defer.reject);
+
+    return defer.promise;
+  }
+
+
+
+  function teamIsFull(teamUid) {
+    var defer = $q.defer();
+
+    dbRefTeam.child(teamUid).child("full")
+    .once("value")
+    .then(function(snapshot) {
+
+      if (snapshot.val() == true) {
+        defer.resolve(true);
+      } else {
+        defer.resolve(false);
+      }
+
+    })
+    .catch(defer.reject);    
+
+    return defer.promise;
+  }
 
 
 
@@ -25,15 +74,41 @@ angular.module("thehonorclub")
       dbRefInviteMember
       .equalTo(toTeamUid, "from_team_uid")
       .equalTo(fromUserUid, "to_member_uid")
-      .limitToFirst(1);   
+      .limitToFirst(1);
+    
+    // Check whether user has already had a team
+    userInTeam(fromUserUid, eventUid)
+    .then(function(hasTeam) {
 
-    // Check whether reverse request exists
-    reverseQueryExist.once("value")
-    .then(function(dataSnapshot) {
+      // If he/she already has a team, then cannot perform this request
+      if (hasTeam) {
+        defer.resolve(REQUEST_INVALID);
+        return;
+      }
+
+      // Otherwise, check whether the request team is already full
+      // Chain this to NEXT THEN
+      return teamIsFull(toTeamUid);
+
+    })
+    .then(function(fullTeam) {
+
+      // If team is already full, then cannot perform this request
+      if (fullTeam) {
+        defer.resolve(REQUEST_INVALID);
+        return;
+      }
+
+      // Otherwise, check whether reverse request exists
+      // Chain this to NEXT THEN
+      return reverseQueryExist.once("value") 
+
+    })
+    .then(function(snapshot) {
 
       // A reverse request exists, meaning that IT'S A MATCH
-      if (dataSnapshot.numChildren() != 0) {
-        defer.resolve(true);
+      if (snapshot.numChildren() != 0) {
+        defer.resolve(REQUEST_MATCH);
         return;
       }
 
@@ -42,11 +117,11 @@ angular.module("thehonorclub")
       return queryExist.once("value");
 
     })
-    .then(function(dataSnapshot) {
+    .then(function(snapshot) {
 
       // The similar request exists, no need to add a new request
-      if (dataSnapshot.numChildren() != 0) {
-        defer.resolve(false);
+      if (snapshot.numChildren() != 0) {
+        defer.resolve(REQUEST_NOMATCH);
         return;
       };
 
@@ -61,7 +136,7 @@ angular.module("thehonorclub")
     })
     .then(function() {
 
-      defer.resolve(false);
+      defer.resolve(REQUEST_NOMATCH);
       
     })
     .catch(function() {
@@ -91,22 +166,42 @@ angular.module("thehonorclub")
       .equalTo(fromTeamUid, "to_team_uid")
       .limitToFirst(1);
 
-    reverseQueryExist.once("value")
-    .then(function(dataSnapshot) {
+    userInTeam(toMemberUid, eventUid)
+    .then(function(hasTeam) {
+
+      if (hasTeam) {
+        defer.resolve(REQUEST_INVALID);
+        return;
+      }
+
+      return teamIsFull(fromTeamUid);
+
+    })
+    .then(function(fullTeam) {
+
+      if (fullTeam) {
+        defer.resolve(REQUEST_INVALID);
+        return;
+      }
+
+      return reverseQueryExist.once("value") 
+
+    })
+    .then(function(snapshot) {
 
       // IT'S A MATCH
-      if (dataSnapshot.numChildren() != 0) {
-        defer.resolve(true);
+      if (snapshot.numChildren() != 0) {
+        defer.resolve(REQUEST_MATCH);
         return;
       }
 
       return queryExist.once("value");
 
     })
-    .then(function(dataSnapshot) {
+    .then(function(snapshot) {
 
-      if (dataSnapshot.numChildren() != 0) {
-        defer.resolve(false);
+      if (snapshot.numChildren() != 0) {
+        defer.resolve(REQUEST_NOMATCH);
         return;
       };
 
@@ -120,10 +215,12 @@ angular.module("thehonorclub")
 
     })
     .then(function() {
-      defer.resolve(false);
+
+      defer.resolve(REQUEST_NOMATCH);
       
     })
     .catch(function() {
+      
       defer.reject();
     });
 
