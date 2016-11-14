@@ -69,12 +69,6 @@ td-card img {
   opacity: 100;
   background-color: white;
   height: 50px;
-  border-color: rgb(31, 199, 255);
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-  border-bottom-style: solid;
-  border-left-style: solid;
-  border-right-style: solid;
 }
 
 .badge{

@@ -1,4 +1,4 @@
-angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker", "firebase", "ionic.contrib.ui.tinderCards"])
+angular.module("thehonorclub", ["ionic", "ionic-datepicker",/* "ionic-timepicker",*/ "firebase", "ionic.contrib.ui.tinderCards"])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -14,7 +14,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker",
       StatusBar.styleDefault();
     }
   });
-}).config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider, ionicTimePickerProvider) {
+}).config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider/*, ionicTimePickerProvider*/) {
   // Default state
   //$urlRouterProvider.otherwise('/login');
   $urlRouterProvider.otherwise('/evmtRequest');
@@ -39,6 +39,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker",
   };
   ionicDatePickerProvider.configDatePicker(datePickerObj);
 
+  /*
   // Configure ionic timepicker
   var timePickerObj = {
     inputTime: (((new Date()).getHours() * 60 * 60) + ((new Date()).getMinutes() * 60)),
@@ -48,6 +49,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker",
     closeLabel: 'Close'
   };
   ionicTimePickerProvider.configTimePicker(timePickerObj);
+  */
 
 
 }).directive('noScroll', function() {
