@@ -1,4 +1,7 @@
 angular.module("thehonorclub")
 .factory("$firebaseAuthInstance", function($firebaseAuth) {
-  return $firebaseAuth();
+  var usersRef = firebase.auth();
+  // console.log(usersRef);
+  return $firebaseAuth(usersRef);
+  // return $firebaseAuth();
 });
