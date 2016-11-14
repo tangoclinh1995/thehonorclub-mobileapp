@@ -1,4 +1,4 @@
-angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker", "firebase"])
+angular.module("thehonorclub", ["ionic", "ionic-datepicker",/* "ionic-timepicker",*/ "firebase", "ionic.contrib.ui.tinderCards"])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -14,9 +14,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker",
       StatusBar.styleDefault();
     }
   });
-})
-
-.config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider, ionicTimePickerProvider) {
+}).config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider/*, ionicTimePickerProvider*/) {
   // Default state
   //$urlRouterProvider.otherwise('/login');
   $urlRouterProvider.otherwise('/evmtRequest');
@@ -41,6 +39,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker",
   };
   ionicDatePickerProvider.configDatePicker(datePickerObj);
 
+  /*
   // Configure ionic timepicker
   var timePickerObj = {
     inputTime: (((new Date()).getHours() * 60 * 60) + ((new Date()).getMinutes() * 60)),
@@ -50,6 +49,46 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker",
     closeLabel: 'Close'
   };
   ionicTimePickerProvider.configTimePicker(timePickerObj);
+  */
 
 
-});
+}).directive('noScroll', function() {
+
+  return {
+    restrict: 'A',
+    link: function($scope, $element, $attr) {
+
+      $element.on('touchmove', function(e) {
+        e.preventDefault();
+      });
+    }
+  }
+}).controller('CardsCtrl', function($scope, TDCardDelegate) {
+  var cardTypes = [
+    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/max.jpg', name: 'Andy', skill: 'AngularJS' },
+    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/ben.png', name: 'Bob', skill: 'NodeJS' },
+    { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/perry.jpg', name: 'Charlie', skill: 'Ionic' },
+  ];
+
+  $scope.cardDestroyed = function(index) {
+    $scope.cards.splice(index, 1);
+  };
+
+  $scope.addCard = function() {
+    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+    newCard.id = Math.random();
+    $scope.cards.unshift(angular.extend({}, newCard));
+  }
+
+  $scope.cards = [];
+  for(var i = 0; i < 3; i++) $scope.addCard();
+}).controller('CardCtrl', function($scope, TDCardDelegate) {
+  $scope.cardSwipedLeft = function(index) {
+    console.log('LEFT SWIPE');
+    $scope.addCard();
+  };
+  $scope.cardSwipedRight = function(index) {
+    console.log('RIGHT SWIPE');
+    $scope.addCard();
+  };
+});;
