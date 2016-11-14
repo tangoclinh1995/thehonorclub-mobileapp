@@ -1,16 +1,16 @@
 describe("$recommendationService", function() {
   var TESTING_USER = {
     a: {
-      skills: [],
-      desired_positions: []
+      skills: ["a", "b", "c", "d"],
+      desired_positions: ["a", "b"]
     },
     b: {
-      skills: [],
-      desired_positions: []
+      skills: ["b", "e", "f"],
+      desired_positions: ["c"]
     },
     c: {
-      skills: [],
-      desired_positions: []
+      skills: ["a", "c", "f", "g"],
+      desired_positions: ["b"]
     }
 
   };
@@ -18,12 +18,16 @@ describe("$recommendationService", function() {
   var TESTING_TEAM = {
     x: {
       event_uid: "3",
-      can_add_more: 0,
+      can_add_more: 2,
       skills_needed: {
-
+        "f": 0,
+        "a": 1,
+        "b": 4
       },
       positions_needed: {
-
+        "a": 1,
+        "b": 0,
+        "c": 2
       }
 
     },
@@ -32,19 +36,38 @@ describe("$recommendationService", function() {
       event_uid: "3",
       can_add_more: 0,
       skills_needed: {
-
+        "a": 5,
       },
       positions_needed: {
-
+        "a": 4,
+        "b": 1,
+        "c": 0
       }
 
-    }
+    },
+
+    z: {
+      event_uid: "3",
+      can_add_more: 2,
+      skills_needed: {
+        "c": 5,
+        "g": 0,
+        "a": 2,
+        "b": 3,
+      },
+      positions_needed: {
+        "a": 0,
+        "b": 2,
+        "c": 1
+      }
+
+    },    
 
   };
 
   var TESTING_USER_HAVE_TEAM = {
     "3": {
-      "c": 1
+      "b": 1
     }
 
   };
@@ -55,7 +78,7 @@ describe("$recommendationService", function() {
 
 
 
-  var NEW_TIMEOUT = 5000;
+  var NEW_TIMEOUT = 10000;
   var jasmineDefaultTimeout;
 
   var dbRefUserInfo,
@@ -123,6 +146,11 @@ describe("$recommendationService", function() {
 
   beforeEach(module("thehonorclub"));
 
+  beforeEach(module(function($provide, $urlRouterProvider) {
+    $provide.value("$ionicTemplateCache", function() {});
+    $urlRouterProvider.deferIntercept();
+  }));
+
   beforeEach(inject(function(_$rootScope_, _$recommendationService_) {
     $rootScope = _$rootScope_;
     $recommendationService = _$recommendationService_;
@@ -166,28 +194,43 @@ describe("$recommendationService", function() {
 
 
   
-  describe("recommendTeam", function() {
-    beforeEach(function(done) {
+  it("recommendTeam", function(done) {
+    var countApplyScope = 4;
+    function applyScope() {
+      if (countApplyScope == 0) {
+        return;
+      }
+
+      --countApplyScope;
+      $rootScope.$apply();
+
+      setTimeout(applyScope, 1500);
+    }
+
+    $recommendationService.recommendTeam("a", "3")
+    .then(function(result) {
+      console.log(JSON.stringify(result));
       done();
+    })
+    .catch(function() {
+      fail("Error calling recommendTeam function");
     });
 
-    it("Should return correct list of recommended team", function(done) {
-      done();
-    });
-
+    applyScope();    
   });
 
 
 
-  describe("recommendMember", function() {
-    beforeEach(function(done) {
+  it("recommendMember", function(done) {
+    $recommendationService.recommendMember("x")
+    .then(function(result) {
+      console.log(JSON.stringify(result));
       done();
+    })
+    .catch(function() {
+      fail("Error calling recommendMember function");
     });
 
-    it("Should return correct list of recommended member", function(done) {
-      done();
-    });
-    
-  });  
+  });
 
 });
