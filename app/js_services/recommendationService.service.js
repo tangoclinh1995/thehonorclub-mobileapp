@@ -21,19 +21,27 @@ angular.module("thehonorclub")
   function getAvailTeam(eventUid) {
     var defer = $q.defer();
 
-    var query = dbRefTeam;
-
-    // If eventUid is provided, filter team based on it
-    if (typeof eventUid == "string") {
-      query = query.equalTo("eventUid", eventUid);
-    }
+    var eventUidProvided = (typeof eventUid == "string");
 
     // Only get un-full team, meaning that can_add_more > 1
-    query = query.startAt(1, "can_add_more")
-
-    query.once("value")
+    dbRefTeam.orderByChild("can_add_more").startAt(1, "can_add_more")
+    .once("value")
     .then(function(snapshot) {
-      defer.resolve(snashot.val());      
+      // If eventUid is not provided, then just result the result immediately     
+      if (!eventUidProvided) {
+        defer.resolve(snapshot.val());
+        return;
+      }
+
+      var result = {};
+      snapshot.forEach(function(team) {      
+        if (team.child("eventUid").val() == eventUid) {
+          result[team.key] = team.val();
+        }
+
+      });
+
+      defer.resolve(result);      
     })
     .catch(defer.reject);
 
@@ -99,8 +107,9 @@ angular.module("thehonorclub")
   function getTeamWithRequestSent(userUid) {
     var defer = $q.defer();
 
-    dbRefJoinTeam.
-    equalTo(userUid, "from_user_uid")
+    dbRefJoinTeam
+    .orderByChild("from_user_uid")
+    .equalTo(userUid, "from_user_uid")
     .once("value")
     .then(function(snapshot) {
 
@@ -109,7 +118,6 @@ angular.module("thehonorclub")
       snapsnot.forEach(function(request) {
         result[request.child("to_team_uid").val()] = 1;
       });
-
 
       defer.resolve(result);
 
@@ -126,6 +134,7 @@ angular.module("thehonorclub")
     var defer = $q.defer();
 
     dbRefInviteMember
+    .orderByChild("from_team_uid")
     .equalTo(teamUid, "from_team_uid")
     .once("value")
     .then(function(snapshot) {
@@ -163,7 +172,7 @@ angular.module("thehonorclub")
     var availTeams, teamsWithRequestSent;
 
     dbRefUserInfo.child(userUid)
-    once("value")
+    .once("value")
     .then(function(snapshot) {
       userInfo = snapshot.val();
       next();
@@ -171,14 +180,14 @@ angular.module("thehonorclub")
     .catch(defer.reject);
 
     getAvailTeam(eventUid)
-    .then(function(teams) {
+    .then(function(teams) {    
       availTeams = teams;
       next();
     })
     .catch(defer.reject);
 
     getTeamWithRequestSent(userUid)
-    .then(function(teams) {
+    .then(function(teams) {      
       teamsWithRequestSent = teams;
       next();
     })
@@ -223,7 +232,7 @@ angular.module("thehonorclub")
     var availUsers, userWithRequestSent;
 
     dbRefTeam.child(teamUid)
-    once("value")
+    .once("value")
     .then(function(snapshot) {
       team = snapshot.val();
       next();
