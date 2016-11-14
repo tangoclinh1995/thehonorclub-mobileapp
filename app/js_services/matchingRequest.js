@@ -39,11 +39,11 @@ angular.module("thehonorclub")
   function teamIsFull(teamUid) {
     var defer = $q.defer();
 
-    dbRefTeam.child(teamUid).child("full")
+    dbRefTeam.child(teamUid).child("can_add_more")
     .once("value")
     .then(function(snapshot) {
 
-      if (snapshot.val() == true) {
+      if (snapshot.val() == 0) {
         defer.resolve(true);
       } else {
         defer.resolve(false);
@@ -230,10 +230,10 @@ angular.module("thehonorclub")
 
 
   // Process the success matching between team & member
-  function acceptMatch(teamUid, userUid, eventUid, maxMemberPerTeam) {
+  function acceptMatch(teamUid, userUid, eventUid) {
     var defer = $q.defer();
 
-    var jobRemaining = 7;
+    var jobRemaining = 5;
     function done() {
       --jobRemaining;
       
@@ -275,47 +275,81 @@ angular.module("thehonorclub")
     .then(deleteObjectInSnapshotAndNotify)
     .catch(defer.reject);
 
-    // Add user to team
-    db.child("team").child(teamUid).child("members_uid")
-    .push(userUid)
-    .then(done)
-    .catch(defer.reject);
+    var removeAllTeamMemberInviteRequest = false;
 
     // Add team to user
-    db.child("user_info").child(userUid).child("member_of")
-    .push(teamUid)
-    .then(done)
-    .catch(defer.reject);
+    db.child("user_info").child(userUid).transaction(function(user_info) {
 
-    // Increase team size to 1
-    db.child("team").child("current_size").transaction(function(currentSize) {
-      currentSize += 1;
+      user_info["member_of"][teamUid] = 1;
+      return user_info;
 
-      // If team is now full, delete all relating Team-Joining & Member-Inviting
-      // request relating to the team
-      if (currentSize >= maxMemberPerTeam) {
+    })
+    .then(function(committed, userInfoSnapshot) {
+      userSkills = userInfoSnapshot.child("skills");
+      userDesiredPosition = userInfoSnapshot.child("desired_positions");      
 
-        dbRefInviteMember
-        .equalTo(teamUid, "from_team_uid")
-        .equalTo(eventUid, "event_uid")
-        .once("value")
-        .then(deleteObjectInSnapshotAndNotify)
-        .catch(defer.reject);
+      // Add user to team
+      // Chain to next THEN
+      return dbRefTeam.child(teamUid).transaction(function(team) {
+        // Add user uid to members_uid field
+        team["member_uid"][userUid] = 1;
 
-        dbRefJoinTeam
-        .equalTo(teamUid, "to_team_uid")
-        .equalTo(eventUid, "event_uid")
-        .once("value")
-        .then(deleteObjectInSnapshotAndNotify)
-        .catch(defer.reject);                
-        
+        // Increase current_size field by 1
+        team["current_size"] += 1;
+
+        // Decrease can_add_more field by 1
+        team["can_add_more"] -= 1;
+
+        // If no more member can be added, then we need to delete all
+        // pending Member-Inviting Request of the team
+        if (team["can_add_more"] == 0) {
+          removeAllTeamMemberInviteRequest = true;
+        }
+
+        // Add user skill to team skills_needed
+        for (sk in team["skills_needed"]) {
+          if (userSkills.hasChild(sk)) {
+            team["skills_needed"][sk] += 1;
+          }
+
+        }
+
+        // Add user position to team_positions_needed
+        for (pos in team[positions_needed]) {
+          if (userDesiredPosition.hasChild(pos)) {
+            team[positions_needed][pos] += 1;
+          }
+
+        }
+
+        return team;
+      });
+      
+    })
+    .then(function() {
+      
+      if (removeAllTeamMemberInviteRequest) {
+          dbRefInviteMember
+          .equalTo(teamUid, "from_team_uid")
+          .equalTo(eventUid, "event_uid")
+          .once("value")
+          .then(deleteObjectInSnapshotAndNotify)
+          .catch(defer.reject);
+
+          dbRefJoinTeam
+          .equalTo(teamUid, "to_team_uid")
+          .equalTo(eventUid, "event_uid")
+          .once("value")
+          .then(deleteObjectInSnapshotAndNotify)
+          .catch(defer.reject);
+
       } else {
         done();
         done();
       }
 
-      return currentSize;
-    });
+    })
+    .catch(defer.reject);
 
     return defer.promise();
   };
