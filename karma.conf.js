@@ -25,7 +25,7 @@ module.exports = function(config) {
 
       // Moment.js
       "www/lib/moment/min/moment.min.js",
-
+      
       // Our app's JS files
       "www/app.js",
       "app/js_controllers/*.js",
@@ -46,12 +46,6 @@ module.exports = function(config) {
     preprocessors: {
       "app/js_controllers/*.js": ["coverage"],
       "app/js_services/*.js": ["coverage"],
-      "www/templates/*.html": ["ng-html2js"]
-    },
-
-    ngHtml2JsPreprocessor: {
-      moduleName: 'evmtFormTemplate',
-      stripPrefix: 'www/'
     },
 
     reporters: ["progress", "coverage"],
