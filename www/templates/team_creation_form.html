@@ -1,0 +1,34 @@
+<ion-view view-title="Team Creation">
+  <ion-content ng-controller="TeamCreationCtrl">
+    <form ng-submit="addTeam()">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Team name" ng-model="name" required/>
+      </label>
+      <label class="item item-input">
+        <textarea placeholder="Team Details" ng-model="description" required></textarea>
+      </label>
+      <label class="item item-input">
+        <input placeholder="Skills Needed" type="text" ng-model="newSkill">
+        <button class="button button-positive" ng-click="addSkill()">Add</button>
+      </label>
+      <div ng-repeat="skill in skills">
+        <span class="tag tag-default">{{skill}}</span>
+      </div>
+      <label class="item item-input">
+        <input placeholder="Positions Needed" type="text" ng-model="newPosition">
+        <input placeholder="No. of people" type="number" ng-model="no" min="1">
+        <button class="button button-positive" ng-click="addPosition()">Add</button>
+      </label>
+      <div ng-repeat="(key, value) in positions">
+        <span class="tag tag-default">{{value}} {{key}}</span>
+      </div>
+      <select ng-model="selectedPos" ng-options="p.text for p in positions">
+      </select>
+      <label class="item item-input">
+        <input type="submit" class="button button-block button-positive" value="Submit">
+      </label>
+    </div>
+    </form>
+  </ion-content>
+</ion-view>

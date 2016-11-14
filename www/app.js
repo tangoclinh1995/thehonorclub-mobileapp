@@ -1,4 +1,7 @@
-angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase"])
+angular.module(
+  "thehonorclub",
+  ["ionic", "ionic-datepicker", "ionic-timepicker", "firebase", "ionic.contrib.ui.tinderCards"]
+)
 
 .run(function($ionicPlatform, $rootScope, $state) {
   $ionicPlatform.ready(function() {

@@ -7,8 +7,9 @@
 
     <link rel="manifest" href="manifest.json">
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <!-- CSS & SCSS bundle -->
     <link href="bundle/style.bundle.css" rel="stylesheet">
+    <link href="bundle/scss_style.bundle.css" rel="stylesheet">
 
     <!-- Ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -29,19 +30,23 @@
     <!-- Ionic Datepicker -->
     <script src="lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
 
+    <!-- Ionic Timepicker -->
+    <script src="lib/ionic-timepicker/dist/ionic-timepicker.bundle.min.js"></script>
+
+    <!-- Moment.JS -->
+    <script src="lib/moment/min/moment.min.js"></script>
+
     <!--
       Firebase Initialization script
       Please create a file called firebase_init.js in www directory 
       in the following format:
-
-        firebase.initializeApp({
-          apiKey: <YOUR_API_KEY>,
-          authDomain: <YOUR_AUTH_DOMAIN>,
-          databaseURL: <YOUR_DATABASE_URL>,
-          storageBucket: <YOUR_STORAGE_BUCKET>,
-          messagingSenderId: <YOUR_MESSAGE_SENDER_ID>
-        });
-
+        firebase.initializeApp({
+          apiKey: <YOUR_API_KEY>,
+          authDomain: <YOUR_AUTH_DOMAIN>,
+          databaseURL: <YOUR_DATABASE_URL>,
+          storageBucket: <YOUR_STORAGE_BUCKET>,
+          messagingSenderId: <YOUR_MESSAGE_SENDER_ID>
+        });
       This file is IGNORED by Git, so you need to add it by yourself
       For more information, visit the team's Slack Channel
     -->
@@ -49,11 +54,13 @@
 
     <!-- Your app's js -->
     <script src="app.js"></script>
+
+    <!-- Production -->
     <script src="bundle/routing.bundle.js"></script>
     <script src="bundle/controllers.bundle.js"></script>
     <script src="bundle/services.bundle.js"></script>
   </head>
-  
+
   <body ng-app="thehonorclub">
     <!--
       The nav bar that will be updated as we navigate between views.
@@ -68,5 +75,6 @@
       have templates inline in this html file if you'd like).
     -->
     <ion-nav-view></ion-nav-view>
-  </body>
+  </body>  
+
 </html>
