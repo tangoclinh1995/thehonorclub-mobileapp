@@ -65,7 +65,7 @@ angular.module("thehonorclub")
 
       for (var i = 0, len = teamPositions.length; i < len; ++i) {
         teamPositions[i].weight = maxNum + 1 - teamPositions[i].weight;
-        teamSkillCount += teamSkills[i].weight;  
+        teamPositionCount += teamPositions[i].weight;  
       }
 
       teamSkills.sort(cmpFunc);
