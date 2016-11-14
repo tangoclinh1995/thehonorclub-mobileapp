@@ -1,9 +1,53 @@
 describe("$recommendationService", function() {
-  var TESTING_USER = {};
+  var TESTING_USER = {
+    a: {
+      skills: [],
+      desired_positions: []
+    },
+    b: {
+      skills: [],
+      desired_positions: []
+    },
+    c: {
+      skills: [],
+      desired_positions: []
+    }
 
-  var TESTING_TEAM = {};
+  };
 
-  var TESTING_USER_HAVE_TEAM = {};
+  var TESTING_TEAM = {
+    x: {
+      event_uid: "3",
+      can_add_more: 0,
+      skills_needed: {
+
+      },
+      positions_needed: {
+
+      }
+
+    },
+
+    y: {
+      event_uid: "3",
+      can_add_more: 0,
+      skills_needed: {
+
+      },
+      positions_needed: {
+
+      }
+
+    }
+
+  };
+
+  var TESTING_USER_HAVE_TEAM = {
+    "3": {
+      "c": 1
+    }
+
+  };
 
   var TESTING_JOINTEAM_REQUEST = {};
 
@@ -124,11 +168,11 @@ describe("$recommendationService", function() {
   
   describe("recommendTeam", function() {
     beforeEach(function(done) {
-
+      done();
     });
 
     it("Should return correct list of recommended team", function(done) {
-
+      done();
     });
 
   });
@@ -137,11 +181,11 @@ describe("$recommendationService", function() {
 
   describe("recommendMember", function() {
     beforeEach(function(done) {
-
+      done();
     });
 
     it("Should return correct list of recommended member", function(done) {
-
+      done();
     });
     
   });  
