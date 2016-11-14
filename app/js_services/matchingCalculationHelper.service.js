@@ -13,13 +13,14 @@ angular.module("thehonorclub")
 
 
     return function (user, team) {
-      var mapUserSkills, mapUserPositions;
+      var mapUserSkills = {},
+          mapUserPositions = {};
 
-      for (i in user["skills"]) {
+      for (var i = 0, len = user["skills"].length; i < len; ++i) {
         mapUserSkills[user["skills"][i]] = 1;
       }
 
-      for (i in user["desired_positions"]) {
+      for (var i = 0, len = user["desired_positions"].length; i < len; ++i) {
         mapUserPositions[user["desired_positions"][i]] = 1;
       }
 
@@ -32,29 +33,39 @@ angular.module("thehonorclub")
       var matchSkillScore, matchPositionScore;
 
       var mostMatchedSkills = [],
-        mostMatchedPositions = [];
-      var tmp;
-
+        mostMatchedPositions = [],
+        maxNum;
+      
+      maxNum = 0;
       for (sk in team["skills_needed"]) {
-        tmp = CEIL - team["skills_needed"][sk];
+        maxNum = Math.max(maxNum, team["skills_needed"][sk]);
 
         teamSkills.push({
           name: sk,
-          weight: tmp
+          weight: team["skills_needed"][sk]
         });
 
-        teamSkillCount += tmp;
       }
 
+      for (var i = 0, len = teamSkills.length; i < len; ++i) {
+        teamSkills[i].weight = maxNum + 1 - teamSkills[i].weight;
+        teamSkillCount += teamSkills[i].weight;  
+      }
+
+      maxNum = 0;
       for (pos in team["positions_needed"]) {
-        tmp = CEIL - team["positions_needed"][pos];
+        maxNum = Math.max(maxNum, team["positions_needed"][pos]);
 
         teamPositions.push({
           name: pos,
-          weight: tmp
+          weight: team["positions_needed"][pos]
         });
 
-        teamPositionCount += tmp;
+      }
+
+      for (var i = 0, len = teamPositions.length; i < len; ++i) {
+        teamPositions[i].weight = maxNum + 1 - teamPositions[i].weight;
+        teamSkillCount += teamSkills[i].weight;  
       }
 
       teamSkills.sort(cmpFunc);
