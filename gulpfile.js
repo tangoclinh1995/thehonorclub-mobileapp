@@ -6,6 +6,7 @@ var concat = require('gulp-concat');
 var cleanCss = require('gulp-clean-css');
 var del = require("del");
 var sh = require('shelljs');
+var sass = require('gulp-sass');
 
 var paths = {
   css: "app/css/*.css",
@@ -27,12 +28,20 @@ gulp.task("default", function() {
   runSequence("clean", "build");
 });
 
-gulp.task("css_bundle", function(done) {
+/*gulp.task("css_bundle", function(done) {
   return gulp.src(paths.css)
     .pipe(concat("style.bundle.css"))
     .pipe(cleanCss())
     .pipe(gulp.dest(BUNDLE_DESTINATION))
 
+});*/
+
+gulp.task("css_bundle", function() {
+  gulp.src('scss/**/*.scss')
+      .pipe(sass().on("error", sass.logError))
+      .pipe(concat("style.bundle.css"))
+      .pipe(cleanCss())
+      .pipe(gulp.dest(BUNDLE_DESTINATION));
 });
 
 gulp.task("js_controllers", function(done) {
@@ -58,7 +67,7 @@ gulp.task("js_routing", function(done) {
 
 gulp.task("watch", function() {
   runSequence("clean", "build", function() {
-    gulp.watch("app/**/*", ["build"]);
+    gulp.watch(["app/**/*", "scss/**/*.scss"], ["build"]);
   });
   
 });
