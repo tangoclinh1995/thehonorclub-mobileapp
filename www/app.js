@@ -1,4 +1,4 @@
-angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase", "ionic.contrib.ui.tinderCards"])
+angular.module("thehonorclub", ["ionic", "ionic-datepicker", "ionic-timepicker", "firebase", "ionic.contrib.ui.tinderCards"])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -14,9 +14,41 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase", "ionic.
       StatusBar.styleDefault();
     }
   });
-}).config(function($stateProvider, $urlRouterProvider) {
+}).config(function($stateProvider, $urlRouterProvider, ionicDatePickerProvider, ionicTimePickerProvider) {
   // Default state
-  $urlRouterProvider.otherwise('/login');
+  //$urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/evmtRequest');
+
+  // Configure ionic datepicker
+  var datePickerObj = {
+    inputDate: new Date(),
+    titleLabel: 'Select a Date',
+    setLabel: 'Set',
+    todayLabel: 'Today',
+    closeLabel: 'Close',
+    mondayFirst: false,
+    weeksList: ["S", "M", "T", "W", "T", "F", "S"],
+    monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+    templateType: 'popup',
+    from: new Date(2016, 8, 1),
+    to: new Date(2020, 8, 1),
+    showTodayButton: true,
+    dateFormat: 'dd MMMM yyyy',
+    closeOnSelect: false,
+    disableWeekdays: []
+  };
+  ionicDatePickerProvider.configDatePicker(datePickerObj);
+
+  // Configure ionic timepicker
+  var timePickerObj = {
+    inputTime: (((new Date()).getHours() * 60 * 60) + ((new Date()).getMinutes() * 60)),
+    format: 12,
+    step: 15,
+    setLabel: 'Set',
+    closeLabel: 'Close'
+  };
+  ionicTimePickerProvider.configTimePicker(timePickerObj);
+
 
 }).directive('noScroll', function() {
 
@@ -45,7 +77,7 @@ angular.module("thehonorclub", ["ionic", "ionic-datepicker", "firebase", "ionic.
     newCard.id = Math.random();
     $scope.cards.unshift(angular.extend({}, newCard));
   }
-  
+
   $scope.cards = [];
   for(var i = 0; i < 3; i++) $scope.addCard();
 }).controller('CardCtrl', function($scope, TDCardDelegate) {
