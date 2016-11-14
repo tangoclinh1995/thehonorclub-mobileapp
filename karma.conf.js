@@ -20,6 +20,12 @@ module.exports = function(config) {
       // Ionic Datepicker
       "www/lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js",
 
+      // Ionic Timepicker
+      "www/lib/ionic-timepicker/dist/ionic-timepicker.bundle.min.js",
+
+      // Moment.js
+      "www/lib/moment/min/moment.min.js",
+      
       // Our app's JS files
       "www/app.js",
       "app/js_controllers/*.js",
@@ -29,6 +35,8 @@ module.exports = function(config) {
       // Unit testing files
       "unit_testing/test_controllers/*.js",
       "unit_testing/test_services/*.js",
+
+      "www/templates/*.html"
     ],
 
     // List of files to exclude
@@ -57,7 +65,8 @@ module.exports = function(config) {
     plugins: [
       "karma-chrome-launcher",
       "karma-jasmine",
-      "karma-coverage"
+      "karma-coverage",
+      "karma-ng-html2js-preprocessor"
     ]
 
   })
