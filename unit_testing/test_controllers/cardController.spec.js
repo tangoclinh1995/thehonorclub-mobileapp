@@ -20,7 +20,8 @@ describe("cardController", function () {
           expect(element.preventDefault()).toBeTruthy();
       });
 */
-
+      var compile, scope, directiveElem;
+      
       beforeEach(function() {
 
         inject(function($compile, $rootScope){
@@ -34,42 +35,51 @@ describe("cardController", function () {
 
       function getCompiledElement(){
 
-        var element = angular.element();
-
+        var element = angular.element('<div noScroll></div>');
+        var compiledElement = compile(element)(scope);
+        return compiledElement;
       }
+
+      it('should do something', function () {
+
+          event tm = directiveElem.find('touchmove');
+          $scope.$digest();
+          expect(elem.preventDefault()).toHaveBeenCalled();
+      
+      });
 
     });
 
     describe('Testing the Controller', function () {
 
-      var scope, ctrlr;
+      var ctrlr,scope;
 
-      beforeEach(inject(function($controller,$scope) {
+      beforeEach(inject(function(_CardController_,$rootScope) {
 
-        scope = $scope;
-        ctrlr = $controller('CardController', {$scope:scope});
+        scope = $rootScope.$new();
+        ctrlr = scope._CardController_;
 
       }));
 
       it('should create a deck of 3 cards', function () {
 
-          expect(scope.cards.length).toBe(3);
+          expect(cards.length).toBe(3);
 
       });
 
       it('should add a new card to the deck', function () {
 
-          var x = scope.cards.length;
-          scope.addCard();
-          expect(scope.cards.length).toBe(x+1);
+          var x = cards.length;
+          addCard();
+          expect(cards.length).toBe(x+1);
 
       });
 
       it('should destroy a card', function () {
 
-          var y = scope.cards.length;
-          scope.cardDestroyed();
-          expect(scope.cards.length).toBe(y-1);
+          var y = cards.length;
+          cardDestroyed();
+          expect(cards.length).toBe(y-1);
 
       });
 
@@ -77,27 +87,26 @@ describe("cardController", function () {
 
     describe('Testing the Second Controller', function () {
 
-      var scope, ctrlr2;
+      var ctrlr2;
 
-      beforeEach(inject(function($controller,$rootscope) {
+      beforeEach(inject(function($controller) {
 
-        scope = $rootscope.$new();
-        ctrlr2 = $controller('CardCtrl', {$scope:scope});
+        ctrlr2 = $controller('CardCtrl');
 
-        scope.cards = [];
-        for(var i = 0; i < 3; i++) $scope.addCard();
+        cards = [];
+        for(var i = 0; i < 3; i++) $addCard();
 
       }));
 
       it('should swipe left and add card', function () {
 
-          expect(scope.addCard).toHaveBeenCalled();
+          expect(addCard).toHaveBeenCalled();
 
       });
 
       it('should swipe right and add card', function () {
 
-          expect(scope.addCard).toHaveBeenCalled();
+          expect(addCard).toHaveBeenCalled();
 
       });
 
