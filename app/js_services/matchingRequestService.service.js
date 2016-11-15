@@ -247,36 +247,47 @@ angular.module("thehonorclub")
 
     };
 
-    function deleteObjectInSnapshotAndNotify(snapshot) {
-      snapshot.forEach(function(child) {
-        child.ref.remove();
-      });
+    function deleteObjectInSnapshotAndNotify(conditionalKey, conditionalValue) {
+      var needComparison = typeof conditionalKey == "string" && typeof conditionalValue != "undefined";
 
-      done();
+      return function(snapshot) {
+        snapshot.forEach(function(snapshotChild) {
+          if (
+            !needComparison ||
+            (needComparison && snapshotChild.child(conditionalKey).val() == conditionalValue)
+          ) {
+            snapshotChild.ref.remove();  
+          }
+          
+        });
+
+        done();
+      }
+
     }
 
     // Delete all Team-Joining request of the user in the event
-    dbRefJoinTeam
-    .equalTo(userUid, "from_user_uid")
-    .equalTo(eventUid, "event_uid")
-    .once("value")
-    .then(deleteObjectInSnapshotAndNotify)
+    $timeoutFirebaseOnceQuery(
+      dbRefJoinTeam.orderByChild("from_user_uid").equalTo(userUid),
+      "value"
+    )
+    .then(deleteObjectInSnapshotAndNotify("event_uid", eventUid))
     .catch(defer.reject);
 
     // Delete all Member-Inviting request relating to the user in the event
-    dbRefInviteMember
-    .equalTo(userUid, "to_member_uid")
-    .equalTo(eventUid, "event_uid")
-    .once("value")
-    .then(deleteObjectInSnapshotAndNotify)
+    $timeoutFirebaseOnceQuery(
+      dbRefInviteMember.orderByChild("to_member_uid").equalTo(userUid),
+      "value"
+    )
+    .then(deleteObjectInSnapshotAndNotify("event_uid", eventUid))
     .catch(defer.reject);
 
     // Delete Member-Inviting Request of the team to the user
-    dbRefInviteMember
-    .equalTo(teamUid, "from_team_uid")
-    .equalTo(memberUid, "to_member_uid")
-    .once("value")    
-    .then(deleteObjectInSnapshotAndNotify)
+    $timeoutFirebaseOnceQuery(
+      dbRefInviteMember.orderByChild("from_team_uid").equalTo(teamUid),
+      "value"
+    )
+    .then(deleteObjectInSnapshotAndNotify("to_member_uid", memberUid))
     .catch(defer.reject);
 
     var removeAllTeamMemberInviteRequest = false;
@@ -333,19 +344,19 @@ angular.module("thehonorclub")
     .then(function() {
       
       if (removeAllTeamMemberInviteRequest) {
-          dbRefInviteMember
-          .equalTo(teamUid, "from_team_uid")
-          .equalTo(eventUid, "event_uid")
-          .once("value")
-          .then(deleteObjectInSnapshotAndNotify)
-          .catch(defer.reject);
+        $timeoutFirebaseOnceQuery(
+          dbRefInviteMember.orderByChild("from_team_uid").equalTo(teamUid),
+          "value"          
+        )
+        .then(deleteObjectInSnapshotAndNotify("event_uid", eventUid))
+        .catch(defer.reject);
 
-          dbRefJoinTeam
-          .equalTo(teamUid, "to_team_uid")
-          .equalTo(eventUid, "event_uid")
-          .once("value")
-          .then(deleteObjectInSnapshotAndNotify)
-          .catch(defer.reject);
+        $timeoutFirebaseOnceQuery(
+          dbRefJoinTeam.orderByChild("to_team_uid").equalTo(teamUid),
+          "value"
+        )
+        .then(deleteObjectInSnapshotAndNotify("event_uid", eventUid))
+        .catch(defer.reject);
 
       } else {
         done();
