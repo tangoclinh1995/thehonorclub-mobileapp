@@ -60,13 +60,13 @@ angular.module("thehonorclub")
 
 
   function joinTeamRequestObjKey(fromUserUid, toTeamUid) {
-    return fromUserUid + " >> " + toTeamUid;
+    return fromUserUid + " <=> " + toTeamUid;
   }
 
 
 
   function inviteMemberRequestObjKey(fromTeamUid, toMemberUid) {
-    return fromTeamUid + " >> " + toMemberUid;
+    return fromTeamUid + " <=> " + toMemberUid;
   }
 
 
