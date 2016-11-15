@@ -1,23 +1,41 @@
 describe("EventRequestCtrl", function() {
   var $scope;
 
-  beforeAll(function() {
-    firebase.initializeApp({
-      apiKey: "AIzaSyCbp4SaA4QXRfZG63iN40wFRvvC6L89MBE",
-      authDomain: "comp3111h-95365.firebaseapp.com",
-      databaseURL: "https://comp3111h-95365.firebaseio.com",
-      storageBucket: "comp3111h-95365.appspot.com",
-      messagingSenderId: "588844821215"
+  beforeAll(function(done) {
+    function initializeFirebase() {
+      firebase.initializeApp({
+        apiKey: "AIzaSyCbp4SaA4QXRfZG63iN40wFRvvC6L89MBE",
+        authDomain: "comp3111h-95365.firebaseapp.com",
+        databaseURL: "https://comp3111h-95365.firebaseio.com",
+        storageBucket: "comp3111h-95365.appspot.com",
+        messagingSenderId: "588844821215"
+      });
+            
+    };
+
+    try {
+      firebase.app();
+    } catch (exception) {
+      initializeFirebase();
+      done();
+
+      return;
+    }
+
+    firebase.app().delete().then(function() {
+      initializeFirebase();
+      done();
     });
+
   });
 
   beforeEach(module("thehonorclub"));
-  beforeEach(module("evmtFormTemplate"));
+  //beforeEach(module("evmtFormTemplate"));
 
-  /*beforeEach(module(function($provide, $urlRouterProvider) {
+  beforeEach(module(function($provide, $urlRouterProvider) {
     $provide.value('$ionicTemplateCache', function() {});
     $urlRouterProvider.deferIntercept();
-  }));*/
+  }));
 
   beforeEach(inject(function(_$rootScope_, _$controller_, _ionicTimePicker_, _ionicDatePicker_, _$q_, $ionicTemplateCache, $httpBackend) {
     //var request = new XMLHttpRequest();
@@ -74,6 +92,8 @@ describe("EventRequestCtrl", function() {
     $scope.endTime  = '16:00';
     $scope.minSize = 3;
     $scope.maxSize = 7;
+    $scope.email = 'randome@gmail.com';
+    $scope.location = 'Hong Kong University of Science and Technology'
 
     $scope.addEvent();
 
@@ -84,7 +104,8 @@ describe("EventRequestCtrl", function() {
       expect(data.val().timestamp_end).toBe(1465747200);
       expect(data.val().min_member_per_team).toBe(3);
       expect(data.val().max_member_per_team).toBe(7);
-
+      expect(data.val().email).toBe('randome@gmail.com');
+      expect(data.val().location).toBe('Hong Kong University of Science and Technology');
     })
 
   });

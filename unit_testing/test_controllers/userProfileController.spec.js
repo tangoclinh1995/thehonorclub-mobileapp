@@ -23,13 +23,30 @@ describe("userProfileController", function() {
 
   var userInfo, loadedDefer, saveDefer;
 
-  beforeAll(function() {
-    firebase.initializeApp({
-      apiKey: "fakeapikey",
-      authDomain: "fakeauthdomain.fakefirebaseapp.com",
-      databaseURL: "https://fakeauthdomain.fakefirebaseapp.com",
-      storageBucket: "fakeauthdomain.fakeappspot.com",
-      messagingSenderId: "fakemsgid"      
+  beforeAll(function(done) {
+    function initializeFirebase() {
+      firebase.initializeApp({
+        apiKey: "fakeapikey",
+        authDomain: "fakeauthdomain.fakefirebaseapp.com",
+        databaseURL: "https://fakeauthdomain.fakefirebaseapp.com",
+        storageBucket: "fakeauthdomain.fakeappspot.com",
+        messagingSenderId: "fakemsgid"      
+      });
+
+    };
+
+    try {
+      firebase.app();
+    } catch (exception) {
+      initializeFirebase();
+      done();
+
+      return;
+    }
+
+    firebase.app().delete().then(function() {
+      initializeFirebase();
+      done();
     });
 
   });

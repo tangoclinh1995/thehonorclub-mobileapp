@@ -103,7 +103,9 @@ angular.module("thehonorclub")
       timestamp_begin: startTimeStamp,
       timestamp_end: endTimeStamp,
       min_member_per_team: $scope.minSize,
-      max_member_per_team: $scope.maxSize
+      max_member_per_team: $scope.maxSize,
+      email: $scope.email,
+      location: $scope.location
     });
 
   };
