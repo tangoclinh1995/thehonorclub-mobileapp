@@ -29,7 +29,7 @@ describe("cardController", function () {
       beforeEach(inject(function($controller,$rootscope) {
 
         scope = $rootscope.$new();
-        controller = $controller('CardController', {$scope:scope});
+        ctrlr = $controller('CardController', {$scope:scope});
 
       }));
 
@@ -52,6 +52,34 @@ describe("cardController", function () {
           var y = scope.cards.length;
           scope.cardDestroyed();
           expect(scope.cards.length).toBe(y-1);
+
+      });
+
+    });
+
+    describe('Testing the Second Controller', function () {
+
+      var scope, ctrlr2;
+
+      beforeEach(inject(function($controller,$rootscope) {
+
+        scope = $rootscope.$new();
+        ctrlr2 = $controller('CardCtrl', {$scope:scope});
+
+        scope.cards = [];
+        for(var i = 0; i < 3; i++) $scope.addCard();
+
+      }));
+
+      it('should swipe left and add card', function () {
+
+          expect(scope.addCard).toHaveBeenCalled();
+
+      });
+
+      it('should swipe right and add card', function () {
+
+          expect(scope.addCard).toHaveBeenCalled();
 
       });
 
