@@ -11,6 +11,9 @@
     "angular-animate": "1.5.3",
     "angular-sanitize": "1.5.3",
     "ionic-ion-tinder-cards": "ionic-contrib-tinder-cards#*",
-    "ionic-datepicker": "^1.2.1"
+    "ionic-datepicker": "^1.2.1",
+    "ionic-timepicker": "^0.6.0",
+    "ng-cordova-oauth": "^0.2.10",
+    "moment": "^2.16.0"
   }
 }
