@@ -10,7 +10,6 @@ angular.module("thehonorclub")
         console.log('Time not selected');
       } else {
         var selectedTime = new Date(val * 1000);
-        console.log(selectedTime);
         $scope.startTime = moment.utc(selectedTime).format("HH:mm");
       }
     },
@@ -25,7 +24,6 @@ angular.module("thehonorclub")
         console.log('Time not selected');
       } else {
         var selectedTime = new Date(val * 1000);
-        console.log(selectedTime);
         $scope.endTime = moment.utc(selectedTime).format("HH:mm");
       }
     },
@@ -38,7 +36,6 @@ angular.module("thehonorclub")
   var startDateObj = {
     callback: function (val) {  //Mandatory
       var selectedStartDate = new Date(val);
-      console.log(selectedStartDate);
       $scope.startDate = moment.utc(selectedStartDate).format("YYYY-MM-DD");
     },
     from: new Date(2016, 1, 1), //Optional
@@ -93,8 +90,6 @@ angular.module("thehonorclub")
     var startTimeStamp = moment.utc($scope.startDate, "YYYY-MM-DD Z").add(moment.duration($scope.startTime)).unix();
     //var startTimeStamp = moment($scope.startDate, "YYYY-MM-DD Z").unix();
     var endTimeStamp = moment.utc($scope.endDate, "YYYY-MM-DD Z").add(moment.duration($scope.endTime)).unix();
-    console.log(startTimeStamp);
-    console.log(endTimeStamp);
 
     var newEventRef = firebase.database().ref().child("event").push();
     newEventRef.set({
