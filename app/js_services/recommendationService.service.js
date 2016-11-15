@@ -1,5 +1,5 @@
 angular.module("thehonorclub")
-.factory("$recommendationService", function($q, $matchingCalculationHelper) {
+.factory("$recommendationService", function($q, $timeoutFirebaseOnceQuery, $matchingCalculationHelper) {
   var db = firebase.database().ref();
   
   var dbRefTeam = db.child("team");
@@ -24,8 +24,10 @@ angular.module("thehonorclub")
     var eventUidProvided = (typeof eventUid == "string");
 
     // Only get un-full team, meaning that can_add_more > 1
-    dbRefTeam.orderByChild("can_add_more").startAt(1, "can_add_more")
-    .once("value")
+    $timeoutFirebaseOnceQuery(
+      dbRefTeam.orderByChild("can_add_more").startAt(1),
+      "value"
+    )
     .then(function(snapshot) {
       // If eventUid is not provided, then just result the result immediately     
       if (!eventUidProvided) {
@@ -68,8 +70,7 @@ angular.module("thehonorclub")
     var mapUserHaveTeam;
     var mapUserInfo;
 
-    dbRefUserHaveTeam.child(eventUid)
-    .once("value")
+    $timeoutFirebaseOnceQuery(dbRefUserHaveTeam.child(eventUid), "value")
     .then(function(snapshot) {
       mapUserHaveTeam = snapshot.val();
       next();      
@@ -107,10 +108,13 @@ angular.module("thehonorclub")
   function getTeamWithRequestSent(userUid) {
     var defer = $q.defer();
 
-    dbRefJoinTeam
-    .orderByChild("from_user_uid")
-    .equalTo(userUid, "from_user_uid")
-    .once("value")
+    
+    $timeoutFirebaseOnceQuery(
+      dbRefJoinTeam
+      .orderByChild("from_user_uid")
+      .equalTo(userUid),
+      "value"
+    )
     .then(function(snapshot) {
 
       var result = {};
@@ -133,10 +137,10 @@ angular.module("thehonorclub")
   function getUserWithRequestSent(teamUid) {
     var defer = $q.defer();
 
-    dbRefInviteMember
-    .orderByChild("from_team_uid")
-    .equalTo(teamUid, "from_team_uid")
-    .once("value")
+    $timeoutFirebaseOnceQuery(
+      dbRefInviteMember.orderByChild("from_team_uid").equalTo(teamUid),
+      "value"
+    )
     .then(function(snapshot) {
 
       var result = {};
