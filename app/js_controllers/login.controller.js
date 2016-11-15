@@ -24,8 +24,20 @@ angular.module('thehonorclub')
 	
 	$scope.login = function() {
 		var provider = new firebase.auth.FacebookAuthProvider();
-		firebase.auth().signInWithRedirect(provider);
-		firebase.auth().getRedirectResult().then(function(result) {
+		// firebase.auth().signInWithRedirect(provider);
+		// firebase.auth().getRedirectResult().then(function(result) {
+
+		//   // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+		//   var token = result.credential.accessToken;
+
+		//   signInUser = result.user;
+
+  //     // Check whether this is first time user
+  //     // Chain to NEXT THEN
+  //     return dbRefUserInfo.child(signInUser.uid).once("value");
+
+		// })
+    firebase.auth().signInWithPopup(provider).then(function(result) {
 
 		  // This gives you a Facebook Access Token. You can use it to access the Facebook API.
 		  var token = result.credential.accessToken;
@@ -37,18 +49,6 @@ angular.module('thehonorclub')
       return dbRefUserInfo.child(signInUser.uid).once("value");
 
 		})
-    // firebase.auth().signInWithPopup(provider).then(function(result) {
-
-		  // // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-		  // var token = result.credential.accessToken;
-
-		  // signInUser = result.user;
-
-    //   // Check whether this is first time user
-    //   // Chain to NEXT THEN
-    //   return dbRefUserInfo.child(signInUser.uid).once("value");
-
-		// })
     .then(function(snapshot) {
 
       // The path user_info/<USER_UID> does not exist, so this is first time user
