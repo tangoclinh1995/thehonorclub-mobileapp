@@ -15,17 +15,17 @@ angular.module("thehonorclub")
 
     var defer = $q.defer();
 
-    $timeout(function() {
-      defer.resolve(EMPTY_DATASNAPSHOT);
-    }, interval);
-
     query.once(eventType)
-    .then(function(snapshot) {
-      defer.resolve(snapshot);
+    .then(function(data) {
+      defer.resolve(data);
     })
     .catch(function(error) {
       defer.reject(error);
     });
+
+    $timeout(function() {
+      defer.resolve(EMPTY_DATASNAPSHOT);
+    }, interval);    
 
     return defer.promise;
   }
