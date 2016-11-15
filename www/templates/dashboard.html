@@ -8,41 +8,41 @@
           <!--list events that user is leader of -->
           <div ng-repeat="(l_team, value) in userInfo.leader_of" >
             <ion-item class="item-stable"
-                      ng-click="toggleEvent(team[l_team])"
-                      ng-class="{active: isTeamShown(team[l_team])}">
-              <i class="icon" ng-class="isTeamShown(team[l_team]) ? 'ion-minus' : 'ion-plus'"></i>
+                      ng-click="toggleEvent(teamInfo[l_team])"
+                      ng-class="{active: isTeamShown(teamInfo[l_team])}">
+              <i class="icon" ng-class="isTeamShown(teamInfo[l_team]) ? 'ion-minus' : 'ion-plus'"></i>
               &nbsp;
-              {{event[team[l_team].event_uid].name}}
+              {{eventInfo[teamInfo[l_team].event_uid].name}}
               <span class="item-note">Leader</span>
               <i class="icon ion-android-star"></i>
             </ion-item>
             
             <!-- list of members -->
             <ion-item class="item-accordion"
-                    ng-repeat="(m_id, value) in team[l_team].members_uid"
-                    ng-show="isTeamShown(team[l_team])">
-              {{user_info[m_id].name}}
+                    ng-repeat="(m_id, value) in teamInfo[l_team].members_uid"
+                    ng-show="isTeamShown(teamInfo[l_team])">
+              {{allUserInfo[m_id].name}}
             </ion-item>
           </div>
 
 
           <!--list events that user is member of -->
-          <div ng-repeat="(m_team, value) in member_of" >
+          <div ng-repeat="(m_team, value) in userInfo.member_of" >
             <ion-item class="item-stable"
-                      ng-click="toggleEvent(team[m_team])"
-                      ng-class="{active: isTeamShown(team[m_team])}">
-              <i class="icon" ng-class="isTeamShown(team[m_team]) ? 'ion-minus' : 'ion-plus'"></i>
+                      ng-click="toggleEvent(teamInfo[m_team])"
+                      ng-class="{active: isTeamShown(teamInfo[m_team])}">
+              <i class="icon" ng-class="isTeamShown(teamInfo[m_team]) ? 'ion-minus' : 'ion-plus'"></i>
               &nbsp;
-              {{event[team[m_team].event_uid].name}}
+              {{eventInfo[teamInfo[m_team].event_uid].name}}
               <span class="item-note">Member</span>
               <i class="icon ion-android-contacts"></i>
             </ion-item>
             
             <!-- list of members -->
             <ion-item class="item-accordion"
-                    ng-repeat="(m_id, value) in team[m_team].members_uid"
-                    ng-show="isTeamShown(team[m_team])">
-              {{user_info[m_id].name}}
+                    ng-repeat="(m_id, value) in teamInfo[m_team].members_uid"
+                    ng-show="isTeamShown(teamInfo[m_team])">
+              {{allUserInfo[m_id].name}}
             </ion-item>
           </div>
       </ion-list>
