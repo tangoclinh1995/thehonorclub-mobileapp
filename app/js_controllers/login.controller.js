@@ -1,8 +1,7 @@
 angular.module('thehonorclub')
 .controller('loginController', ['$scope', '$state', '$stateParams', 'Auth', function ($scope, $state, $stateParams, Auth) {
 
-	// console.log(firebase.auth());
-	// console.log($scope.authData);
+	// Sign out
 	// firebase.auth().signOut().then(function() {
 	//   // Sign-out successful.
 	//   console.log("signed out");
@@ -11,11 +10,11 @@ angular.module('thehonorclub')
 	//   // An error happened.
  //  	console.error(error);
 	// });
-	// console.log($firebaseAuthInstance.auth._._auth.currentUser);
-  // firebase.database().ref().push(firebase.auth().currentUser.providerData);
 
-  console.log(Auth.auth);
-
+	$scope.requestEvent = function() {
+		$state.go('evmtRequest');
+	}
+	
 	$scope.login = function() {
 		var provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -74,6 +73,6 @@ angular.module('thehonorclub')
   // 		}
   //   });
 
-  }; //$scope.login
+  }; // END of $scope.login
 
 }]);
