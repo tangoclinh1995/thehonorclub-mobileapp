@@ -1,5 +1,5 @@
 angular.module("thehonorclub")
-.factory("$matchingRequest", function($q) {
+.factory("$matchingRequestService", function($q, $timeoutFirebaseOnceQuery) {
   var REQUEST_MATCH = 1;
   var REQUEST_NOMATCH = 2;
   var REQUEST_INVALID = 3;
@@ -15,17 +15,19 @@ angular.module("thehonorclub")
 
 
 
-  function userInTeam(userUid, eventUid) {
+  function userHaveTeam(userUid, eventUid) {
     var defer = $q.defer();
 
-    dbRefUserHaveTeam.child(eventUid).child(userUid)
-    .once("value")
+    $timeoutFirebaseOnceQuery(
+      dbRefUserHaveTeam.child(eventUid).child(userUid),
+      "value"
+    )    
     .then(function(snapshot) {
 
-      if (snapshot == null) {
-        defer.resolve(false);
+      if (snapshot.exists()) {
+        defer.resolve(true);        
       } else {
-        defer.resolve(true);
+        defer.resolve(false);
       }
 
     })
@@ -57,27 +59,34 @@ angular.module("thehonorclub")
 
 
 
+  function joinTeamRequestObjKey(fromUserUid, toTeamUid) {
+    return fromUserUid + " >> " + toTeamUid;
+  }
+
+
+
+  function inviteMemberRequestObjKey(fromTeamUid, toMemberUid) {
+    return fromTeamUid + " >> " + toMemberUid;
+  }
+
+
+
   function joinTeamRequest(fromUserUid, toTeamUid, eventUid) {
     var defer = $q.defer();
     
+    var joinTeamObjKey = joinTeamRequestObjKey(fromUserUid, toTeamUid),
+        inviteMemberObjKey = inviteMemberObjKey(toTeamUid, fromUserUid);
+    
     // This is used to check if a similar Team-Joining Request has already been issued
-    var queryExist =
-      dbRefJoinTeam
-      .equalTo(fromUserUid, "from_user_uid")
-      .equalTo(toTeamUid, "to_team_uid")
-      .limitToFirst(1);
+    var queryExist = dbRefJoinTeam.ref(joinTeamObjKey);
 
     // This is used to check if a Member-Invitation Request (with similar team uid, user uid)
     // has already been issue
     // If there is, then IT'S A MATCH
-    var reverseQueryExist =
-      dbRefInviteMember
-      .equalTo(toTeamUid, "from_team_uid")
-      .equalTo(fromUserUid, "to_member_uid")
-      .limitToFirst(1);
+    var reverseQueryExist = dbRefInviteMember.ref(inviteMemberObjKey);
     
     // Check whether user has already had a team
-    userInTeam(fromUserUid, eventUid)
+    userHaveTeam(fromUserUid, eventUid)
     .then(function(hasTeam) {
 
       // If he/she already has a team, then cannot perform this request
@@ -101,13 +110,13 @@ angular.module("thehonorclub")
 
       // Otherwise, check whether reverse request exists
       // Chain this to NEXT THEN
-      return reverseQueryExist.once("value") 
+      return reverseQueryExist.once("value")
 
     })
     .then(function(snapshot) {
 
       // A reverse request exists, meaning that IT'S A MATCH
-      if (snapshot.numChildren() != 0) {
+      if (snapshot.exists()) {
         defer.resolve(REQUEST_MATCH);
         return;
       }
@@ -120,14 +129,14 @@ angular.module("thehonorclub")
     .then(function(snapshot) {
 
       // The similar request exists, no need to add a new request
-      if (snapshot.numChildren() != 0) {
+      if (snapshot.exists()) {
         defer.resolve(REQUEST_NOMATCH);
         return;
       };
 
       // Otherwise, add a new Team-Joining request
       // Chain this to NEXT THEN
-      return dbRefJoinTeam.push({
+      return dbRefJoinTeam.ref(joinTeamRequestObjKey).set({
         from_user_uid: fromUserUid,
         to_team_uid: toTeamUid,
         event_uid: eventUid
@@ -153,20 +162,15 @@ angular.module("thehonorclub")
   // This function is just an opposite of joinTeamRequest function
   function inviteMember(fromTeamUid, toMemberUid, eventUid) {
     var defer = $q.defer();
+
+    var inviteMemberObjKey = inviteMemberRequestObjKey(fromTeamUid, toMemberUid),
+        joinTeamObjKey = joinTeamRequestObjKey(toMemberUid, fromTeamUid);
     
-    var queryExist =
-      dbRefInviteMember
-      .equalTo(fromTeamUid, "from_team_uid")
-      .equalTo(toMemberUid, "to_member_uid")
-      .limitToFirst(1);
+    var queryExist = dbRefInviteMember.ref(inviteMemberObjKey);
 
-    var reverseQueryExist =
-      dbRefJoinTeam
-      .equalTo(toMemberUid, "from_user_uid")
-      .equalTo(fromTeamUid, "to_team_uid")
-      .limitToFirst(1);
+    var reverseQueryExist = dbRefJoinTeam.ref(joinTeamObjKey);
 
-    userInTeam(toMemberUid, eventUid)
+    userHaveTeam(toMemberUid, eventUid)
     .then(function(hasTeam) {
 
       if (hasTeam) {
@@ -190,7 +194,7 @@ angular.module("thehonorclub")
     .then(function(snapshot) {
 
       // IT'S A MATCH
-      if (snapshot.numChildren() != 0) {
+      if (snapshot.exists()) {
         defer.resolve(REQUEST_MATCH);
         return;
       }
@@ -200,14 +204,14 @@ angular.module("thehonorclub")
     })
     .then(function(snapshot) {
 
-      if (snapshot.numChildren() != 0) {
+      if (snapshot.exists()) {
         defer.resolve(REQUEST_NOMATCH);
         return;
       };
 
       // Otherwise, add a new Member-Invitation request
       // Chain this to NEXT THEN
-      return dbRefInviteMember.push({
+      return dbRefInviteMember.ref(inviteMemberObjKey).set({
         from_team_uid: fromTeamUid,
         to_member_uid: toMemberUid,
         event_uid: eventUid

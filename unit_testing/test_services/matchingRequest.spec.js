@@ -1,4 +1,4 @@
-describe("$matchingRequest", function() {
+describe("$matchingRequestService", function() {
   var TESTING_JOINTEAM_REQUEST = {
     "0": {
       from_user_uid: "1",
