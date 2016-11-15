@@ -12,9 +12,6 @@ angular.module("thehonorclub")
   $scope.addSkill = function() {
     $scope.newSkill = $tagStandardizeHelper($scope.newSkill);
 
-    console.log($scope.newSkill);
-    console.log(userInfo.skills);
-
     // Check if current user has the skill tag added
     if (userInfo.skills.indexOf($scope.newSkill) !== -1) {
       $scope.skills[$scope.newSkill] = 1;
