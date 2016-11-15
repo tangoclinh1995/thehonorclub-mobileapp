@@ -58,15 +58,9 @@ angular.module("thehonorclub")
   }
 
 
-
-  function joinTeamRequestObjKey(fromUserUid, toTeamUid) {
-    return fromUserUid + " <=> " + toTeamUid;
-  }
-
-
-
-  function inviteMemberRequestObjKey(fromTeamUid, toMemberUid) {
-    return fromTeamUid + " <=> " + toMemberUid;
+  
+  function requestObjKey(uidX, uidY) {
+    return uidX + " <=> " + uidY;
   }
 
 
@@ -74,7 +68,7 @@ angular.module("thehonorclub")
   function joinTeamRequest(fromUserUid, toTeamUid, eventUid) {
     var defer = $q.defer();
     
-    var joinTeamObjKey = joinTeamRequestObjKey(fromUserUid, toTeamUid),
+    var joinTeamObjKey = requestObjKey(fromUserUid, toTeamUid),
         inviteMemberObjKey = inviteMemberObjKey(toTeamUid, fromUserUid);
     
     // This is used to check if a similar Team-Joining Request has already been issued
@@ -136,7 +130,7 @@ angular.module("thehonorclub")
 
       // Otherwise, add a new Team-Joining request
       // Chain this to NEXT THEN
-      return dbRefJoinTeam.ref(joinTeamRequestObjKey).set({
+      return dbRefJoinTeam.ref(requestObjKey).set({
         from_user_uid: fromUserUid,
         to_team_uid: toTeamUid,
         event_uid: eventUid
@@ -163,8 +157,8 @@ angular.module("thehonorclub")
   function inviteMember(fromTeamUid, toMemberUid, eventUid) {
     var defer = $q.defer();
 
-    var inviteMemberObjKey = inviteMemberRequestObjKey(fromTeamUid, toMemberUid),
-        joinTeamObjKey = joinTeamRequestObjKey(toMemberUid, fromTeamUid);
+    var inviteMemberObjKey = requestObjKey(fromTeamUid, toMemberUid),
+        joinTeamObjKey = requestObjKey(toMemberUid, fromTeamUid);
     
     var queryExist = dbRefInviteMember.ref(inviteMemberObjKey);
 
