@@ -9,6 +9,8 @@ angular.module("thehonorclub")
   var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
   var allUserInfo = $firebaseObject(databaseRef.child("user_info"));
   var eventInfo = $firebaseObject(databaseRef.child("event"));
+  var teamInfo = $firebaseObject(databaseRef.child("team"));   
+
 
 
   $scope.toggleEvent = function(team) {
