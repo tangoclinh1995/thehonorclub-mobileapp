@@ -193,23 +193,58 @@ describe("$recommendationService", function() {
 
 
 
-  
-  it("recommendTeam", function(done) {
-    var countApplyScope = 4;
-    function applyScope() {
-      if (countApplyScope == 0) {
+  function applyScope() {
+    var applyScopeIntervalHandler;
+    var countTick = 5;
+
+    function doTick() {
+      if (countTick == 0) {
+        clearInterval(applyScopeIntervalHandler);
         return;
       }
 
-      --countApplyScope;
+      --countTick;
       $rootScope.$apply();
-
-      setTimeout(applyScope, 1500);
     }
+
+    applyScopeIntervalHandler = setInterval(doTick, 1500);
+  }
+
+
+  
+  it("recommendTeam", function(done) {
+    var testResult = [
+      {
+        "matching_score": 68,
+        "most_matched_skills": [
+          "a",
+          "b"
+        ],
+        "most_matched_positions": [
+          "b",
+          "a"
+        ],
+        "team_uid": "x",
+        "event_uid": "3"
+      },
+      {
+        "matching_score": 62,
+        "most_matched_skills": [
+          "a",
+          "b"
+        ],
+        "most_matched_positions": [
+          "a",
+          "b"
+        ],
+        "team_uid": "z",
+        "event_uid": "3"
+      }
+    ];
 
     $recommendationService.recommendTeam("a", "3")
     .then(function(result) {
-      console.log(JSON.stringify(result));
+      expect(result).toEqual(testResult);
       done();
     })
     .catch(function() {
@@ -222,15 +257,30 @@ describe("$recommendationService", function() {
 
 
   it("recommendMember", function(done) {
+    var testResult = [
+      {
+        "matching_score": 36,
+        "most_matched_skills": [
+          "f",
+          "b"
+        ],
+        "most_matched_positions": [
+          "c"
+        ],
+        "member_uid": "b"
+      }      
+    ];
+
     $recommendationService.recommendMember("x")
     .then(function(result) {
-      console.log(JSON.stringify(result));
+      expect(result).toEqual(testResult);
       done();
     })
     .catch(function() {
       fail("Error calling recommendMember function");
     });
 
+    applyScope();
   });
 
 });
