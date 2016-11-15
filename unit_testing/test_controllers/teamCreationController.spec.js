@@ -90,7 +90,7 @@ describe("TeamCreationCtrl", function() {
         photoURL: TESTUSER_INFO.photoURL,
         bio: TESTUSER_INFO.bio,
 
-        skills: {},
+        skills: TESTUSER_INFO.skills,
         desired_positions: {},
 
         leader_of: TESTUSER_INFO.leader_of,
@@ -122,7 +122,7 @@ describe("TeamCreationCtrl", function() {
     _$controller_("TeamCreationCtrl", {
       $scope: $scope,
       $state: _$state_,
-      $firebaseObject: _$firebaseObject_,
+      $firebaseObject: $firebaseObject,
       $firebaseAuthInstance: $firebaseAuthInstance,
       $ionicLoading: _$ionicLoading_,
       $tagStandardizeHelper: _$tagStandardizeHelper_
@@ -130,20 +130,28 @@ describe("TeamCreationCtrl", function() {
 
     //$httpBackend.expectGET("templates/evmt_form.html").respond(evmt_form);
 
+    loadedDefer.resolve();
     $scope.$apply();
   }));
 
-  it("Testing $scope.addSkill", function() {
+  it("Testing $scope.addSkill, current user does not posesss the skill", function() {
     $scope.newSkill = '  Python Coding  ';
     $scope.addSkill();
-    expect($scope.skills).toEqual(['python coding']);
+    expect($scope.skills['python coding']).toEqual(0);
+    expect($scope.newSkill).toEqual('');
+  });
+
+  it("Testing $scope.addSkill, current user posessses the skill", function() {
+    $scope.newSkill = '  C++ ';
+    $scope.addSkill();
+    expect($scope.skills['c++']).toEqual(1);
     expect($scope.newSkill).toEqual('');
   });
 
   it("Testing $scope.removeSkill", function() {
-    $scope.skills = ['java programming', 'python coding'];
-    $scope.removeSkill(0);
-    expect($scope.skills).toEqual(['python coding']);
+    $scope.skills = {'java programming': 0, 'python coding': 1};
+    $scope.removeSkill('java programming');
+    expect($scope.skills).toEqual({'python coding': 1});
   });
 
   it("Testing $scope.addPosition", function() {
@@ -165,7 +173,7 @@ describe("TeamCreationCtrl", function() {
   it("Saving team to firebase", function() {
     $scope.name = 'UnitTestTeam';
     $scope.description =  'Unit Testing for Team Creation';
-    $scope.skills = ['java programming', 'python coding'];
+    $scope.skills = {'java programming': 0, 'python coding': 1};
 
     $scope.addTeam();
 
@@ -173,7 +181,7 @@ describe("TeamCreationCtrl", function() {
       expect(data.val().event_uid).toEqual(123456);
       expect(data.val().name).toBe('UnitTestTeam');  
       expect(data.val().description).toEqual('Unit Testing for Team Creation');
-      expect(data.val().skills_needed).toEqual(['java programming', 'python coding']);
+      expect(data.val().skills_needed).toEqual({'java programming': 0, 'python coding': 1});
       expect(data.val().positions_needed).toEqual({'leader': 1});
       expect(data.val().members_uid).not.toBeDefined();
       expect(data.val().current_size).toEqual(1);

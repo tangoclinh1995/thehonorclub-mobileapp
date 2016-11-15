@@ -12,9 +12,9 @@
         <input placeholder="Skills Needed" type="text" ng-model="newSkill">
         <button class="button button-positive" ng-click="addSkill()">Add</button>
       </label>
-      <div ng-repeat="skill in skills">
-        <button class="button button-positive" ng-click="removeSkill($index)">Remove</button>
-        <span class="tag tag-default">{{skill}}</span>
+      <div ng-repeat="(key, value) in skills">
+        <button class="button button-positive" ng-click="removeSkill(key)">Remove</button>
+        <span class="tag tag-default">{{key}}</span>
       </div>
       <label class="item item-input">
         <input placeholder="Positions Needed" type="text" ng-model="newPosition">

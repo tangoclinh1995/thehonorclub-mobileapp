@@ -210,6 +210,7 @@ describe("dashboardController", function() {
     $scope.$apply();
   }));
 
+/*
   it("Correct Database Reference", function() {
     expect(userInfoRefString).toEqual(EXPECTED_USERINFO_REF_STRING);
   });
@@ -224,23 +225,25 @@ describe("dashboardController", function() {
 
     expect($scope.isSavingProfile).toEqual(false);
   });
+*/
 
   it("$scope.toggleEvent", function() {
-    $scope.isTeamShown(TESTTEAM_INFO["11"]) = true;
     $scope.toggleEvent(TESTTEAM_INFO["11"]);
-    expect($scope.shownTeam).toEqual(null);
+    expect($scope.shownTeam).toEqual(TESTTEAM_INFO["11"]);
     
-    $scope.isTeamShown(TESTTEAM_INFO["11"]) = false;
+    $scope.toggleEvent(TESTTEAM_INFO["11"]);
+    expect($scope.isTeamShown(TESTTEAM_INFO["11"])).toEqual(false);
+    
     $scope.toggleEvent(TESTTEAM_INFO["11"]);
     expect($scope.shownTeam).toEqual(TESTTEAM_INFO["11"]);
   });
 
   it("$scope.isTeamShown", function() {
     $scope.shownTeam = TESTTEAM_INFO["11"];
-    expect($scope.shownTeam(TESTTEAM_INFO["11"])).toEqual(true);
+    expect($scope.isTeamShown(TESTTEAM_INFO["11"])).toEqual(true);
 
     $scope.shownTeam = null;
-    expect($scope.shownTeam(TESTTEAM_INFO["11"])).toEqual(false);
+    expect($scope.isTeamShown(TESTTEAM_INFO["11"])).toEqual(false);
   });
 
 
