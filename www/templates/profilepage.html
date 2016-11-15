@@ -21,11 +21,11 @@
       <!-- Add skills -->
       <label class="item item-input item-stacked-label">
         <span class="input-label">Skills</span>
-        <input type="text" name="skills" ng-model="newSkill" placeholder="e.g. Ionic, AngularJS, React,...">
+        <input type="text" name="skills" ng-model="profile.newSkill" placeholder="e.g. Ionic, AngularJS, React,...">
       </label>
 
       <div class="item">
-        <button class="button button-positive" ng-click="addSkill(newSkill)">
+        <button class="button button-positive" ng-click="addSkill(profile.newSkill)">
           Add Skill
         </button>      
       </div>
@@ -41,11 +41,11 @@
       <!-- Add position -->
       <label class="item item-input item-stacked-label">
         <span class="input-label">Desired positions</span>
-        <input type="text" name="position" ng-model="newPosition" placeholder="e.g. Project manager, Designer, Developer,...">
+        <input type="text" name="position" ng-model="profile.newPosition" placeholder="e.g. Project manager, Designer, Developer,...">
       </label>
 
       <div class="item">
-        <button class="button button-positive" ng-click="addPosition(newPosition)">
+        <button class="button button-positive" ng-click="addPosition(profile.newPosition)">
           Add Position
         </button>
       </div>
