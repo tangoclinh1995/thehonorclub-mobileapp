@@ -92,6 +92,8 @@ describe("EventRequestCtrl", function() {
     $scope.endTime  = '16:00';
     $scope.minSize = 3;
     $scope.maxSize = 7;
+    $scope.email = 'randome@gmail.com';
+    $scope.location = 'Hong Kong University of Science and Technology'
 
     $scope.addEvent();
 
@@ -102,7 +104,8 @@ describe("EventRequestCtrl", function() {
       expect(data.val().timestamp_end).toBe(1465747200);
       expect(data.val().min_member_per_team).toBe(3);
       expect(data.val().max_member_per_team).toBe(7);
-
+      expect(data.val().email).toBe('randome@gmail.com');
+      expect(data.val().location).toBe('Hong Kong University of Science and Technology');
     })
 
   });
