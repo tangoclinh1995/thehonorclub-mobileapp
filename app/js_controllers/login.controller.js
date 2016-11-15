@@ -8,15 +8,19 @@ angular.module('thehonorclub')
     $state.go('userprofile');
 	}
 
-	// // Sign out
-	// firebase.auth().signOut().then(function() {
-	//   // Sign-out successful.
-	//   console.log("signed out");
-	// 	console.log(firebase.auth());
-	// }, function(error) {
-	//   // An error happened.
-  // 	console.error(error);
-	// });
+	// Sign out
+	$scope.logout = () => {
+		firebase.auth().signOut().then(function() {
+		  // Sign-out successful.
+		  console.log("signed out");
+			console.log(firebase.auth());
+			localStorage.removeItem(currentUser.uid);
+			$state.go('evmtRequest');
+		}, function(error) {
+		  // An error happened.
+	  	console.error(error);
+		});
+	};
 
 	$scope.requestEvent = function() {
 		$state.go('evmtRequest');
@@ -75,7 +79,7 @@ angular.module('thehonorclub')
       console.log(error);
 
 		});
-		
+
   };
 
 }]);
