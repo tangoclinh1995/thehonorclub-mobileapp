@@ -116,11 +116,11 @@ describe("$matchingRequestService", function() {
   beforeAll(function(done) {
     function initializeFirebase() {
       firebase.initializeApp({
-        apiKey: "AIzaSyCOmrU3k2Z4QjArla9407F7-HLTKgdLNbQ",
-        authDomain: "swissknife-7fcb4.firebaseapp.com",
-        databaseURL: "https://swissknife-7fcb4.firebaseio.com",
-        storageBucket: "swissknife-7fcb4.appspot.com",
-        messagingSenderId: "537458686494"
+        apiKey: "AIzaSyCqnIsmeA2cyyirC8Tv8YFWDg2hoft0ncY",
+        authDomain: "generaltestingb.firebaseapp.com",
+        databaseURL: "https://generaltestingb.firebaseio.com",
+        storageBucket: "generaltestingb.appspot.com",
+        messagingSenderId: "464431813916"
       });
             
     };
@@ -211,7 +211,7 @@ describe("$matchingRequestService", function() {
 
   function applyScope() {
     var applyScopeIntervalHandler;
-    var countTick = 5;
+    var countTick = 7;
 
     function doTick() {
       if (countTick == 0) {
@@ -370,7 +370,43 @@ describe("$matchingRequestService", function() {
     });
 
     applyScope();
-  });    
+  });
+  
 
+  it("acceptMatch", function(done) {
+    var zTestResult = {
+      current_size: 2,
+      can_add_more: 1,
+
+      skills_needed: {
+        "s2": 4,
+        "s3": 1
+      },
+
+      positions_needed: {
+        "p2": 2,
+        "p3": 3
+      }
+
+    };
+
+    $matchingRequestService.acceptMatch("z", "b", "ev");
+    done();    
+
+    // $matchingRequestService.acceptMatch("z", "b", "ev")
+    // .then(function() {
+
+    //   dbRefTeam.child("z")
+    //   .once("value")
+    //   .then(function(snapshot) {
+    //     var obj = snapshot.val();
+    //     expect(obj).toEqual(zTestResult);
+    //     done();
+    //   });
+
+
+    // });
+
+  });
 
 });

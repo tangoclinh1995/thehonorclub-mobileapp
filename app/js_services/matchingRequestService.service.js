@@ -246,7 +246,7 @@ angular.module("thehonorclub")
   function acceptMatch(teamUid, userUid, eventUid) {
     var defer = $q.defer();
 
-    var jobRemaining = 5;
+    var jobRemaining = 6;
     function done() {
       --jobRemaining;
       
@@ -296,68 +296,69 @@ angular.module("thehonorclub")
       dbRefInviteMember.orderByChild("from_team_uid").equalTo(teamUid),
       "value"
     )
-    .then(deleteObjectInSnapshotAndNotify("to_member_uid", memberUid))
+    .then(deleteObjectInSnapshotAndNotify("to_member_uid", userUid))
     .catch(defer.reject);
 
     var removeAllTeamMemberInviteRequest = false;
 
     // Add team to user
-    db.child("user_info").child(userUid).transaction(function(user_info) {
-      if (typeof user_info["member_of"] == "undefined") {
-        user_info["member_of"] = {};
-      }
-      user_info["member_of"][teamUid] = 1;
+    db.child("user_info").child(userUid).child("member_of").child(teamUid)
+    .set(1)
+    .then(done)
+    .catch(defer.reject);
 
-      return user_info;
+    var userSkills, userDesiredPosition;    
 
-    })
-    .then(function(committed, userInfoSnapshot) {
+    // Add user to team
+    db.child("user_info").child(userUid)
+    .once("value")
+    .then(function(userInfoSnapshot) {
+
       userSkills = userInfoSnapshot.child("skills");
       userDesiredPosition = userInfoSnapshot.child("desired_positions");      
 
-      // Add user to team
-      // Chain to next THEN
-      return dbRefTeam.child(teamUid).transaction(function(team) {
-        // Add user uid to members_uid field
-        if (typeof team["member_uid"] == "undefined") {
-          team["member_uid"] = {};
-        }
-        team["member_uid"][userUid] = 1;
+      dbRefTeam.child(teamUid).child("member_uid").child(userUid).set(1);
 
-        // Increase current_size field by 1
-        team["current_size"] += 1;
+      return dbRefTeam.child(teamUid).once("value")
 
-        // Decrease can_add_more field by 1
-        team["can_add_more"] -= 1;
-
-        // If no more member can be added, then we need to delete all
-        // pending Member-Inviting Request of the team
-        if (team["can_add_more"] == 0) {
-          removeAllTeamMemberInviteRequest = true;
-        }
-
-        // Add user skill to team skills_needed
-        for (sk in team["skills_needed"]) {
-          if (userSkills.hasChild(sk)) {
-            team["skills_needed"][sk] += 1;
-          }
-
-        }
-
-        // Add user position to team_positions_needed
-        for (pos in team[positions_needed]) {
-          if (userDesiredPosition.hasChild(pos)) {
-            team[positions_needed][pos] += 1;
-          }
-
-        }
-
-        return team;
-      });
-      
     })
-    .then(function() {
+    .then(function(teamSnapshot) {
+      // Add user skill to team skills_needed
+      var teamSkillsNeeded = teamSnapshot.child("skills_needed").val();    
+
+      for (sk in teamSkillsNeeded) {
+        if (userSkills.hasChild(sk)) {
+          teamSkillsNeeded[sk] += 1;
+        }
+
+      }
+
+      // Add user position to team_positions_needed
+      var teamPositionsNeeded = teamSnapshot.child("positions_needed").val();
+
+      for (pos in teamPositionsNeeded) {
+        if (userDesiredPosition.hasChild(pos)) {
+          teamPositionsNeeded[pos] += 1;
+        }
+
+      }
+
+      var teamCurrentSize = teamSnapshot.child("current_size").val() + 1;
+      var teamCanAddMore = teamSnapshot.child("can_add_more").val() - 1;
+
+      if (teamCanAddMore == 0) {
+        removeAllTeamMemberInviteRequest = true;
+      }
       
+      return dbRefTeam.child(teamUid).update({
+        "skills_needed": teamSkillsNeeded,
+        "positions_needed": teamPositionsNeeded,
+        "current_size": teamCurrentSize,
+        "can_add_more": teamCanAddMore
+      });
+
+    })
+    .then(function() {     
       if (removeAllTeamMemberInviteRequest) {
         $timeoutFirebaseOnceQuery(
           dbRefInviteMember.orderByChild("from_team_uid").equalTo(teamUid),
@@ -372,16 +373,15 @@ angular.module("thehonorclub")
         )
         .then(deleteObjectInSnapshotAndNotify("event_uid", eventUid))
         .catch(defer.reject);
-
       } else {
         done();
         done();
       }
 
     })
-    .catch(defer.reject);
+    .catch(defer.reject);    
 
-    return defer.promise();
+    return defer.promise;
   };
 
   // This is the service
