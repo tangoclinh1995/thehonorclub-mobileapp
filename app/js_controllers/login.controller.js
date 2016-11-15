@@ -24,7 +24,8 @@ angular.module('thehonorclub')
 	
 	$scope.login = function() {
 		var provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function(result) {
+		firebase.auth().signInWithRedirect(provider);
+		firebase.auth().getRedirectResult().then(function(result) {
 
 		  // This gives you a Facebook Access Token. You can use it to access the Facebook API.
 		  var token = result.credential.accessToken;
@@ -36,6 +37,18 @@ angular.module('thehonorclub')
       return dbRefUserInfo.child(signInUser.uid).once("value");
 
 		})
+    // firebase.auth().signInWithPopup(provider).then(function(result) {
+
+		  // // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+		  // var token = result.credential.accessToken;
+
+		  // signInUser = result.user;
+
+    //   // Check whether this is first time user
+    //   // Chain to NEXT THEN
+    //   return dbRefUserInfo.child(signInUser.uid).once("value");
+
+		// })
     .then(function(snapshot) {
 
       // The path user_info/<USER_UID> does not exist, so this is first time user
@@ -62,35 +75,7 @@ angular.module('thehonorclub')
       console.log(error);
 
 		});
-
-    // firebase.auth().signInWithRedirect(provider);
-    // firebase.auth().getRedirectResult().then(function(authData) {
-	  //   if (authData === null) {
-	  //     console.log('Not logged in yet');
-	  //   } 
-	  //   else {
-	  //   	// console.log(authData);
-	  //     // console.log('Logged in as', authData.user);
-	  //     // firebase.database().ref('users/'+firebase.auth().currentUser.providerData[0].uid).set(firebase.auth().currentUser.providerData[0])
-    // 		$state.go('userprofile');
-	      
-	  //     // firebase.database().ref('users/'+authData.user.providerData[0].uid).set(authData.user.providerData[0]);
-		//     // This will display the user's name in our view
-		//     // $firebaseAuthInstance.authData = authData.providerData;
-	  //   	// $scope.user = authData.user.providerData[0];
-	  //   }
-		// })
-		// .catch(function(error) {
-		// 	if (error.code === 'TRANSPORT_UNAVAILABLE') {
-    //   	firebase.auth().signInWithPopup(provider).then(function(authData) {
-		// 			console.log(authData);
-    //   	});
-    //   } 
-    //   else {
-    //   	console.error(error);
-  	// 	}
-    // });
-
+		
   };
 
 }]);
