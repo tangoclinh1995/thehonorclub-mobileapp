@@ -63,8 +63,8 @@ describe("TeamCreationCtrl", function() {
     //var request = new XMLHttpRequest();
 
     $scope = _$rootScope_.$new();
-    _$state_.max_member_per_team = 5;
-    _$state_.event_uid = 123456;
+    _$state_.params.max_member_per_team = 5;
+    _$state_.params.event_uid = 123456;
     $state = _$state_
 
 

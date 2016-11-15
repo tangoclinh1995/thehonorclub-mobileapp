@@ -34,7 +34,7 @@ angular.module("thehonorclub")
 
     var newTeamRef = firebase.database().ref().child("team").push();
     newTeamRef.set({
-      event_uid: $state.event_uid,
+      event_uid: $state.params.event_uid,
       name: $scope.name,
       description: $scope.description,
       skills_needed: $scope.skills,
@@ -42,7 +42,7 @@ angular.module("thehonorclub")
       leader_uid: currentUser.uid,
       members_uid: [],
       current_size: 1,
-      can_add_more: $state.max_member_per_team - 1
+      can_add_more: $state.params.max_member_per_team - 1
     });
 
   };
