@@ -4,24 +4,65 @@
     <h1 id="dashboard-heading1" style="color:#000000;">Your Events</h1>
     
     <div class="list card">
-      <!--list events that user is leader of -->
-     
-      <!-- provision for event page -->
-      <!-- <ion-item class="item-icon-left item-icon-right" ui-sref="tabsController.event1" ng-repeat="l_team in leader_of" ng-href="{{}}"> -->
-      <ion-item class="item-icon-left item-icon-right" ui-sref="tabsController.event1" ng-repeat="(l_team, value) in leader_of" ng-click=displayMembers(team[l_team])>
+      <ion-list>
+          <!--list events that user is leader of -->
+          <div ng-repeat="(l_team, value) in userInfo.leader_of" >
+            <ion-item class="item-stable"
+                      ng-click="toggleEvent(teamInfo[l_team])"
+                      ng-class="{active: isTeamShown(teamInfo[l_team])}">
+              <i class="icon" ng-class="isTeamShown(teamInfo[l_team]) ? 'ion-minus' : 'ion-plus'"></i>
+              &nbsp;
+              {{eventInfo[teamInfo[l_team].event_uid].name}}
+              <span class="item-note">Leader</span>
+              <i class="icon ion-android-star"></i>
+            </ion-item>
+            
+            <!-- list of members -->
+            <ion-item class="item-accordion"
+                    ng-repeat="(m_id, value) in teamInfo[l_team].members_uid"
+                    ng-show="isTeamShown(teamInfo[l_team])">
+              {{allUserInfo[m_id].name}}
+            </ion-item>
+          </div>
+
+
+          <!--list events that user is member of -->
+          <div ng-repeat="(m_team, value) in userInfo.member_of" >
+            <ion-item class="item-stable"
+                      ng-click="toggleEvent(teamInfo[m_team])"
+                      ng-class="{active: isTeamShown(teamInfo[m_team])}">
+              <i class="icon" ng-class="isTeamShown(teamInfo[m_team]) ? 'ion-minus' : 'ion-plus'"></i>
+              &nbsp;
+              {{eventInfo[teamInfo[m_team].event_uid].name}}
+              <span class="item-note">Member</span>
+              <i class="icon ion-android-contacts"></i>
+            </ion-item>
+            
+            <!-- list of members -->
+            <ion-item class="item-accordion"
+                    ng-repeat="(m_id, value) in teamInfo[m_team].members_uid"
+                    ng-show="isTeamShown(teamInfo[m_team])">
+              {{allUserInfo[m_id].name}}
+            </ion-item>
+          </div>
+      </ion-list>
+    </div>
+
+<!--      <ion-item class="item-icon-left item-icon-right" ui-sref="tabsController.event1" ng-repeat="(l_team, value) in leader_of" ng-click=displayMembers(team[l_team])>
         <i class="icon ion-android-globe"></i>{{event[team[l_team].event_uid].name}}
         <span class="item-note">Leader</span>
         <i class="icon ion-android-star"></i>
       </ion-item>
-      
+-->      
       <!-- list events that user is member of -->
-      <ion-item class="item-icon-left item-icon-right" ui-sref="tabsController.event2" ng-repeat="(m_team, value) in member_of" ng-click=displayMembers(team[m_team])>
+ 
+ <!--     <ion-item class="item-icon-left item-icon-right" ui-sref="tabsController.event2" ng-repeat="(m_team, value) in member_of" ng-click=displayMembers(team[m_team])>
         <i class="icon ion-android-globe"></i>{{event[team[l_team].event_uid].name}}
         <span class="item-note">Member</span>
         <i class="icon ion-android-contacts"></i>
       </ion-item>
     </div>
-    
+-->    
     <!-- Button at bottom leads user to event management page -->
     <button id="dashboard-button13" class="button button-positive  button-block" ng-href="{{}}">Browse Other Events</button>
   </ion-content>

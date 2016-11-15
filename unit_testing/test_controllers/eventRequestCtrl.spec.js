@@ -1,5 +1,5 @@
 describe("EventRequestCtrl", function() {
-  var $scope;
+  var $scope, ionicTimePicker, ionicDatePicker;
 
   beforeAll(function(done) {
     function initializeFirebase() {
@@ -42,11 +42,13 @@ describe("EventRequestCtrl", function() {
 
     $scope = _$rootScope_.$new();
 
+    ionicDatePicker = _ionicDatePicker_;
+    ionicTimePicker = _ionicTimePicker_;
 
     _$controller_("EventRequestCtrl", {
       $scope: $scope,
-      ionicDatePicker: _ionicDatePicker_,
-      ionicTimePicer: _ionicTimePicker_
+      ionicDatePicker: ionicDatePicker,
+      ionicTimePicer: ionicTimePicker
     });
 
     //$httpBackend.expectGET("templates/evmt_form.html").respond(evmt_form);
@@ -54,32 +56,67 @@ describe("EventRequestCtrl", function() {
     $scope.$apply();
   }));
 
-  /*it("Adding a start date: show end date and start time field", function() {
+  it("callStartTimer, picked time 14:00", function() {
+    // Inject fake timepicker which always return 1970/1/1 14:00 
+    spyOn(ionicTimePicker, 'openTimePicker').and.callFake(function(timeObj) {
+      timeObj.callback(50400);
+    });
+
     $scope.callStartTimer();
+    expect($scope.startTime).toEqual('14:00');
+  });
 
-  });*/
-
-  /*it("Adding a start date: show end date and start time field", function() {
-    console.log(JSON.stringify(angular.element(document)));
-    expect(angular.element(document.querySelector('#endDate')).hasClass('ng-hide')).toBe(false);
-    //expect(angular.element(document.getElementById('startTime')).hasClass('ng-hide')).toBe(false);
-
-    $scope.startDate = '2016-06-12';
+  it("callStartTimer, no valid date picked", function() {
+    spyOn(ionicTimePicker, 'openTimePicker').and.callFake(function(timeObj) {
+      timeObj.callback(undefined);
+    });
     
-    expect(angular.element(document.querySelector('#endDate')).hasClass('ng-hide')).toBe(true);
-    //expect(angular.element(document.getElementById('startTime')).hasClass('ng-hide')).toBe(true);
+    $scope.callStartTimer();
+    expect($scope.startTime).toEqual('');
 
   });
 
-  it("Adding a start time: show end time field", function() {
-    expect(angular.element(document.getElementById('endTime')).hasClass('ng-hide')).toBe(false);
+  it("callEndTimer, picked time 16:00", function() {
+    // Inject fake timepicker which always return 1970/1/1 16:00 
+    spyOn(ionicTimePicker, 'openTimePicker').and.callFake(function(timeObj) {
+      timeObj.callback(57600);
+    });
 
-    $scope.startDate = '2016-06-12';
-    $scope.starTime = '14:00';
+    $scope.callEndTimer();
+    expect($scope.endTime).toEqual('16:00');
+  });
+
+  it("callEndTimer, no valid date picked", function() {
+    spyOn(ionicTimePicker, 'openTimePicker').and.callFake(function(timeObj) {
+      timeObj.callback(undefined);
+    });
     
-    expect(angular.element(document.getElementById('endTime')).hasClass('ng-hide')).toBe(true);
+    $scope.callEndTimer();
+    expect($scope.endTime).toEqual('');
 
-  });*/
+  });
+
+  it("callStartDatePicker", function() {
+    // Inject a fake datepicker which always return 2016-06-12
+    spyOn(ionicDatePicker, 'openDatePicker').and.callFake(function(dateObj) {
+      dateObj.callback(1465689600000);
+    });
+
+    $scope.callStartDatePicker();
+    expect($scope.startDate).toEqual('2016-06-12');
+    
+  });
+
+  it("callEndDatePicker", function() {
+    // Inject a fake datepicker which always return 2016-06-14
+    spyOn(ionicDatePicker, 'openDatePicker').and.callFake(function(dateObj) {
+      dateObj.callback(1465862400000);
+    });
+
+    $scope.callEndDatePicker();
+    expect($scope.endDate).toEqual('2016-06-14');
+    
+  });
 
   it("Saving event to firebase", function() {
     $scope.name = 'UnitTestEvent';

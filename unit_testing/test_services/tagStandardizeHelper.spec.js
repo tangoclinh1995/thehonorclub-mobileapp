@@ -1,27 +1,32 @@
-describe("tagStandarizehelper", function () {
+describe('tagStandardizeHelper', function () {
 
     beforeEach(module('thehonorclub'));
 
     describe('Testing the Factory', function () {
 
-    	var scope, factry;
+    	var tagStandardizeHelper;
 
-    	beforeEach(inject(function($factory, $rootScope) {
+    	beforeEach(inject(function(_$tagStandardizeHelper_) {
 
-    		scope = $rootScope.$new();
-    		factry = $factory('tagStandarizehelper', {$scope:scope});
+    		tagStandardizeHelper = _$tagStandardizeHelper_;
 
     	}));
 
     	it('should change to lowercase and reduce spaces', function () {
 
-    		scope.tag = "Google  Firebase";
-    		scope.tagStandarizehelper(scope.tag);
+    		var tag = 'Google  Firebase';
+    		
+            var result = tagStandardizeHelper(tag);
 
-    		expect(scope.tag).toBe("google firebase");
+    		expect(result).toMatch('google firebase');
 
     	});
 
     });
 
 });
+
+//scope, factry
+/*scope = $rootScope.$new();
+            factry = $factory('tagStandardizeHelper', {$scope:scope});
+            */
