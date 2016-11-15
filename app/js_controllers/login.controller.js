@@ -1,5 +1,5 @@
 angular.module('thehonorclub')
-.controller('loginController', ['$scope', '$state', '$stateParams', '$firebaseAuthInstance', function ($scope, $state, $stateParams, $firebaseAuthInstance) {
+.controller('loginController', ['$scope', '$state', '$stateParams', 'Auth', function ($scope, $state, $stateParams, Auth) {
 
 	// console.log(firebase.auth());
 	// console.log($scope.authData);
@@ -14,7 +14,7 @@ angular.module('thehonorclub')
 	// console.log($firebaseAuthInstance.auth._._auth.currentUser);
   // firebase.database().ref().push(firebase.auth().currentUser.providerData);
 
-  console.log($firebaseAuthInstance.provider);
+  console.log(Auth.provider);
 
 	$scope.login = function() {
 		var provider = new firebase.auth.FacebookAuthProvider();
