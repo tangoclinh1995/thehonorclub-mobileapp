@@ -28,7 +28,10 @@
         <input placeholder="Max. Team Size" type="number" ng-model="maxSize" min="{{minSize}}" ></label>
       </label>
       <label class="item item-input">
-        <input type="email" placeholder="Email" required/>
+        <input type="email" placeholder="Email" ng-model="email" required/>
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="location" ng-model="location">
       </label>
       <label class="item item-input">
         <input type="submit" class="button button-block button-positive" value="Submit">
