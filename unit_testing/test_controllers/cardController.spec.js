@@ -3,7 +3,7 @@ describe("cardController", function () {
     beforeEach(module('thehonorclub'));
 
     describe('Testing the Directive', function () {
-
+/*
       var $compile, $rootScope;
       var element, directve;
 
@@ -19,6 +19,24 @@ describe("cardController", function () {
       it('should set preventDefault on', function () {
           expect(element.preventDefault()).toBeTruthy();
       });
+*/
+
+      beforeEach(function() {
+
+        inject(function($compile, $rootScope){
+            compile = $compile;
+            scope = $rootScope.$new();
+           });
+
+        directiveElem = getCompiledElement();
+        
+      });
+
+      function getCompiledElement(){
+
+        var element = angular.element();
+
+      }
 
     });
 
@@ -26,9 +44,9 @@ describe("cardController", function () {
 
       var scope, ctrlr;
 
-      beforeEach(inject(function($controller,$rootscope) {
+      beforeEach(inject(function($controller,$scope) {
 
-        scope = $rootscope.$new();
+        scope = $scope;
         ctrlr = $controller('CardController', {$scope:scope});
 
       }));

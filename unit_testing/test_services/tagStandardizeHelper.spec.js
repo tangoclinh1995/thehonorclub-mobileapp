@@ -25,8 +25,3 @@ describe('tagStandardizeHelper', function () {
     });
 
 });
-
-//scope, factry
-/*scope = $rootScope.$new();
-            factry = $factory('tagStandardizeHelper', {$scope:scope});
-            */
