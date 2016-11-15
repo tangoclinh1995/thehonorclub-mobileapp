@@ -212,31 +212,19 @@ describe("$recommendationService", function() {
 
 
   
-  it("recommendTeam", function(done) {
+  it("recommendTeam (for specific event)", function(done) {
     var testResult = [
       {
         "matching_score": 68,
-        "most_matched_skills": [
-          "a",
-          "b"
-        ],
-        "most_matched_positions": [
-          "b",
-          "a"
-        ],
+        "most_matched_skills": ["a", "b"],
+        "most_matched_positions": ["b", "a"],
         "team_uid": "x",
         "event_uid": "3"
       },
       {
         "matching_score": 62,
-        "most_matched_skills": [
-          "a",
-          "b"
-        ],
-        "most_matched_positions": [
-          "a",
-          "b"
-        ],
+        "most_matched_skills": ["a", "b"],
+        "most_matched_positions": ["a", "b"],
         "team_uid": "z",
         "event_uid": "3"
       }
@@ -255,20 +243,46 @@ describe("$recommendationService", function() {
   });
 
 
+  it("recommendTeam (for any event)", function(done) {
+    var testResult = [
+      {
+        "matching_score": 68,
+        "most_matched_skills": ["f", "a"],
+        "most_matched_positions": ["b"],
+        "team_uid": "x",
+        "event_uid": "3"
+      },
+      {
+        "matching_score": 45,
+        "most_matched_skills": ["g", "a"],
+        "most_matched_positions": ["b"],
+        "team_uid": "z",
+        "event_uid": "3"
+      }
+    ];
+
+    $recommendationService.recommendTeam("c")
+    .then(function(result) {
+      expect(result).toEqual(testResult);
+      done();
+    })
+    .catch(function() {
+      fail("Error calling recommendTeam function");
+    });
+
+    applyScope();    
+  });  
+
+
 
   it("recommendMember", function(done) {
     var testResult = [
       {
         "matching_score": 36,
-        "most_matched_skills": [
-          "f",
-          "b"
-        ],
-        "most_matched_positions": [
-          "c"
-        ],
+        "most_matched_skills": ["f", "b"],
+        "most_matched_positions": ["c"],
         "member_uid": "b"
-      }      
+      }
     ];
 
     $recommendationService.recommendMember("x")
