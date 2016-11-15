@@ -25,10 +25,6 @@ module.exports = function(config) {
 
       // Moment.js
       "www/lib/moment/min/moment.min.js",
-
-      // Ionic Tinder card library -->
-      "www/lib/collide/collide.js",
-      "www/lib/ionic-ion-tinder-cards/ionic.tdcards.js",
       
       // Our app's JS files
       "www/app.js",
@@ -60,7 +56,7 @@ module.exports = function(config) {
     },
 
     port: 9876,
-    browsers: ["Chrome"],
+    browsers: ['Chrome'],
 
     colors: true,  
 
