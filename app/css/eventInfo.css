@@ -1,22 +1,22 @@
 #name{
-    text-align: center;
-    color: Black;
-    font-family: "Open Sans";
-    font-style: oblique;
-            font-weight: bold;
-            text-decoration: underline;
-            font-size: 50px;
+  text-align: center;
+  color: Black;
+  font-family: "Open Sans";
+  font-style: oblique;
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 50px;
 }
 #from, #to, #startDate, #endDate, #startTime, #endTime, #location, #contactEmail {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 20px;
-            font-style: italic;        
-            }
-        #from {
-            font-weight: bold;
-            text-indent: -85px;
-        }
-         #to {
-            font-weight: bold;
-            text-indent: -115px;
-         }
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-style: italic;        
+}
+#from {
+  font-weight: bold;
+  text-indent: -85px;
+}
+#to {
+  font-weight: bold;
+  text-indent: -115px;
+}
