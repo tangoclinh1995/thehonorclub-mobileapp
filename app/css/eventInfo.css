@@ -7,7 +7,7 @@
   text-decoration: underline;
   font-size: 50px;
 }
-#from, #to, #startDate, #endDate, #startTime, #endTime, #location, #contactEmail {
+#from, #to, #startDate, #endDate, #startTime, #endTime, #location, #contactEmail, #teamSize, #teamValue {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
   font-style: italic;        
