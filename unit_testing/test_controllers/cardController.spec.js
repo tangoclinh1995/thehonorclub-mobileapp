@@ -29,16 +29,37 @@ describe("cardController", function () {
       beforeEach(inject(function($controller,$rootscope) {
 
         scope = $rootscope.$new();
-        controller = $controller('CardController')
+        controller = $controller('CardController', {$scope:scope});
 
       }));
+
+      it('should create a deck of 3 cards', function () {
+
+          expect(scope.cards.length).toBe(3);
+
+      });
+
+      it('should add a new card to the deck', function () {
+
+          var x = scope.cards.length;
+          scope.addCard();
+          expect(scope.cards.length).toBe(x+1);
+
+      });
+
+      it('should destroy a card', function () {
+
+          var y = scope.cards.length;
+          scope.cardDestroyed();
+          expect(scope.cards.length).toBe(y-1);
+
+      });
 
     });
 
 });
 
--------
-
+/*
 angular.module('thehonorclub')
 
 .directive('noScroll', function() {
@@ -73,7 +94,9 @@ angular.module('thehonorclub')
 
   $scope.cards = [];
   for(var i = 0; i < 3; i++) $scope.addCard();
-}).controller('CardCtrl', function($scope, TDCardDelegate) {
+})
+
+.controller('CardCtrl', function($scope, TDCardDelegate) {
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
     $scope.addCard();
@@ -84,3 +107,4 @@ angular.module('thehonorclub')
   };
   
 });
+*/
