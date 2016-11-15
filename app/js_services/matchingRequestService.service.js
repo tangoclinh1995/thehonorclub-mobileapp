@@ -294,8 +294,11 @@ angular.module("thehonorclub")
 
     // Add team to user
     db.child("user_info").child(userUid).transaction(function(user_info) {
-
+      if (typeof user_info["member_of"] == "undefined") {
+        user_info["member_of"] = {};
+      }
       user_info["member_of"][teamUid] = 1;
+
       return user_info;
 
     })
@@ -307,6 +310,9 @@ angular.module("thehonorclub")
       // Chain to next THEN
       return dbRefTeam.child(teamUid).transaction(function(team) {
         // Add user uid to members_uid field
+        if (typeof team["member_uid"] == "undefined") {
+          team["member_uid"] = {};
+        }
         team["member_uid"][userUid] = 1;
 
         // Increase current_size field by 1
