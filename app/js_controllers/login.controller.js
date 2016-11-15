@@ -46,39 +46,34 @@ angular.module('thehonorclub')
 		  // ...
 		});
 
-   //  firebase.auth().signInWithRedirect(provider).then(()=>{
-   //  	console.log("Hello");
-			// firebase.auth().getRedirectResult().then(function(authData) {
-			// 	console.log("Hello2");
-		 //    if (authData === null) {
-		 //      console.log('Not logged in yet');
-		 //    } 
-		 //    else {
-		 //    	// console.log(authData);
-		 //      // console.log('Logged in as', authData.user);
-		 //      firebase.database().ref('users/'+firebase.auth().currentUser.providerData[0].uid).set(firebase.auth().currentUser.providerData[0])
-		 //      .then(()=> {
-		 //      	console.log("Pushed");
-		 //    		$state.go('userprofile');
-		 //      });
-		 //      // firebase.database().ref('users/'+authData.user.providerData[0].uid).set(authData.user.providerData[0]);
-			//     // This will display the user's name in our view
-			//     // $firebaseAuthInstance.authData = authData.providerData;
-		 //    	// $scope.user = authData.user.providerData[0];
-		 //    }
-			// })
-			// .catch(function(error) {
-			// 	if (error.code === 'TRANSPORT_UNAVAILABLE') {
-	  //     	firebase.auth().signInWithPopup(provider).then(function(authData) {
-			// 			console.log(authData);
-	  //     	});
-	  //     } 
-	  //     else {
-	  //     	console.error(error);
-	  // 		}
-	  //   });
-   //  })
-		// 
-  };
+  //   firebase.auth().signInWithRedirect(provider);
+  //   firebase.auth().getRedirectResult().then(function(authData) {
+	 //    if (authData === null) {
+	 //      console.log('Not logged in yet');
+	 //    } 
+	 //    else {
+	 //    	// console.log(authData);
+	 //      // console.log('Logged in as', authData.user);
+	 //      // firebase.database().ref('users/'+firebase.auth().currentUser.providerData[0].uid).set(firebase.auth().currentUser.providerData[0])
+  //   		$state.go('userprofile');
+	      
+	 //      // firebase.database().ref('users/'+authData.user.providerData[0].uid).set(authData.user.providerData[0]);
+		//     // This will display the user's name in our view
+		//     // $firebaseAuthInstance.authData = authData.providerData;
+	 //    	// $scope.user = authData.user.providerData[0];
+	 //    }
+		// })
+		// .catch(function(error) {
+		// 	if (error.code === 'TRANSPORT_UNAVAILABLE') {
+  //     	firebase.auth().signInWithPopup(provider).then(function(authData) {
+		// 			console.log(authData);
+  //     	});
+  //     } 
+  //     else {
+  //     	console.error(error);
+  // 		}
+  //   });
+
+  }; //$scope.login
 
 }]);
