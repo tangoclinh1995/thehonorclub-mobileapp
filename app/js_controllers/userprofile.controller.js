@@ -12,6 +12,8 @@ angular.module("thehonorclub")
   $scope.desiredPositions = [];
 
   $scope.profile = {
+    name: "",
+    bio: "",
     newSkill: "",
     newPosition: ""
   };
@@ -20,9 +22,9 @@ angular.module("thehonorclub")
 
   userInfo.$loaded()
   .then(function() {
-    $scope.name = userInfo.name;
+    $scope.profile.name = userInfo.name;
     $scope.photoURL = userInfo.photoURL;
-    $scope.bio = userInfo.bio;
+    $scope.profile.bio = userInfo.bio;
 
     for (i in userInfo.skills) {   
       $scope.skills.push(userInfo.skills[i]);
@@ -73,10 +75,10 @@ angular.module("thehonorclub")
   };  
 
   $scope.saveProfile = function() {
-    $scope.name = $scope.name.trim();
+    $scope.profile.name = $scope.profile.name.trim();
 
-    userInfo.name = $scope.name;
-    userInfo.bio = $scope.bio;
+    userInfo.name = $scope.profile.name;
+    userInfo.bio = $scope.profile.bio;
 
     // NOTE:
     //    Because arrays are stored in Firebase as Object with key 0, 1, 2, ...
