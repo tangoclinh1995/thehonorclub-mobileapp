@@ -34,27 +34,28 @@ describe("cardController", function () {
       }));
 
       it('should create a deck of 3 cards', function () {
-
           expect(scope.cards.length).toBe(3);
+      });
 
+      it('should create card with correct properties', function() {
+        var len = scope.cards.length;
+        var card = scope.cards[Math.floor(Math.random() * len)];
+        expect(card.image.length > 0).toBe(true);
+        expect(card.name.length > 0).toBe(true);
+        expect(card.skill.length > 0).toBe(true);
       });
 
       it('should add a new card to the deck', function () {
-
           var x = scope.cards.length;
           scope.addCard();
           expect(scope.cards.length).toBe(x+1);
-
       });
 
       it('should destroy a card', function () {
-
           var y = scope.cards.length;
           scope.cardDestroyed();
           expect(scope.cards.length).toBe(y-1);
-
       });
-
     });
 
     describe('Testing the Second Controller', function () {
