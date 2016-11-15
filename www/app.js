@@ -19,6 +19,8 @@ angular.module(
   });
 })
 
+.constant('firebaseKey', 'YOUR_FIREBASE_API_KEY')
+
 .config(function($stateProvider, $urlRouterProvider) {
   // Default state
   $urlRouterProvider.otherwise('/login');
