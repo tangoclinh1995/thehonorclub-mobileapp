@@ -24,7 +24,13 @@ angular.module('thehonorclub')
 
 		  // The signed-in user info.
 		  var user = result.user;
-      firebase.database().ref('users/'+user.providerData[0].uid).set(user.providerData[0]);
+		  var user_info = {
+		  	name: user.displayName,
+		  	photoURL: user.photoURL,
+		  	email: user.providerData[0].email
+		  };
+
+      firebase.database().ref('user_info/'+user.uid).set(user_info);
   		$state.go('userprofile');
 
 		})
