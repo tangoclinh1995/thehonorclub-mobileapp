@@ -60,7 +60,7 @@ angular.module("thehonorclub")
 
   
   function requestObjKey(uidX, uidY) {
-    return uidX + " <=> " + uidY;
+    return uidX + " => " + uidY;
   }
 
 
@@ -69,15 +69,15 @@ angular.module("thehonorclub")
     var defer = $q.defer();
     
     var joinTeamObjKey = requestObjKey(fromUserUid, toTeamUid),
-        inviteMemberObjKey = inviteMemberObjKey(toTeamUid, fromUserUid);
+        inviteMemberObjKey = requestObjKey(toTeamUid, fromUserUid);
     
     // This is used to check if a similar Team-Joining Request has already been issued
-    var queryExist = dbRefJoinTeam.ref(joinTeamObjKey);
+    var queryExist = dbRefJoinTeam.child(joinTeamObjKey);
 
     // This is used to check if a Member-Invitation Request (with similar team uid, user uid)
     // has already been issue
     // If there is, then IT'S A MATCH
-    var reverseQueryExist = dbRefInviteMember.ref(inviteMemberObjKey);
+    var reverseQueryExist = dbRefInviteMember.child(inviteMemberObjKey);
     
     // Check whether user has already had a team
     userHaveTeam(fromUserUid, eventUid)
@@ -95,7 +95,6 @@ angular.module("thehonorclub")
 
     })
     .then(function(fullTeam) {
-
       // If team is already full, then cannot perform this request
       if (fullTeam) {
         defer.resolve(REQUEST_INVALID);
@@ -108,6 +107,10 @@ angular.module("thehonorclub")
 
     })
     .then(function(snapshot) {
+      // Add this based on unit testing behavior
+      if (!snapshot) {
+        return;
+      }
 
       // A reverse request exists, meaning that IT'S A MATCH
       if (snapshot.exists()) {
@@ -121,6 +124,10 @@ angular.module("thehonorclub")
 
     })
     .then(function(snapshot) {
+      // Add this based on unit testing behavior
+      if (!snapshot) {
+        return;
+      }
 
       // The similar request exists, no need to add a new request
       if (snapshot.exists()) {
@@ -130,7 +137,7 @@ angular.module("thehonorclub")
 
       // Otherwise, add a new Team-Joining request
       // Chain this to NEXT THEN
-      return dbRefJoinTeam.ref(requestObjKey).set({
+      return dbRefJoinTeam.child(joinTeamObjKey).set({
         from_user_uid: fromUserUid,
         to_team_uid: toTeamUid,
         event_uid: eventUid
@@ -154,15 +161,15 @@ angular.module("thehonorclub")
 
 
   // This function is just an opposite of joinTeamRequest function
-  function inviteMember(fromTeamUid, toMemberUid, eventUid) {
+  function inviteMemberRequest(fromTeamUid, toMemberUid, eventUid) {
     var defer = $q.defer();
 
     var inviteMemberObjKey = requestObjKey(fromTeamUid, toMemberUid),
         joinTeamObjKey = requestObjKey(toMemberUid, fromTeamUid);
     
-    var queryExist = dbRefInviteMember.ref(inviteMemberObjKey);
+    var queryExist = dbRefInviteMember.child(inviteMemberObjKey);
 
-    var reverseQueryExist = dbRefJoinTeam.ref(joinTeamObjKey);
+    var reverseQueryExist = dbRefJoinTeam.child(joinTeamObjKey);
 
     userHaveTeam(toMemberUid, eventUid)
     .then(function(hasTeam) {
@@ -186,6 +193,10 @@ angular.module("thehonorclub")
 
     })
     .then(function(snapshot) {
+      // Add this based on unit testing behavior
+      if (!snapshot) {
+        return;
+      }      
 
       // IT'S A MATCH
       if (snapshot.exists()) {
@@ -197,6 +208,10 @@ angular.module("thehonorclub")
 
     })
     .then(function(snapshot) {
+      // Based on unit-testing behavior
+      if (!snapshot) {
+        return;
+      }
 
       if (snapshot.exists()) {
         defer.resolve(REQUEST_NOMATCH);
@@ -205,7 +220,7 @@ angular.module("thehonorclub")
 
       // Otherwise, add a new Member-Invitation request
       // Chain this to NEXT THEN
-      return dbRefInviteMember.ref(inviteMemberObjKey).set({
+      return dbRefInviteMember.child(inviteMemberObjKey).set({
         from_team_uid: fromTeamUid,
         to_member_uid: toMemberUid,
         event_uid: eventUid
