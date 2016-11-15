@@ -8,15 +8,14 @@ angular.module("thehonorclub")
   var currentUser = $firebaseAuthInstance.$getAuth();
   var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
 
-  $scope.name = "";
-  $scope.photoURL = "";
-  $scope.bio = "";
-
   $scope.skills = [];
   $scope.desiredPositions = [];
 
-  $scope.newSkill = "";
-  $scope.newPosition = "";
+  $scope.profile = {
+    newSkill: "",
+    newPosition: ""
+  };
+
   $scope.isSavingProfile = false;
 
   userInfo.$loaded()
@@ -42,7 +41,7 @@ angular.module("thehonorclub")
       $scope.skills.push(skill);
     }
 
-    $scope.newSkill = "";
+    $scope.profile.newSkill = "";
   };
 
   $scope.removeSkill = function(skill) {
@@ -61,7 +60,7 @@ angular.module("thehonorclub")
       $scope.desiredPositions.push(position);
     }
 
-    $scope.newPosition = "";
+    $scope.profile.newPosition = "";
   };
 
   $scope.removePosition = function(oldPosition) {
@@ -98,7 +97,7 @@ angular.module("thehonorclub")
       })
 
     })
-    .catch(function() {
+    .catch(function(error) {
       $scope.isSavingProfile = false;
 
       $ionicLoading.show({

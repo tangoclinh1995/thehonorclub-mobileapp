@@ -142,14 +142,14 @@ describe("userProfileController", function() {
   it("$scope.addSkill", function() {
     $scope.addSkill("   javascript  ");
     expect($scope.skills).toEqual(TESTUSER_INFO.skills);
-    expect($scope.newSkill).toEqual("");
+    expect($scope.profile.newSkill).toEqual("");
 
     var expectedResultAfterAddition = JSON.parse(JSON.stringify(TESTUSER_INFO.skills));
     expectedResultAfterAddition.push("html5"); 
 
     $scope.addSkill("html5");
     expect($scope.skills).toEqual(expectedResultAfterAddition);
-    expect($scope.newSkill).toEqual("");
+    expect($scope.profile.newSkill).toEqual("");
   });
 
   it("$scope.removeSkill", function() {
@@ -170,14 +170,14 @@ describe("userProfileController", function() {
   it("$scope.addPosition", function() {
     $scope.addPosition("developer");
     expect($scope.desiredPositions).toEqual(TESTUSER_INFO.desired_positions);
-    expect($scope.newPosition).toEqual("");
+    expect($scope.profile.newPosition).toEqual("");
 
     var expectedResultAfterAddition = JSON.parse(JSON.stringify(TESTUSER_INFO.desired_positions));
     expectedResultAfterAddition.push("project manager"); 
 
     $scope.addPosition("project       manager");
     expect($scope.desiredPositions).toEqual(expectedResultAfterAddition);
-    expect($scope.newPosition).toEqual("");
+    expect($scope.profile.newPosition).toEqual("");
   });
 
   it("$scope.removePosition", function() {
