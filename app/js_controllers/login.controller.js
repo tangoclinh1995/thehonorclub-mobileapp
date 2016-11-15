@@ -1,5 +1,5 @@
 angular.module('thehonorclub')
-.controller('loginController', ['$scope', '$state', '$stateParams', 'Auth', function ($scope, $state, $stateParams, Auth) {
+.controller('loginController', ['$scope', '$state', '$stateParams', function ($scope, $state, $stateParams) {
   var dbRefUserInfo = firebase.database().ref("user_info");
   var signInUser;
 
