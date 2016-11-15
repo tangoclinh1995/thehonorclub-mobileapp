@@ -4,18 +4,28 @@ angular.module("thehonorclub")
   var databaseRef = firebase.database().ref();
 
   var currentUser = $firebaseAuthInstance.$getAuth();
-  //var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
+  var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
 
-  $scope.skills = [];
+  $scope.skills = {};
   $scope.positions = {'leader': 1};
   
   $scope.addSkill = function() {
-    $scope.skills.push($tagStandardizeHelper($scope.newSkill));
+    $scope.newSkill = $tagStandardizeHelper($scope.newSkill);
+
+    console.log($scope.newSkill);
+    console.log(userInfo.skills);
+
+    // Check if current user has the skill tag added
+    if (userInfo.skills.indexOf($scope.newSkill) !== -1) {
+      $scope.skills[$scope.newSkill] = 1;
+    } else {
+      $scope.skills[$scope.newSkill] = 0;  
+    }
     $scope.newSkill = '';
   };
 
-  $scope.removeSkill = function($index) {
-    $scope.skills.splice($index, 1);
+  $scope.removeSkill = function(skill) {
+    delete $scope.skills[skill];
   };
 
 
