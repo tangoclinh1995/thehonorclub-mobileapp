@@ -35,9 +35,9 @@ angular.module("thehonorclub")
         return;
       }
 
-      var result = {};
-      snapshot.forEach(function(team) {      
-        if (team.child("eventUid").val() == eventUid) {
+      var result = {};    
+      snapshot.forEach(function(team) {
+        if (team.child("event_uid").val() == eventUid) {
           result[team.key] = team.val();
         }
 
@@ -119,7 +119,7 @@ angular.module("thehonorclub")
 
       var result = {};
 
-      snapsnot.forEach(function(request) {
+      snapshot.forEach(function(request) {
         result[request.child("to_team_uid").val()] = 1;
       });
 
@@ -142,13 +142,11 @@ angular.module("thehonorclub")
       "value"
     )
     .then(function(snapshot) {
-
       var result = {};
 
-      snapsnot.forEach(function(request) {
+      snapshot.forEach(function(request) {
         result[request.child("to_member_uid").val()] = 1;
       });
-
 
       defer.resolve(result);
 
@@ -207,8 +205,11 @@ angular.module("thehonorclub")
         }
 
         var team = availTeams[teamUid];
+        var match = $matchingCalculationHelper(userInfo, team);
+        match["team_uid"] = teamUid;
+        match["event_uid"] = team["event_uid"];
 
-        result.push($matchingCalculationHelper(userInfo, team));
+        result.push(match);
       }
 
       result.sort(sortBasedOnMatchingScore);
@@ -223,7 +224,7 @@ angular.module("thehonorclub")
   function recommendMember(teamUid) {
     var defer = $q.defer();
 
-    var nextCount = 3;
+    var nextCount = 2;
     function next() {
       --nextCount;
       if (nextCount == 0) {
@@ -233,22 +234,26 @@ angular.module("thehonorclub")
     };
 
     var team;
+    var eventUid;
     var availUsers, userWithRequestSent;
 
     dbRefTeam.child(teamUid)
     .once("value")
     .then(function(snapshot) {
+      
       team = snapshot.val();
+
+      return getAvailUser(team["event_uid"])
+
+    })
+    .then(function(users) {
+      
+      availUsers = users;
       next();
+
     })
     .catch(defer.reject);
 
-    getAvailUser(eventUid)
-    .then(function(users) {
-      availUsers = users;
-      next();
-    })
-    .catch(defer.reject);
 
     getUserWithRequestSent(teamUid)
     .then(function(users) {
@@ -267,8 +272,11 @@ angular.module("thehonorclub")
         }
 
         var user = availUsers[userUid];
+        
+        var match = $matchingCalculationHelper(user, team);
+        match["member_uid"] = userUid; 
 
-        result.push($matchingCalculationHelper(user, team));
+        result.push(match);
       }
 
       result.sort(sortBasedOnMatchingScore);
