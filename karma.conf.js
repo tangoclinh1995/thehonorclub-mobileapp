@@ -60,14 +60,14 @@ module.exports = function(config) {
     },
 
     port: 9876,
-    browsers: ['FirefoxDeveloper'],
+    browsers: ['Chrome'],
 
     colors: true,  
 
     singleRun: true,
 
     plugins: [
-      "karma-firefox-launcher",
+      "karma-chrome-launcher",
       "karma-jasmine",
       "karma-coverage",
       "karma-ng-html2js-preprocessor"
