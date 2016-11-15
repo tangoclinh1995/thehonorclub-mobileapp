@@ -1,7 +1,12 @@
 angular.module('thehonorclub')
-.controller('loginController', ['$scope', '$state', '$stateParams', function ($scope, $state, $stateParams) {
+.controller('loginController', ['$scope', '$state', '$stateParams', '$firebaseAuthInstance', function ($scope, $state, $stateParams, $firebaseAuthInstance) {
   var dbRefUserInfo = firebase.database().ref("user_info");
   var signInUser;
+
+	var currentUser = $firebaseAuthInstance.$getAuth();
+	if (currentUser != undefined) {
+    $state.go('userprofile');
+	}
 
 	// // Sign out
 	// firebase.auth().signOut().then(function() {
