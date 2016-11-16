@@ -49,14 +49,19 @@
     *developer can experiment their code differently on their OWN database)*
 
 
-# Build for IOS
-	To test for IOS, you need to run the following commands on a Mac
-```
-ionic build ios
-ionic emulate ios
-```
 
-	This should open up the IOS emulator with the app
+# Build for IOS
+
+-	To test for IOS, run the following commands on a Mac:
+
+    ```
+    ionic build ios
+    ionic emulate ios
+    ```
+
+-	This should open up the IOS emulator with the app
+
+
 
 # Install extra Javascript libraries
 
