@@ -1,6 +1,6 @@
 angular.module(
   "thehonorclub",
-  ["ionic", "ionic-datepicker", "ionic-timepicker", "firebase", "ionic.contrib.ui.tinderCards"]
+  ["ionic", "ionic-datepicker", "ionic-timepicker", "firebase", "ionic.contrib.ui.tinderCards", "ngCordova"]
 )
 
 .run(function($ionicPlatform) {
