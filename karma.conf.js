@@ -32,9 +32,12 @@ module.exports = function(config) {
 
       // ngCordova
       "www/lib/ngCordova/dist/ng-cordova.js",
+
+      // A specialize version for www/app.js, to prevent constant state change due to
+      // authentication state
+      "unit_testing/app_init.js",
       
-      // Our app's JS files
-      "www/app.js",
+      // Our app's JS files      
       "app/js_controllers/*.js",
       "app/js_services/*.js",
       "app/js_routing/*.js",
@@ -48,6 +51,7 @@ module.exports = function(config) {
 
     // List of files to exclude
     exclude: [
+
     ],
 
     preprocessors: {
