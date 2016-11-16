@@ -29,6 +29,9 @@ module.exports = function(config) {
       // Ionic Tinder card library -->
       "www/lib/collide/collide.js",
       "www/lib/ionic-ion-tinder-cards/ionic.tdcards.js",
+
+      // ngCordova
+      "www/lib/ngCordova/dist/ng-cordova.js",
       
       // Our app's JS files
       "www/app.js",
