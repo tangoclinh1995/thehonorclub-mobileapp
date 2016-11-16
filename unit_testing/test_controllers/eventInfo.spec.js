@@ -37,7 +37,7 @@ describe("EventInfoCtrl", function() {
     $urlRouterProvider.deferIntercept();
   }));
 
-it("Start Date test", function()) {
+it("Start Date test", function() {
 
     var firebase_event = {
         timestamp_begin: "1477094400"
@@ -45,9 +45,9 @@ it("Start Date test", function()) {
     var date = "22/10/2016";
     var funcDate = getStartDate();
     expect(funcDate).toEqual(date);
-}
+});
 
-it("End Date test", function()) {
+it("End Date test", function() {
 
     var firebase_event = {
         timestamp_end: "1477094400"
@@ -55,6 +55,6 @@ it("End Date test", function()) {
     var date = "22/10/2016";
     var funcDate = getEndDate();
     expect(funcDate).toEqual(date);
-}
+});
 
 });
