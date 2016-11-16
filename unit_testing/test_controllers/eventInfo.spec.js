@@ -37,6 +37,16 @@ describe("EventInfoCtrl", function() {
     $urlRouterProvider.deferIntercept();
   }));
 
+beforeEach(inject(function(_$rootScope_, _$controller_) {
+
+    $scope = _$rootScope_.$new();
+    _$controller_("EventRequestCtrl", {
+      $scope: $scope,
+      });
+    $scope.$apply();
+})
+);
+
 it("Start Date test", function() {
 
     var firebase_event = {
