@@ -129,9 +129,9 @@ describe("userProfileController", function() {
   });
 
   it("Initial values on $scope: name, photoURL, bio, skills, desiredPositions, isSavingProfile", function() {
-    expect($scope.name).toEqual(TESTUSER_INFO.name);
+    expect($scope.profile.name).toEqual(TESTUSER_INFO.name);
     expect($scope.photoURL).toEqual(TESTUSER_INFO.photoURL);
-    expect($scope.bio).toEqual(TESTUSER_INFO.bio);
+    expect($scope.profile.bio).toEqual(TESTUSER_INFO.bio);
 
     expect($scope.skills).toEqual(TESTUSER_INFO.skills);
     expect($scope.desiredPositions).toEqual(TESTUSER_INFO.desired_positions);
@@ -196,8 +196,8 @@ describe("userProfileController", function() {
   });
 
   it("$scope.saveProfile: Promise Resolved", function() {
-    $scope.name = "Test User New Name";
-    $scope.bio = "Test User New Bio";
+    $scope.profile.name = "Test User New Name";
+    $scope.profile.bio = "Test User New Bio";
 
     $scope.photoURL = "http://accidentiallyChangeURL";
 
@@ -211,8 +211,8 @@ describe("userProfileController", function() {
     saveDefer.resolve();
     $scope.$apply();
 
-    expect(userInfo.name).toEqual($scope.name);
-    expect(userInfo.bio).toEqual($scope.bio);
+    expect(userInfo.name).toEqual($scope.profile.name);
+    expect(userInfo.bio).toEqual($scope.profile.bio);
 
     expect(userInfo.skills).toEqual($scope.skills);
     expect(userInfo.desired_positions).toEqual($scope.desiredPositions);
