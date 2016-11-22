@@ -51,8 +51,6 @@ angular.module(
 
 })
 
-.constant('firebaseKey', 'YOUR FIREBASE KEY')
-
 .config(function($stateProvider, $urlRouterProvider) {
   // Default state
   $urlRouterProvider.otherwise('/login');
