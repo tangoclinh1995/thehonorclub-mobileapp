@@ -1,6 +1,6 @@
 angular.module("thehonorclub") 
 
-.controller('EventRequestCtrl', function($scope, $cordovaSocialSharing) {
+.controller('EventInfoCtrl', function($scope, $cordovaSocialSharing) {
     
   //Get Firebase event
   function getFirebaseEvent() {
