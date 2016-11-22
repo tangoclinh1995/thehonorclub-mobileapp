@@ -19,7 +19,7 @@ angular.module(
   });
 })
 
-.constant('firebaseKey', 'YOUR_FIREBASE_API_KEY')
+.constant('firebaseKey', 'YOUR FIREBASE KEY')
 
 .config(function($stateProvider, $urlRouterProvider) {
   // Default state
