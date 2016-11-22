@@ -18,7 +18,7 @@
 -   Navigate into the directory of the repository (using **cd** command)
 
 -   Run the following commands:
-    
+
     ```
     npm install             # Install necessary NPM packages
     ionic state reset       # Install necessary ionic plugins, add Android & IOS platform
@@ -38,7 +38,7 @@
         databaseURL: <YOUR_DATABASE_URL>,
         storageBucket: <YOUR_STORAGE_BUCKET>,
         messagingSenderId: <YOUR_MESSAGE_SENDER_ID>
-      });      
+      });
     ```
 
     For more information about what parameters should be used here, please visit
@@ -47,6 +47,19 @@
     ***NOTE***: *This file is **ignored** by Git, so you need to create it by yourself. The purpose of*
     *this is to protect Firebase authentication information and speed up development time (as each*
     *developer can experiment their code differently on their OWN database)*
+
+
+
+# Build for IOS
+
+-	To test for IOS, run the following commands on a Mac:
+
+    ```
+    ionic build ios
+    ionic emulate ios
+    ```
+
+-	This should open up the IOS emulator with the app
 
 
 
@@ -63,14 +76,14 @@
     library which **depends on AngularJS**) to use, please **ALWAYS REMEMBER** to choose **Angular 1.5.3** (or the version of
     the other library which **depends on Angular 1.5.3**)*
 
--   The newly-installed library will be put in ***www/lib** directory.    
+-   The newly-installed library will be put in ***www/lib** directory.
 
 -   After this step:
     -   Add the suitable ```<script>``` tag to ***www\index.html*** file to enable your newly-installed Javascript
         libraries. This ```<script>``` tag should be in the ```<head>``` part of the file. Example of a correct tag:
 
         ```
-        <script src="lib/collide/collide.js"></script> 
+        <script src="lib/collide/collide.js"></script>
         ```
 
     -   In the **files** part of **karma.conf.js**, add paths of the Javascript files which are just added by you
@@ -90,7 +103,7 @@
 
 -   Navigate into the directory of the repository (using **cd** command)
 
--   Run **Gulp Watch**:   
+-   Run **Gulp Watch**:
 
     ```
     ./node_modules/.bin/gulp watch     # Watch for files change and automatically rebuild the project
@@ -116,7 +129,7 @@
 
 
 
-# Write a Firebase-related unit test 
+# Write a Firebase-related unit test
 
 -   Create a new Firebase database **separated from this project's main Firebase database**.
     This database is going to be used for **TESTING PURPOSE ONLY**

@@ -3,7 +3,7 @@
   	<h1 id = "name"> {{event.name}} </h1>
   	<table style="width:100%" border="0">
     	<tr>
-      	<td rowspan="2" width="63%">
+      	<td rowspan="3" width="63%">
         	<div id="description"> {{event.description}} </div>
         </td>
         <td width="37%" align="center">
@@ -20,6 +20,12 @@
         </td>
       </tr>
       <tr>
+        <td width="37%" align="center">
+          <div id="teamSize"> Team Size:</div>
+          <div id="teamValue"> {{event.min_team_size}} - {{event.max_team_size}} people </div>
+        </td>
+      </tr>
+      <tr>
       	<td align="center" colspan="2">
         	<div id="contactEmail"> {{event.contact_email}} </div>
         </td>
@@ -28,6 +34,14 @@
         <td align="center" colspan="2">
         	<div id="location"> {{event.location}} </div>
     		</td>
+      </tr>
+      <tr>
+        <td colspan="2"" align="center"> 
+          <i class="icon ion-social-facebook" ng-click="shareFacebook()"></i>
+          <i class="icon ion-social-instagram" ng-click="shareInstagram()"></i>
+          <i class="icon ion-social-whatsapp" ng-click="shareWhatsApp()"></i>
+          <i class="icon ion-social-twitter" ng-click="shareTwitter()"></i>
+        </td>
     	</tr>
   	</table>
 	</ion-content>

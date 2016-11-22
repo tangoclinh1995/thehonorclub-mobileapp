@@ -29,9 +29,15 @@ module.exports = function(config) {
       // Ionic Tinder card library -->
       "www/lib/collide/collide.js",
       "www/lib/ionic-ion-tinder-cards/ionic.tdcards.js",
+
+      // ngCordova
+      "www/lib/ngCordova/dist/ng-cordova.js",
+
+      // A specialize version for www/app.js, to prevent constant state change due to
+      // authentication state
+      "unit_testing/app_init.js",
       
-      // Our app's JS files
-      "www/app.js",
+      // Our app's JS files      
       "app/js_controllers/*.js",
       "app/js_services/*.js",
       "app/js_routing/*.js",
@@ -45,6 +51,7 @@ module.exports = function(config) {
 
     // List of files to exclude
     exclude: [
+
     ],
 
     preprocessors: {

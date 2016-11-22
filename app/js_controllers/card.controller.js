@@ -1,7 +1,4 @@
-angular.module('thehonorclub')
-
-.directive('noScroll', function() {
-
+angular.module('thehonorclub').directive('noScroll', function() {
   return {
     restrict: 'A',
     link: function($scope, $element, $attr) {
@@ -11,9 +8,7 @@ angular.module('thehonorclub')
       });
     }
   }
-})
-
-.controller('CardController', function($scope, TDCardDelegate) {
+}).controller('CardController', function($scope, TDCardDelegate) {
   var cardTypes = [
     { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/max.jpg', name: 'Andy', skill: 'AngularJS' },
     { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/ben.png', name: 'Bob', skill: 'NodeJS' },
@@ -34,12 +29,9 @@ angular.module('thehonorclub')
   for(var i = 0; i < 3; i++) $scope.addCard();
 }).controller('CardCtrl', function($scope, TDCardDelegate) {
   $scope.cardSwipedLeft = function(index) {
-    console.log('LEFT SWIPE');
     $scope.addCard();
   };
   $scope.cardSwipedRight = function(index) {
-    console.log('RIGHT SWIPE');
     $scope.addCard();
   };
-  
 });
