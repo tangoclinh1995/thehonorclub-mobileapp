@@ -47,6 +47,7 @@
       Firebase Initialization script
       Please create a file called firebase_init.js in www directory 
       in the following format:
+
         firebase.initializeApp({
           apiKey: <YOUR_API_KEY>,
           authDomain: <YOUR_AUTH_DOMAIN>,
@@ -54,6 +55,10 @@
           storageBucket: <YOUR_STORAGE_BUCKET>,
           messagingSenderId: <YOUR_MESSAGE_SENDER_ID>
         });
+
+        angular.module("thehonorclub")
+        .constant("firebaseKey", <YOUR_API_KEY>);
+
       This file is IGNORED by Git, so you need to add it by yourself
       For more information, visit the team's Slack Channel
     -->
