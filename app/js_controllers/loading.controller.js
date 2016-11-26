@@ -27,7 +27,7 @@ angular.module("thehonorclub")
     // The path user_info/<USER_UID> does not exist, so this is first time user
     // Insert basic profile
     if (!snapshot.exists()) {
-      dbRefUserInfo.child(signInUser.providerData[0].uid).set({
+      dbRefUserInfo.child(signInUser.uid).set({
         name: signInUser.displayName,
         photoURL: signInUser.photoURL,
         email: signInUser.providerData[0].email,
