@@ -1,7 +1,7 @@
 angular.module("thehonorclub")
 .factory("$firebaseAuthInstance", function(firebaseKey) {
 	var factory = {};
-	console.log(firebaseKey);
+	// console.log(firebaseKey);
 	factory.auth = JSON.parse(localStorage.getItem("firebase:authUser:"+firebaseKey+":[DEFAULT]"));
 	// console.log(factory.auth);
 	factory.$getAuth = () => {
