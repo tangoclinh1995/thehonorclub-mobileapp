@@ -1,36 +1,41 @@
 <ion-view view-title="Team Creation">
   <ion-content>
-    <form ng-submit="addTeam()">
     <div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Team name" ng-model="name" required/>
+        <input type="text" placeholder="Team name" ng-model="teamProfile.name" required/>
       </label>
+
       <label class="item item-input">
-        <textarea placeholder="Team Details" ng-model="description" required></textarea>
+        <textarea placeholder="Team Details" ng-model="teamProfile.description" required></textarea>
       </label>
-      <label class="item item-input">
-        <input placeholder="Skills Needed" type="text" ng-model="newSkill">
+
+      <div class="item item-input-inset">
+        <label class="item item-input-wrapper">
+          <input placeholder="Skills Needed" type="text" ng-model="teamProfile.newSkill">
+        </label>
         <button class="button button-positive" ng-click="addSkill()">Add</button>
-      </label>
-      <div ng-repeat="(key, value) in skills">
-        <button class="button button-positive" ng-click="removeSkill(key)">Remove</button>
+      </div>
+        
+      <div ng-repeat="(key, value) in teamProfile.skills">
+        <button class="button button-positive button-small" ng-click="removeSkill(key)">Remove</button>
         <span class="tag tag-default">{{key}}</span>
       </div>
-      <label class="item item-input">
-        <input placeholder="Positions Needed" type="text" ng-model="newPosition">
-        <input placeholder="No. of people" type="number" ng-model="no" min="1">
-        <button class="button button-positive" ng-click="addPosition()">Add</button>
-      </label>
-      <div ng-repeat="(key, value) in positions">
-      <button class="button button-positive" ng-click="removePosition(key)">Remove</button>
+
+      <div class="item item-input-inset">
+        <label class="item item-input-wrapper">
+          <input placeholder="Positions Needed" type="text" ng-model="teamProfile.newPosition">
+        </label>
+        <button class="button button-positive" ng-click="addPosition()">Add</button>        
+      </div>  
+
+      <div ng-repeat="(key, value) in teamProfile.positions">
+        <button class="button button-positive button-small" ng-click="removePosition(key)">Remove</button>
         <span class="tag tag-default">{{value}} {{key}}</span>
       </div>
-      <select ng-model="selectedPos" ng-options="p.text for p in positions">
-      </select>
+
       <label class="item item-input">
-        <input type="submit" class="button button-block button-positive" value="Submit">
+        <button class="button button-block button-positive" ng-disabled="isCreatingTeam" ng-click="addTeam()">Create</button>
       </label>
     </div>
-    </form>
   </ion-content>
 </ion-view>

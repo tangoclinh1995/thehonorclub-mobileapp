@@ -32,8 +32,8 @@ angular.module(
   // being directed to without user signing in, then force redirecting back to
   // Signin page
   $rootScope.$on("$stateChangeStart", function(even, toState) {
-    // Don't care if upcoming state is Signin
-    if (toState.name == "login") {
+    // Don't care if upcoming state is Signin or Request Event
+    if (toState.name == "login" || toState.name == "evmtRequest") {
       return;
     }
 
@@ -50,8 +50,6 @@ angular.module(
   }); 
 
 })
-
-.constant('firebaseKey', 'YOUR FIREBASE KEY')
 
 .config(function($stateProvider, $urlRouterProvider) {
   // Default state

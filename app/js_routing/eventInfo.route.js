@@ -3,8 +3,9 @@ angular.module("thehonorclub")
   $stateProvider
 
   .state('eventInfo', {
-    url: '/eventInfo',
-    templateUrl: 'templates/eventInfo.html'
+    url: '/eventInfo/:eventUid',
+    templateUrl: 'templates/eventInfo.html',
+    controller: "EventInfoCtrl"
   });
 
 });

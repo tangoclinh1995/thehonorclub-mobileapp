@@ -1,6 +1,6 @@
 angular.module("thehonorclub") 
 
-.controller('EventRequestCtrl', function($scope, ionicTimePicker, ionicDatePicker) {
+.controller('EventRequestCtrl', function($scope, ionicTimePicker, ionicDatePicker, $ionicLoading, $state) {
 
   var ref = firebase.database().ref().child("event");
 
@@ -101,6 +101,25 @@ angular.module("thehonorclub")
       max_member_per_team: $scope.maxSize,
       email: $scope.email,
       location: $scope.location
+    })
+    .then(function() {
+      $ionicLoading.show({
+        template: "New event proposed!",
+        duration: 1000
+      })
+      .then(function() {
+        // Go back to landing page. Can be changed later if needed
+        $state.go("login");
+
+      });
+
+    })
+    .catch(function() {
+      $ionicLoading.show({
+        template: "Error sending new event to server!",
+        duration: 1000
+      });
+
     });
 
   };

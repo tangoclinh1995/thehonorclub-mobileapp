@@ -1,9 +1,13 @@
 angular.module("thehonorclub") 
 
-.controller('EventRequestCtrl', function($scope, $cordovaSocialSharing) {
+.controller('EventInfoCtrl', function($scope, $cordovaSocialSharing, $stateParams) {
     
   //Get Firebase event
-  function getFirebaseEvent() {}
+  function getFirebaseEvent() {
+    var databaseRef = firebase.database().ref();
+    var currentUser = $firebaseAuthInstance.$getAuth();
+    return $firebaseObject(databaseRef.child("event").child($stateParams.eventUid));
+  }
   var firebaseEvent = getFirebaseEvent();
   
   // Convert FireBase Event to event (Functions and variables)

@@ -3,7 +3,9 @@ angular.module("thehonorclub")
 	var factory = {};	console.log(firebaseKey);
 	var auth = JSON.parse(localStorage.getItem("firebase:authUser:"+firebaseKey+":[DEFAULT]"));
 	console.log(auth);
-	factory.$getAuth = () => { return auth; };
+	factory.$getAuth = function() {
+		return auth;
+	};
 
 	return factory;
 });
