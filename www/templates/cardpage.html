@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view title="Find Your Team">
   <ion-pane>
     <ion-header-bar class="bar-default">
       <h1 class="title">TD Cards</h1>
@@ -12,7 +12,7 @@
         on-partial-swipe="cardPartialSwipe(amt)"
         class="card-{{$index}}"
       >
-        <div class="image" ng-controller="CardCtrl">
+        <div class="image">
           <div class="no-text">NOPE</div>
             <img ng-src="{{card.image}}">
             <div class="yes-text">LIKE</div>
