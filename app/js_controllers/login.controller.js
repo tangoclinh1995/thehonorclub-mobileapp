@@ -30,7 +30,7 @@ angular.module('thehonorclub')
 	$scope.login = function() {
 		var provider = new firebase.auth.FacebookAuthProvider();
 		firebase.auth().signInWithRedirect(provider);
-		$state.go('loading', {origin: 'login'});
+		$state.go('loading');
   };
 
 }]);

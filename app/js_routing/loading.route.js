@@ -3,7 +3,7 @@ angular.module("thehonorclub")
 
   $stateProvider
   .state("loading", {
-    url: "/loading/{origin}",
+    url: "/loading",
     templateUrl: "templates/loading.html",
     controller: "loadingController"
   });
