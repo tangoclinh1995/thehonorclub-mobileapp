@@ -7,6 +7,11 @@ angular.module("thehonorclub")
   var databaseRef = firebase.database().ref();
 
   var currentUser = $firebaseAuthInstance.$getAuth();
+  console.log(currentUser);
+  if (currentUser == undefined) {
+      console.log(currentUser);
+      $state.go('login');
+  }
   var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
 
   $scope.skills = [];

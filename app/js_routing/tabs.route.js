@@ -25,7 +25,7 @@ angular.module('thehonorclub')
     views: {
       'tab2': {
         templateUrl: 'templates/cardpage.html',
-        controller: 'CardController'
+        controller: 'CardsController'
       }
     }
   })
