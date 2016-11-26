@@ -8,7 +8,7 @@ angular.module("thehonorclub")
 	console.log(currentUser);
 	if (currentUser != undefined) {
 		console.log(currentUser);
-    $state.go('dashboard');
+    $state.go('tabs.dashboard');
 	}
 
 	firebase.auth().getRedirectResult().then(function(result) {
@@ -42,7 +42,7 @@ angular.module("thehonorclub")
     	$state.go('userprofile');
     }
     else {
-	    $state.go('dashboard');
+	    $state.go('tabs.dashboard');
     }
 
   })    
