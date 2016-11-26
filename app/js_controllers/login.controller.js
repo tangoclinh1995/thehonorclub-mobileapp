@@ -4,12 +4,13 @@ angular.module('thehonorclub')
   var signInUser;
 
 	var currentUser = $firebaseAuthInstance.$getAuth();
+	console.log(currentUser);
 	if (currentUser != undefined) {
-    $state.go('userprofile');
+    $state.go('dashboard');
 	}
 
 	// Sign out
-	$scope.logout = () => {
+	$scope.logout = function() {
 		firebase.auth().signOut().then(function() {
 		  // Sign-out successful.
 		  console.log("signed out");
@@ -28,58 +29,8 @@ angular.module('thehonorclub')
 	
 	$scope.login = function() {
 		var provider = new firebase.auth.FacebookAuthProvider();
-		// firebase.auth().signInWithRedirect(provider);
-		// firebase.auth().getRedirectResult().then(function(result) {
-
-		//   // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-		//   var token = result.credential.accessToken;
-
-		//   signInUser = result.user;
-
-  //     // Check whether this is first time user
-  //     // Chain to NEXT THEN
-  //     return dbRefUserInfo.child(signInUser.uid).once("value");
-
-		// })
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-
-		  // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-		  var token = result.credential.accessToken;
-
-		  signInUser = result.user;
-
-      // Check whether this is first time user
-      // Chain to NEXT THEN
-      return dbRefUserInfo.child(signInUser.uid).once("value");
-
-		})
-    .then(function(snapshot) {
-
-      // The path user_info/<USER_UID> does not exist, so this is first time user
-      // Insert basic profile
-      if (!snapshot.exists()) {
-        dbRefUserInfo.child(signInUser.uid).set({
-          name: signInUser.displayName,
-          photoURL: signInUser.photoURL,
-          email: signInUser.providerData[0].email,
-          bio: "",
-
-          skills: [],
-          desired_positions: [],
-
-          leader_of: {},
-          member_of: {}          
-        });
-
-      }
-
-      $state.go('userprofile');
-    })    
-		.catch(function(error) {
-      console.log(error);
-
-		});
-
+		firebase.auth().signInWithRedirect(provider);
+		$state.go('loading', {origin: 'login'});
   };
 
 }]);
