@@ -1,10 +1,11 @@
 <ion-view view-title="Profile">  
   <ion-content>  
-    <div class="list">
+    <div class="list">      
       <!-- Profile picture -->
-      <div class="item item-image">
-        <img ng-src={{photoURL}}>
-      </div>  
+      <div class="item item-image">        
+        <img id="imgProfilePicture" ng-src={{photoURL}}>
+        <br><br>
+      </div>
 
       <!-- Input name -->
       <label class="item item-input item-stacked-label">
@@ -60,10 +61,9 @@
 
       <br>
       <br>
-      <br>
 
       <!-- Save -->
-      <button class="button button-positive" ng-click="saveProfile()" ng-disabled="isSavingProfile">
+      <button class="button button-positive" ng-click="saveProfile()" ng-disabled="isSavingProfile" style="margin-left: 15px">
         Save Profile
       </button>
 
