@@ -125,6 +125,13 @@ angular.module("thehonorclub")
         .child(currentUser.uid)
         .child("leader_of")
         .update(newLeaderOfObj);
+
+        // Add user to user_have_team object
+        var newUserHaveTeamChildObj = {};
+        newUserHaveTeamChildObj[currentUser.uid] = 1;
+        databaseRef.child("user_have_team")
+        .child($stateParams.eventUid)
+        .update(newUserHaveTeamChildObj);
         
         // Move to dashboard after new team is created
         // This can be changed later
