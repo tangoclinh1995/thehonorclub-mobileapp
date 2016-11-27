@@ -105,7 +105,7 @@ angular.module("thehonorclub")
       })
       .then(function(){
         setTimeout(function(){
-          $state.go('dashboard');
+          $state.go('tabs.dashboard');
         }, 1000);
       });
 

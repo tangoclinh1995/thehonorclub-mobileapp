@@ -6,7 +6,7 @@ angular.module('thehonorclub')
 	var currentUser = $firebaseAuthInstance.$getAuth();
 	console.log(currentUser);
 	if (currentUser != undefined) {
-    $state.go('dashboard');
+    $state.go('tabs.dashboard');
 	}
 
 	// Sign out
