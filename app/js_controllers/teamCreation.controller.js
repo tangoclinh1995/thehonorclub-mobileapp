@@ -92,6 +92,7 @@ angular.module("thehonorclub")
       return;
     }
 
+    // Save new team object in database
     var newTeamRef = firebase.database().ref().child("team").push();
     newTeamRef.set({
       event_uid: $stateParams.eventUid,
@@ -116,9 +117,18 @@ angular.module("thehonorclub")
         duration: 1000
       })
       .then(function() {
-        // Move to user profile page after new team is created
+        var newLeaderOfObj = {}
+        newLeaderOfObj[newTeamRef.key] = 1;
+
+        // Add this team to userInfo object
+        databaseRef.child("user_info")
+        .child(currentUser.uid)
+        .child("leader_of")
+        .update(newLeaderOfObj);
+        
+        // Move to dashboard after new team is created
         // This can be changed later
-        $state.go("userprofile");
+        $state.go("dashboard");
 
       });
 
