@@ -3,7 +3,7 @@ angular.module(
   ["ionic", "ionic-datepicker", "ionic-timepicker", "firebase", "ionic.contrib.ui.tinderCards", "ngCordova"]
 )
 
-.run(function($ionicPlatform, $rootScope, $state) {
+.run(function($ionicPlatform, $rootScope, $state, $ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,35 +20,45 @@ angular.module(
 
   // Monitor authentication state, if detect user has signed out, then automatically
   // redirect to Signin page
-  firebase.auth().onAuthStateChanged(function(user) {
-    // Null user object means "Signed Out"
-    if (user == null) {
-      $state.go("login");
-    }
+  // firebase.auth().onAuthStateChanged(function(user) {
+  //   // Null user object means "Signed Out"
+  //   if (user == null) {
+  //     $state.go("login");
+  //   }
 
+  // });
+
+  // // Monitor Angular UI Router state change, if detect that a non-Sign-in page is
+  // // being directed to without user signing in, then force redirecting back to
+  // // Signin page
+  // $rootScope.$on("$stateChangeStart", function(even, toState) {
+  //   // Don't care if upcoming state is Signin or Request Event
+  //   if (toState.name == "login" || toState.name == "evmtRequest") {
+  //     return;
+  //   }
+
+  //   // Otherwise, check whether user has been signed in
+  //   if (firebase.auth().currentUser == null) {
+  //     // TRICK: Wait a litte bit before redirection to make sure
+  //     // redirection successfully occurs
+  //     setTimeout(function() {
+  //       $state.go("login");
+  //     }, 100);
+
+  //   }
+
+  // }); 
+
+  // Monitor state chage to allow back button or not
+  $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+    console.log(from);
+    if (from.name === 'loading' || from.name === 'login') {
+      $ionicNavBarDelegate.showBackButton(false);
+    }
+    else {
+      $ionicNavBarDelegate.showBackButton(true);
+    }
   });
-
-  // Monitor Angular UI Router state change, if detect that a non-Sign-in page is
-  // being directed to without user signing in, then force redirecting back to
-  // Signin page
-  $rootScope.$on("$stateChangeStart", function(even, toState) {
-    // Don't care if upcoming state is Signin or Request Event
-    if (toState.name == "login" || toState.name == "evmtRequest") {
-      return;
-    }
-
-    // Otherwise, check whether user has been signed in
-    if (firebase.auth().currentUser == null) {
-      // TRICK: Wait a litte bit before redirection to make sure
-      // redirection successfully occurs
-      setTimeout(function() {
-        $state.go("login");
-      }, 100);
-
-    }
-
-  }); 
-
 })
 
 .config(function($stateProvider, $urlRouterProvider) {

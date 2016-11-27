@@ -8,7 +8,16 @@ angular.module('thehonorclub').directive('noScroll', function() {
       });
     }
   }
-}).controller('CardController', function($scope, TDCardDelegate) {
+})
+.controller('CardsController', ['$scope', '$state', 'TDCardDelegate', '$firebaseAuthInstance', function($scope, $state, TDCardDelegate, $firebaseAuthInstance) {
+  
+  var currentUser = $firebaseAuthInstance.$getAuth();
+  console.log(currentUser);
+  if (currentUser == undefined) {
+    console.log(currentUser);
+    $state.go('login');
+  }
+
   var cardTypes = [
     { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/max.jpg', name: 'Andy', skill: 'AngularJS' },
     { image: 'http://ionic-forum-static.s3.amazonaws.com/tinder/ben.png', name: 'Bob', skill: 'NodeJS' },
@@ -17,6 +26,7 @@ angular.module('thehonorclub').directive('noScroll', function() {
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
+    $scope.addCard();
   };
 
   $scope.addCard = function() {
@@ -26,12 +36,13 @@ angular.module('thehonorclub').directive('noScroll', function() {
   }
 
   $scope.cards = [];
-  for(var i = 0; i < 3; i++) $scope.addCard();
-}).controller('CardCtrl', function($scope, TDCardDelegate) {
+  for(var i = 0; i < 3; i++) $scope.addCard();  
+
   $scope.cardSwipedLeft = function(index) {
-    $scope.addCard();
+    console.log("left" + index);
   };
   $scope.cardSwipedRight = function(index) {
-    $scope.addCard();
+    console.log("right" + index);
   };
-});
+
+}]);

@@ -1,11 +1,17 @@
 angular.module("thehonorclub")
 .controller(
   "userProfileController",
-  function($scope, $firebaseObject, $firebaseAuthInstance, $tagStandardizeHelper, $ionicLoading)
+  ["$scope", "$firebaseObject", "$firebaseAuthInstance", "$tagStandardizeHelper", "$ionicLoading", "$state",
+  function($scope, $firebaseObject, $firebaseAuthInstance, $tagStandardizeHelper, $ionicLoading, $state)
 {
   var databaseRef = firebase.database().ref();
 
   var currentUser = $firebaseAuthInstance.$getAuth();
+  console.log(currentUser);
+  if (currentUser == undefined) {
+      console.log(currentUser);
+      $state.go('login');
+  }
   var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
 
   $scope.skills = [];
@@ -97,6 +103,11 @@ angular.module("thehonorclub")
         template: "Profile saved!",
         duration: 1000
       })
+      .then(function(){
+        setTimeout(function(){
+          $state.go('dashboard');
+        }, 1000);
+      });
 
     })
     .catch(function(error) {
@@ -111,4 +122,4 @@ angular.module("thehonorclub")
 
   };
 
-});
+}]);

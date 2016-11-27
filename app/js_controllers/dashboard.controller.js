@@ -6,12 +6,17 @@ angular.module("thehonorclub")
   var databaseRef = firebase.database().ref();
 
   var currentUser = $firebaseAuthInstance.$getAuth();
-  var userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
-  var allUserInfo = $firebaseObject(databaseRef.child("user_info"));
-  var eventInfo = $firebaseObject(databaseRef.child("event"));
-  var teamInfo = $firebaseObject(databaseRef.child("team"));   
+  console.log(currentUser);
+  if (currentUser == undefined) {
+      console.log(currentUser);
+      $state.go('login');
+  }
+  $scope.userInfo = $firebaseObject(databaseRef.child("user_info").child(currentUser.uid));
+  $scope.allUserInfo = $firebaseObject(databaseRef.child("user_info"));
+  $scope.eventInfo = $firebaseObject(databaseRef.child("event"));
+  $scope.teamInfo = $firebaseObject(databaseRef.child("team"));   
 
-
+  console.log($scope);
 
   $scope.toggleEvent = function(team) {
     if ($scope.isTeamShown(team)) {

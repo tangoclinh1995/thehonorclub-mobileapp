@@ -10,7 +10,7 @@
     "angular-ui-router": "0.2.13",
     "angular-animate": "1.5.3",
     "angular-sanitize": "1.5.3",
-    "ionic-ion-tinder-cards": "ionic-contrib-tinder-cards#*",
+    "ionic-ion-tinder-cards": "Bixev/ionic-ion-tinder-cards",
     "ionic-datepicker": "^1.2.1",
     "ionic-timepicker": "^0.6.0",
     "ng-cordova-oauth": "^0.2.10",
