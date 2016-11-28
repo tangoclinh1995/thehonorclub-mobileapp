@@ -7,7 +7,8 @@ angular.module('thehonorclub')
   .state('tabs', {
     url: '/tabs',
     templateUrl: 'templates/tabs.html',
-    abstract:true
+    controller: "tabsController",
+    abstract: true
   })
 
   .state('tabs.dashboard', {
@@ -19,6 +20,26 @@ angular.module('thehonorclub')
       }
     }
   })
+
+  .state('tabs.eventlist', {
+    url: '/eventList',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/eventList.html',
+        controller: 'eventListController'
+      }
+    }
+  })
+
+  .state('tabs.teamCreation', {
+    url: '/teamCreation/:eventUid',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/team_creation_form.html',
+        controller: 'TeamCreationCtrl'
+      }
+    }
+  })  
 
   .state('tabs.cards', {
     url: '/cards',

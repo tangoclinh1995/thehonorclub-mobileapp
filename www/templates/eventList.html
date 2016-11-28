@@ -1,0 +1,34 @@
+<ion-view title="Join New Event">
+  <ion-content>
+    <br>
+    
+    <a class="button button-positive button-block">Recommend me a team</a>
+
+    <br>
+
+    <div class="card" ng-repeat="(eventUid, eventProps) in event" ng-if="eventAvailForUser(eventUid)">
+      <div class="item item-divider">
+        {{ eventProps.name }}
+      </div>
+      <div class="item item-text-wrap">
+        <i class="icon ion-calendar"></i> &nbsp;
+        {{ unixTimestampToString(eventProps.timestamp_begin) }} - {{ unixTimestampToString(eventProps.timestamp_end) }}
+        <br>
+        <i class="icon ion-person-stalker"></i> &nbsp;
+        {{eventProps.min_member_per_team}} - {{eventProps.max_member_per_team}} people/team
+        <br>
+        <i class="icon ion-information-circled"></i> &nbsp;
+        {{eventProps.description}}
+        <br><br>
+        <a href="#/eventInfo/{{eventUid}}">More Details</a>
+        <br><br>
+        <a class="button button-assertive" href="#/tabs/teamCreation/{{eventUid}}">Be a Leader</a>
+        &nbsp;&nbsp;
+        <a class="button button-positive">Be a Team member</a>
+      </div>
+
+    </div>
+
+  </ion-content>
+
+</ion-view>
