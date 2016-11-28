@@ -16,12 +16,18 @@ angular.module("thehonorclub")
       var mapUserSkills = {},
           mapUserPositions = {};
 
-      for (var i = 0, len = user["skills"].length; i < len; ++i) {
-        mapUserSkills[user["skills"][i]] = 1;
+      if (typeof user["skills"] != "undefined") {
+        for (var i = 0, len = user["skills"].length; i < len; ++i) {
+          mapUserSkills[user["skills"][i]] = 1;
+        }
+
       }
 
-      for (var i = 0, len = user["desired_positions"].length; i < len; ++i) {
-        mapUserPositions[user["desired_positions"][i]] = 1;
+      if (typeof user["desired_positions"] != "undefined") {
+        for (var i = 0, len = user["desired_positions"].length; i < len; ++i) {
+          mapUserPositions[user["desired_positions"][i]] = 1;
+        }
+        
       }
 
       var teamSkills = [],
