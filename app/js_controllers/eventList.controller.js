@@ -26,7 +26,7 @@ function($scope, $firebaseObject, $firebaseAuthInstance) {
   }
 
   $scope.unixTimestampToString = function(timestamp) {
-    return moment.unix(timestamp).format("DD/MM/YYYY hh:mm");
+    return moment.unix(timestamp).format("DD/MM/YYYY HH:mm");
   }
 
 });
