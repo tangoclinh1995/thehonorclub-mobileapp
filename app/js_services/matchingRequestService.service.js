@@ -317,7 +317,7 @@ angular.module("thehonorclub")
       userSkills = userInfoSnapshot.child("skills");
       userDesiredPosition = userInfoSnapshot.child("desired_positions");      
 
-      dbRefTeam.child(teamUid).child("member_uid").child(userUid).set(1);
+      dbRefTeam.child(teamUid).child("members_uid").child(userUid).set(1);
 
       return dbRefTeam.child(teamUid).once("value")
 
