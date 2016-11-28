@@ -41,6 +41,12 @@ angular.module("thehonorclub").directive('noScroll', function() {
     return $scope.shownTeam === team;
   };
 
+  $scope.inviteMember = function(e, teamUid) {
+    e.stopPropagation();
+    console.log(teamUid);
+    $state.go('tabs.matchtoteammember', {teamUid: teamUid});
+  };
+
   $scope.logout = function() {
     firebase.auth().signOut().then(function() {
       // Sign-out successful.
