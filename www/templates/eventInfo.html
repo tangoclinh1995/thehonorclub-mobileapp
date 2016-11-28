@@ -1,48 +1,55 @@
-<ion-view view-title="eventInfo">
-	<ion-content ng-controller="eventInfoCtrl">
-  	<h1 id = "name"> {{event.name}} </h1>
-  	<table style="width:100%" border="0">
-    	<tr>
-      	<td rowspan="3" width="63%">
-        	<div id="description"> {{event.description}} </div>
-        </td>
-        <td width="37%" align="center">
-        	<div id="from"> From: </div>
-          <div id="startDate"> {{event.start_date}} </div>
-          <div id="startTime"> {{event.start_time}} </div>
-        </td>
-      </tr>
-      <tr>
-      	<td width="37%" align="center">
-        	<div id="to"> To: </div>
-          <div id="endDate"> {{event.end_date}} </div>
-          <div id="endTime"> {{event.end_time}} </div>
-        </td>
-      </tr>
-      <tr>
-        <td width="37%" align="center">
-          <div id="teamSize"> Team Size:</div>
-          <div id="teamValue"> {{event.min_team_size}} - {{event.max_team_size}} people </div>
-        </td>
-      </tr>
-      <tr>
-      	<td align="center" colspan="2">
-        	<div id="contactEmail"> {{event.contact_email}} </div>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" colspan="2">
-        	<div id="location"> {{event.location}} </div>
-    		</td>
-      </tr>
-      <tr>
-        <td colspan="2"" align="center"> 
-          <i class="icon ion-social-facebook" ng-click="shareFacebook()"></i>
-          <i class="icon ion-social-instagram" ng-click="shareInstagram()"></i>
-          <i class="icon ion-social-whatsapp" ng-click="shareWhatsApp()"></i>
-          <i class="icon ion-social-twitter" ng-click="shareTwitter()"></i>
-        </td>
-    	</tr>
-  	</table>
+<ion-view view-title="Event Details">
+	<ion-content>
+    <div class="header bar-header bar-light">
+      <h1 class="title">{{ event.name }}</h1>      
+    </div>    
+
+    <div class="list">
+      <div class="item item-icon-left">
+        <i class="icon ion-calendar"></i>
+        {{ unixTimestampToString(event.timestamp_begin) }} - {{ unixTimestampToString(event.timestamp_begin) }}
+      </div>
+      <div class="item item-icon-left">
+        <i class="icon ion-person-stalker"></i>
+        {{event.min_member_per_team}} - {{event.max_member_per_team}} people/team  
+      </div>
+      <div class="item item-icon-left">
+        <i class="icon ion-information-circled"></i>
+        {{ event.description }}        
+      </div>
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-location"></i>
+        {{ event.location }} 
+      </div>
+      <div class="item item-icon-left">
+        <i class="icon ion-email"></i>
+        <a href="mailto:{{ event.email }}">{{ event.email }}</a>        
+      </div>                  
+    </div>
+
+    <br>
+
+    <button class="button button-positive" ng-click="shareFacebook()">
+      <i class="icon ion-social-facebook"></i>
+    </button>
+
+    &nbsp;
+
+    <button class="button button-primary" ng-click="shareInstagram()">
+      <i class="icon ion-social-instagram"></i>
+    </button>
+
+    &nbsp;
+
+    <button class="button button-balanced" ng-click="shareWhatsApp()">
+      <i class="icon ion-social-whatsapp"></i>
+    </button>
+
+    &nbsp;
+
+    <button class="button button-calm" ng-click="shareTwitter()">
+      <i class="icon ion-social-twitter"></i>
+    </button>
+
 	</ion-content>
 </ion-view>

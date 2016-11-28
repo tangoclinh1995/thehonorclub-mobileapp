@@ -31,6 +31,16 @@ angular.module('thehonorclub')
     }
   })
 
+  .state('tabs.eventInfo', {
+    url: '/eventInfo/:eventUid',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/eventInfo.html',
+        controller: 'EventInfoCtrl'
+      }
+    }
+  })  
+
   .state('tabs.teamCreation', {
     url: '/teamCreation/:eventUid',
     views: {
