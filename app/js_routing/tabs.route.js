@@ -20,6 +20,16 @@ angular.module('thehonorclub')
     }
   })
 
+  .state('tabs.eventlist', {
+    url: '/eventList',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/eventList.html',
+        controller: 'eventListController'
+      }
+    }
+  })  
+
   .state('tabs.cards', {
     url: '/cards',
     views: {
