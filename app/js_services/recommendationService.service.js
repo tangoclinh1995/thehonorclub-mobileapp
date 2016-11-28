@@ -84,13 +84,13 @@ angular.module("thehonorclub")
     })
     .catch(defer.reject);
 
-    // Extract user whose UID is not in `user_have_team[event_uid]
+    // Extract user whose UID is not in user_have_team[event_uid]
     // They are available user
     function extractUser() {
       var result = {};
 
       for (uid in mapUserInfo) {
-        if (mapUserHaveTeam[uid]) {
+        if (typeof mapUserHaveTeam[uid] == "undefined") {
           result[uid] = mapUserInfo[uid];
         }
 
