@@ -5,7 +5,7 @@ angular.module("thehonorclub")
   .state("cards", {
     url: "/cards",
     templateUrl: "templates/cardpage.html",
-    controller: "CardController"
+    controller: "CardsController"
   });
 
 });

@@ -17,5 +17,9 @@ angular.module("thehonorclub")
 		}
 	};
 
+  factory.$cleanAuth = function() {
+		localStorage.removeItem("firebase:authUser:"+firebaseKey+":[DEFAULT]");
+		factory.auth = undefined;
+  }
 	return factory;
 });

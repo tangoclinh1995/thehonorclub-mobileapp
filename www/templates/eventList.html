@@ -2,7 +2,7 @@
   <ion-content>
     <br>
     
-    <a class="button button-positive button-block">Recommend me a team</a>
+    <a class="button button-positive button-block" ng-href="#/tabs/matchtoteam/"">Recommend me a team</a>
 
     <br>
 
@@ -22,9 +22,9 @@
         <br><br>
         <a href="#/tabs/eventInfo/{{eventUid}}">More Details</a>
         <br><br>
-        <a class="button button-assertive" href="#/tabs/teamCreation/{{eventUid}}">Be a Leader</a>
+        <a class="button button-assertive" ng-href="#/tabs/teamCreation/{{eventUid}}">Be a Leader</a>
         &nbsp;&nbsp;
-        <a class="button button-positive">Be a Team member</a>
+        <a class="button button-positive" ng-href="#/tabs/matchtoteam/{{eventUid}}">Be a Team member</a>
       </div>
 
     </div>

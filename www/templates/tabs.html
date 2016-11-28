@@ -1,14 +1,13 @@
 <ion-view title="Teamder" id="tabs">
-  <ion-tabs class="tabs-stable tabs-icon-top" id="tabs-tabs1">
-    <ion-tab title="Dashboard" icon="ion-ios-list" ng-click="goToState('tabs.dashboard')" id="tabs-tab1">
-      <ion-nav-view name="tab1"></ion-nav-view>  
+  <ion-tabs class="tabs-stable tabs-icon-top" id="tabs-tabs2">
+    <ion-tab title="Profile" icon="ion-person" ng-click="goToState('tabs.userprofile')" id="tabs-tab1">
+      <ion-nav-view name="tab1"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="Find Your Team" icon="ion-fireball" ng-click="goToState('tabs.cards')" id="tabs-tab2">
-      <ion-nav-view name="tab2"></ion-nav-view>
+    <ion-tab title="Dashboard" icon="ion-grid" ng-click="goToState('tabs.dashboard')" id="tabs-tab2">
+      <ion-nav-view name="tab2"></ion-nav-view>  
     </ion-tab>
-    <ion-tab title="Matchings" icon="ion-heart" ng-click="goToState('tabs.matchings')" id="tabs-tab3">
+    <ion-tab title="Find Your Team" icon="ion-heart" ng-click="goToState('tabs.matchtoteam')" id="tabs-tab3">
       <ion-nav-view name="tab3"></ion-nav-view>
     </ion-tab>
-    
   </ion-tabs>
 </ion-view>

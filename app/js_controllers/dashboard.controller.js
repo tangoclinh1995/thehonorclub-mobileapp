@@ -1,7 +1,17 @@
-angular.module("thehonorclub")
+angular.module("thehonorclub").directive('noScroll', function() {
+  return {
+    restrict: 'A',
+    link: function($scope, $element, $attr) {
+
+      $element.on('touchmove', function(e) {
+        e.preventDefault();
+      });
+    }
+  }
+})
 .controller(
   "dashboardController",
-  function($scope, $firebaseObject, $firebaseAuthInstance, $tagStandardizeHelper, $ionicLoading)
+  function($state, $scope, $firebaseObject, $firebaseAuthInstance, $tagStandardizeHelper, $ionicLoading)
 {
   var databaseRef = firebase.database().ref();
 
@@ -31,5 +41,17 @@ angular.module("thehonorclub")
     return $scope.shownTeam === team;
   };
 
+  $scope.logout = function() {
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      $firebaseAuthInstance.$cleanAuth();
 
+      $state.go("login");
+
+    }, function(error) {
+      // An error happened.
+      console.error(error);
+    });
+  };
+  
 });

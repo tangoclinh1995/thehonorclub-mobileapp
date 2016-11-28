@@ -11,10 +11,20 @@ angular.module('thehonorclub')
     abstract: true
   })
 
+  .state("tabs.userprofile", {
+    url: "/userprofile",
+    views: {
+      'tab1': {
+        templateUrl: "templates/profilepage.html",
+        controller: "userProfileController"
+      }
+    }
+  })
+
   .state('tabs.dashboard', {
     url: '/dashboard',
     views: {
-      'tab1': {
+      'tab2': {
         templateUrl: 'templates/dashboard.html',
         controller: 'dashboardController'
       }
@@ -24,7 +34,7 @@ angular.module('thehonorclub')
   .state('tabs.eventlist', {
     url: '/eventList',
     views: {
-      'tab1': {
+      'tab2': {
         templateUrl: 'templates/eventList.html',
         controller: 'eventListController'
       }
@@ -34,7 +44,7 @@ angular.module('thehonorclub')
   .state('tabs.eventInfo', {
     url: '/eventInfo/:eventUid',
     views: {
-      'tab1': {
+      'tab2': {
         templateUrl: 'templates/eventInfo.html',
         controller: 'EventInfoCtrl'
       }
@@ -44,7 +54,7 @@ angular.module('thehonorclub')
   .state('tabs.teamCreation', {
     url: '/teamCreation/:eventUid',
     views: {
-      'tab1': {
+      'tab2': {
         templateUrl: 'templates/team_creation_form.html',
         controller: 'TeamCreationCtrl'
       }
@@ -54,9 +64,29 @@ angular.module('thehonorclub')
   .state('tabs.cards', {
     url: '/cards',
     views: {
-      'tab2': {
+      'tab3': {
         templateUrl: 'templates/cardpage.html',
         controller: 'CardsController'
+      }
+    }
+  })
+
+  .state('tabs.matchtoteam', {
+    url: '/matchtoteam/:eventUid?',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/matchToTeam.html',
+        controller: 'matchToTeamController'
+      }
+    }
+  })
+
+  .state('tabs.matchtoteammember', {
+    url: '/matchtoteammember/:teamUid',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/matchToTeamMember.html',
+        controller: 'matchToTeamMemberController'
       }
     }
   })

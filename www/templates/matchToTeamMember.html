@@ -1,0 +1,36 @@
+<ion-view>
+  <ion-pane>
+    <ion-header-bar class="bar-default" ng-if="currentEventUid">
+      <h1>Potential Members for {{ currentTeamInfo.name }}</h1>
+      <h2>at <small>{{ currentEvent.name }}</small></h2>
+    </ion-header-bar>
+    <td-cards>
+      <td-card
+        ng-repeat="card in cards"
+        on-destroy="cardDestroyed($index)"
+        on-swipe-left="cardSwipedLeft($index)"
+        on-swipe-right="cardSwipedRight($index)"
+        class="card-{{$index}}"
+      >
+        <div class="image">
+          <div class="no-text">NOPE</div>
+          <img ng-src="{{card.image}}">
+          <div class="yes-text">LIKE</div>
+          <div class="card-desc">
+            {{card.memberName}}     {{card.matchingScore}}%          
+          </div>
+
+          <span class="badge" ng-repeat="sk in card.mostMatchedSkills">{{sk}}</span>
+          <span class="badge" ng-repeat="pos in card.mostMatchedPositions">{{pos}}</span>       
+          
+        </div>
+      </td-card>
+
+      <div class="control">
+        <button ng-click="noClick()" class="button button-outline button-assertive">No</button>
+        <button ng-click="yesClick()" class="button button-outline button-balanced">Yes</button>
+      </div>
+    
+    </td-cards>
+  </ion-pane>
+</ion-view>
