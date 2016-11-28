@@ -68,14 +68,6 @@ angular.module('thehonorclub').directive('noScroll', function() {
   };
 
   $scope.cardPartialSwipe = function(amt, index) {
-    // console.log(index);
-    // console.log(amt);
-    // if (amt >= 0.4) {
-    //   $scope.yesClick(index);
-    // }
-    // else if (amt <= -0.4) {
-    //   $scope.noClick(index);
-    // }
   };
 
   $scope.cardSwipedLeft = function(index) {
@@ -114,16 +106,54 @@ angular.module('thehonorclub').directive('noScroll', function() {
   };
 
   $scope.swipeLeft = function(index) {
+    var i = TDCardDelegate.$getByHandle('friends').cardInstances[index].el.className[5];
+    console.log(i);
+    var j = TDCardDelegate.$getByHandle('friends').cardInstances.length-1;
+    if (index != i) {
+      console.log(j);
+      while (j >= 0) {
+        i = TDCardDelegate.$getByHandle('friends').cardInstances[j].el.className[5];
+        if (i === 0) {
+          break;
+        }
+        --j;
+      }
+    }
+    if(!TDCardDelegate.$getByHandle('friends').cardInstances[j]) {
+      j += 1;
+      console.log("undefined");
+    }
+
     $scope.isAnimating = true;
-    TDCardDelegate.$getByHandle('friends').cardInstances[index].swipe('left').then(function() {
-        $scope.isAnimating = false;
+    TDCardDelegate.$getByHandle('friends').cardInstances[j].swipe('left').then(function() {
+      $scope.isAnimating = false;
+      $scope.cardSwipedLeft(j);
     });
   };
 
   $scope.swipeRight = function(index) {
+    var i = TDCardDelegate.$getByHandle('friends').cardInstances[index].el.className[5];
+    console.log(i);
+    var j = TDCardDelegate.$getByHandle('friends').cardInstances.length-1;
+    if (index != i) {
+      console.log(j);
+      while (j >= 0) {
+        i = TDCardDelegate.$getByHandle('friends').cardInstances[j].el.className[5];
+        if (i === 0) {
+          break;
+        }
+        --j;
+      }
+    }
+    if(!TDCardDelegate.$getByHandle('friends').cardInstances[j]) {
+      j += 1;
+      console.log("undefined");
+    }
+
     $scope.isAnimating = true;
-    TDCardDelegate.$getByHandle('friends').cardInstances[index].swipe('right').then(function() {
-        $scope.isAnimating = false;
+    TDCardDelegate.$getByHandle('friends').cardInstances[j].swipe('right').then(function() {
+      $scope.isAnimating = false;
+      $scope.cardSwipedRight(j);
     });
   };
 

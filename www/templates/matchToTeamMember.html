@@ -4,12 +4,13 @@
       <h1>Potential Members for {{ currentTeamInfo.name }}</h1>
       <h2>at <small>{{ currentEvent.name }}</small></h2>
     </ion-header-bar>
-    <td-cards>
+    <td-cards delegate-handle="friends">
       <td-card
         ng-repeat="card in cards"
         on-destroy="cardDestroyed($index)"
         on-swipe-left="cardSwipedLeft($index)"
         on-swipe-right="cardSwipedRight($index)"
+        on-partial-swipe="cardPartialSwipe(amt, $index)"
         class="card-{{$index}}"
       >
         <div class="image">
@@ -17,20 +18,18 @@
           <img ng-src="{{card.image}}">
           <div class="yes-text">LIKE</div>
           <div class="card-desc">
-            {{card.memberName}}     {{card.matchingScore}}%          
+            {{card.teamName}}     {{card.matchingScore}}%          
           </div>
-
+          
           <span class="badge" ng-repeat="sk in card.mostMatchedSkills">{{sk}}</span>
           <span class="badge" ng-repeat="pos in card.mostMatchedPositions">{{pos}}</span>       
           
         </div>
+        <div class="control">
+          <button ng-click="noClick($index)" class="button button-outline button-assertive">No</button>
+          <button ng-click="yesClick($index)" class="button button-outline button-balanced">Yes</button>
+        </div>
       </td-card>
-
-      <div class="control">
-        <button ng-click="noClick()" class="button button-outline button-assertive">No</button>
-        <button ng-click="yesClick()" class="button button-outline button-balanced">Yes</button>
-      </div>
-    
     </td-cards>
   </ion-pane>
 </ion-view>
