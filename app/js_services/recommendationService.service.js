@@ -36,7 +36,7 @@ angular.module("thehonorclub")
           return;
         }
 
-        if (team.child("leader_uid").val() == userUid || team.child("member_uid").hasChild(userUid)) {
+        if (team.child("leader_uid").val() == userUid || team.child("members_uid").hasChild(userUid)) {
           return;
         }
 
