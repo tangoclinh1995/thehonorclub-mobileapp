@@ -16,9 +16,9 @@ angular.module("thehonorclub")
 
 
 
-  // Return map of team_uid => team_object which are not full yet.
+  // Return map of team_uid => team_object which are not full yet and the user is NOT PART of this team
   // eventUid is an optional parameter
-  function getAvailTeam(eventUid) {
+  function getAvailTeam(eventUid, userUid) {
     var defer = $q.defer();
 
     var eventUidProvided = (typeof eventUid == "string");
@@ -29,18 +29,18 @@ angular.module("thehonorclub")
       "value"
     )
     .then(function(snapshot) {
-      // If eventUid is not provided, then just result the result immediately     
-      if (!eventUidProvided) {
-        defer.resolve(snapshot.val());
-        return;
-      }
+      var result = {};
 
-      var result = {};    
       snapshot.forEach(function(team) {
-        if (team.child("event_uid").val() == eventUid) {
-          result[team.key] = team.val();
+        if (eventUidProvided && team.child("event_uid").val() != eventUid) {
+          return;
         }
 
+        if (team.child("leader_uid").val() == userUid || team.child("member_uid").hasChild(userUid)) {
+          return;
+        }
+
+        result[team.key] = team.val();
       });
 
       defer.resolve(result);      
@@ -181,7 +181,7 @@ angular.module("thehonorclub")
     })
     .catch(defer.reject);
 
-    getAvailTeam(eventUid)
+    getAvailTeam(eventUid, userUid)
     .then(function(teams) {    
       availTeams = teams;
       next();
