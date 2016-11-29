@@ -8,6 +8,13 @@
     >
       Join New Events
     </a>
+    <a
+      id="dashboard-button13"
+      class="button button-positive button-block"
+      ng-click="logout()"
+    >
+      Sign Out
+    </a>
 
     <br>
 
@@ -24,7 +31,7 @@
             
             <strong>{{ teamInfo[l_team].name }}</strong>
 
-            <button class="button button-positive" ng-click="$event.stopPropagation()">
+            <button class="button button-positive" ng-click="inviteMember($event, l_team)">
               <i class="icon ion-person-add"></i>
             </button>
 

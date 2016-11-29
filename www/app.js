@@ -53,7 +53,8 @@ angular.module(
   $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
     console.log(from);
     if (from.name === 'loading' || from.name === 'login') {
-      $ionicNavBarDelegate.showBackButton(false);
+      if (to.name !== 'evmtRequest')
+        $ionicNavBarDelegate.showBackButton(false);
     }
     else {
       $ionicNavBarDelegate.showBackButton(true);
