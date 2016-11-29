@@ -11,29 +11,7 @@ td-card {
   margin-left: -150px;
   width: 300px;
   height: 300px;
-
-  border: 1px solid #999;
-  box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
-  border-radius: 6px;
 }
-/*
-td-card.card-0 {
-  -webkit-transform: translate3d(0, 0px, 0);
-  transform: translate3d(0, 0px, 0);
-  top: 0px;
-  z-index: 10;
-}
-td-card.card-1 {
-  -webkit-transform: translate3d(0, 4px, 0);
-  transform: translate3d(0, 4px, 0);
-  z-index: 9;
-}
-td-card.card-2 {
-  -webkit-transform: translate3d(0, 8px, 0);
-  transform: translate3d(0, 8px, 0);
-  z-index: 8;
-}
-*/
 
 td-card .image {
   position: relative;
@@ -42,11 +20,21 @@ td-card .image {
   padding: 20px;
   border: 2px solid black;
   border-radius: 6px;
+
+  text-align: center;
+
+  height: 320px;
+}
+
+td-card div.image-wrapper {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
 }
 
 td-card img {
-  max-width: 200%;
-  max-height: 200%;
+  width: 75%;
+  height: auto;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
@@ -54,8 +42,7 @@ td-card img {
 .control {
   position: absolute;
   width: 200px;
-  /*margin-top: 100px;*/
-  top: 125%;
+  top: 120%;
   left: 50%;
   margin-left: -100px;
   text-align: center;
@@ -79,14 +66,20 @@ td-card img {
 }
 
 .card-desc {
-  font-size: 30px;
+  font-size: 1.6em;
+  line-height: 110%;
   opacity: 100;
   background-color: white;
-  height: 50px;
 }
 
-.badge{
-  color: rgb(31, 199, 255);
+span.chip-text {
+  font-size: 0.8em;
+  font-weight: bold;
+  background: #f1f1f1;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 2px;
 }
 
 .fade {

@@ -1,9 +1,11 @@
 <ion-view>
-  <ion-pane>
+  <ion-content>
     <ion-header-bar class="bar-default" ng-if="currentEventUid">
-      <h1>Potential Members for {{ currentTeamInfo.name }}</h1>
-      <h2>at <small>{{ currentEvent.name }}</small></h2>
+      <h1 class="title">
+        Potential Members for "{{ currentTeamInfo.name }}"
+      </h1>
     </ion-header-bar>
+
     <td-cards delegate-handle="friends">
       <td-card
         ng-repeat="card in cards"
@@ -15,14 +17,22 @@
       >
         <div class="image">
           <div class="no-text">NOPE</div>
-          <img ng-src="{{card.image}}">
-          <div class="yes-text">LIKE</div>
-          <div class="card-desc">
-            {{card.teamName}}     {{card.matchingScore}}%          
+          <div class="image-wrapper">
+            <img ng-src="{{card.image}}">
           </div>
           
-          <span class="badge" ng-repeat="sk in card.mostMatchedSkills">{{sk}}</span>
-          <span class="badge" ng-repeat="pos in card.mostMatchedPositions">{{pos}}</span>       
+          <div class="yes-text">LIKE</div>
+          <div class="card-desc">
+            {{card.memberName}}     {{card.matchingScore}}%          
+          </div>
+          
+          <div style="margin-top: 20px; margin-bottom: 10px">
+            <span class="chip-text" ng-repeat="sk in card.mostMatchedSkills">{{sk}}</span>
+          </div>
+
+          <div>
+            <span class="chip-text" ng-repeat="pos in card.mostMatchedPositions">{{pos}}</span>
+          </div> 
           
         </div>
         <div class="control">
@@ -31,5 +41,5 @@
         </div>
       </td-card>
     </td-cards>
-  </ion-pane>
+  </ion-content>
 </ion-view>
